@@ -1,0 +1,23 @@
+.app-wrapper {
+	display: grid;
+	grid-template-areas: 
+		"header"
+		"main"
+		"footer"
+	;
+
+}
+
+header {
+	grid-area: header;
+}
+
+main {
+	grid-area: main;
+
+	min-height: 100vh;
+}
+
+footer {
+	grid-area: footer;
+}

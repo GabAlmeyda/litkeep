@@ -1,0 +1,45 @@
+.linkContainer {
+	display: inline-block;
+
+
+	text-decoration: none;
+}
+
+.button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	cursor: pointer;
+
+	padding: .3rem .8rem;
+	border: 2px solid;
+	border-radius: 25px;
+
+	color: white;
+	font-size: .9rem;
+	font-weight: 400;
+	letter-spacing: .05rem;
+}
+
+.accent {
+	background-color: var(--accent-color);
+	border-color: var(--accent-color);
+}
+.surface {
+	background-color: var(--surface-color);
+	border-color: var(--surface-color);
+}
+
+.onlyStroke {
+	background-color: transparent;
+
+	font-weight: 500;
+}
+
+.onlyStroke.accent {
+	color: var(--accent-color);
+}
+.onlyStroke.surface {
+	color: var(--surface-color);
+}
