@@ -4,12 +4,23 @@ import useTheme from "../../utils/useTheme";
 
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 
-function Navbar({ withLogo = true }) {
+/**
+ * Renders a nav element.
+ * 
+ * This component represents a nav that contains the button for toggle the mode
+ * and the site's logo. The logo can be hide if the **'withoutLogo'** prop is 
+ * present.
+ * 
+ * @param {boolean} [withoutLogo] - Hides the site's logo if provided. 
+ * 
+ * @returns {JSX.Element} The rendered nav element.
+ */
+function Navbar({ withoutLogo }) {
     const [theme, toggleTheme] = useTheme();
 
     return (
         <nav className={styles.navbar}>
-            {withLogo && (
+            {!withoutLogo && (
                 <a href="/" aria-label="Ir para a página principal">
                     <img src="/litkeep.png" alt="LitKeep" />
                 </a>

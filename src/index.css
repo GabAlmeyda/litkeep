@@ -62,10 +62,22 @@ h1 {
 	font-weight: 600;
 }
 h2 {
-	font-size: clamp(1.1rem, min(2.5vw, 2.5vh), 1.4rem);
+	font-size: clamp(1.4rem, min(4vw, 4vh), 1.6rem);
 	font-weight: 500;
 }
 h3 {
 	font-size: clamp(1rem, min(1.5vw, 1.5vh), 1.2rem);
 	font-weight: 400;
+}
+
+section {
+	min-height: 100vh;
+
+	padding-inline: 1rem;
+	padding-top: 2rem;
+	padding-bottom: 3rem;
+}
+
+section > h2 {
+	margin-top: 3rem;
 }

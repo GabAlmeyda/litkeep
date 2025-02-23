@@ -1,7 +1,6 @@
 .linkContainer {
 	display: inline-block;
 
-
 	text-decoration: none;
 }
 
@@ -15,6 +14,7 @@
 	padding: .3rem .8rem;
 	border: 2px solid;
 	border-radius: 25px;
+	margin-top: 2rem;
 
 	color: white;
 	font-size: .9rem;
@@ -78,9 +78,9 @@
 	color: var(--surface-color);
 }
 
-.important {
+.bigger {
 	padding: .4rem .9rem;
-
+	margin-top: 5rem;
 
 	font-size: 1.2rem;
 }
