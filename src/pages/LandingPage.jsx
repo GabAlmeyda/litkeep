@@ -22,6 +22,11 @@ function LandingPage() {
     return (
         <>
             <Header customClass={styles.header}>
+                <div className={styles.imageContainer}>
+                    <img src="/images/hero-image.png" alt="Pessoas em cima de um livro, que está acima do céu" />
+                </div>
+               
+
                 <h1>O mais completo site para <span>armazenar suas memórias</span></h1>
                 <h2>
                     Armazene todas as informações dos seus livros, tudo num
@@ -32,7 +37,8 @@ function LandingPage() {
 					<LinkButton
 						label="Acesse nossa página"
 						to="/"
-						color="accent"
+                        color="accent"
+                        customClasses="important"
 					/>
 				</div>
             </Header>

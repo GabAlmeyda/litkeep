@@ -20,15 +20,50 @@
 	font-size: .9rem;
 	font-weight: 400;
 	letter-spacing: .05rem;
+
+	transition: .2s ease-in-out;
+}
+.button:hover {
+	color: #ededed;
+
+	transform: scale(1.03);
+}
+.button:active {
+	color: #ddd;
+
+	transform: scale(1.01);
 }
 
 .accent {
-	background-color: var(--accent-color);
 	border-color: var(--accent-color);
+
+	background-color: var(--accent-color);
 }
+.accent:hover {
+	border-color: var(--accent-color-hover);
+
+	background-color: var(--accent-color-hover);
+}
+.accent:active {
+	border-color: var(--accent-color-active);
+
+	background-color: var(--accent-color-active);
+}
+
 .surface {
-	background-color: var(--surface-color);
 	border-color: var(--surface-color);
+
+	background-color: var(--surface-color);
+}
+.surface:hover {
+	border-color: var(--surface-color-hover);
+
+	background-color: var(--surface-color-hover);
+}
+.surface:active {
+	border-color: var(--surface-color-active);
+
+	background-color: var(--surface-color-active);
 }
 
 .onlyStroke {
@@ -36,10 +71,16 @@
 
 	font-weight: 500;
 }
-
 .onlyStroke.accent {
 	color: var(--accent-color);
 }
 .onlyStroke.surface {
 	color: var(--surface-color);
+}
+
+.important {
+	padding: .4rem .9rem;
+
+
+	font-size: 1.2rem;
 }

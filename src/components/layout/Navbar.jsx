@@ -11,7 +11,7 @@ function Navbar({ withLogo = true }) {
         <nav className={styles.navbar}>
             {withLogo && (
                 <a href="/" aria-label="Ir para a página principal">
-                    <img src="/litkeep.jpg" alt="LitKeep" />
+                    <img src="/litkeep.png" alt="LitKeep" />
                 </a>
             )}
 

@@ -2,8 +2,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root {
-	--surface-color: hsl(289, 17%, 13%);
+	--surface-color: hsl(263, 85%, 26%);
+	--surface-color-hover: hsl(263, 85%, 23%);
+	--surface-color-active: hsl(263, 85%, 18%);
+
 	--accent-color: hsl(189, 66%, 50%);
+	--accent-color-hover: hsl(189, 66%, 45%);
+	--accent-color-active: hsl(189, 66%, 40%);
 
 	--text-color: hsl(0, 0%, 7%);
 	--alt-text-color: hsl(0, 0%, 33%);
@@ -49,6 +54,7 @@ body,
 
 h1, h2, h3 {
 	font-family: "Montserrat", sans-serif;
+	line-height: 110%;
 }
 
 h1 {

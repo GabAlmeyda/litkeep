@@ -4,7 +4,18 @@
 	padding-inline: 1rem;
 	padding-top: 8vh;
 
-	background-image: linear-gradient(to bottom, var(--surface-color) 30%, hsl(289, 17%, 20%))}
+	background-color: var(--surface-color);
+}
+
+.header .imageContainer {
+	width: 100%;
+
+	text-align: center;
+}
+
+.header img {
+	width: clamp(300px, 90%, 400px);
+}
 
 .header h1, h2 {
 	color: white;
