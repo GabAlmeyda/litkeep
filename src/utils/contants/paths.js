@@ -8,13 +8,13 @@
  * @returns {Object} An object containing all the website paths.
  */
 export function getWebsitePaths() {
-	const basePath = "/litkeep";
+	const basePath = "/"
 	
 	return {
 		homepage: basePath,
-		database: `${basePath}/database`,
-		selectedBook: `${basePath}/book`,
-		landingPage: `${basePath}/landing-page`
+		database: `${basePath}database`,
+		selectedBook: `${basePath}book`,
+		landingPage: `${basePath}landing-page`
 	}
 }
 
