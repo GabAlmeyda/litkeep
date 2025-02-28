@@ -15,7 +15,7 @@ import styles from './LinkButton.module.css'
  * 'LinkButtton'component. All of them are listed bellow:
  *  - **onlyStroke:** If provided, the button background will be transparent and 
  * the stroke will reveive the specified color. Defaults to 'true' if present;
- *  - **important:** If provided, the button's size will be bigger.
+ *  - **bigger:** If provided, the button's size will be bigger.
  * 
  * @returns {JSX.Element} The rendered link button for navigation.
  */
