@@ -2,6 +2,8 @@ import "./App.css"
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
+import { getWebsitePaths } from './utils/contants/paths.js'
+
 import Footer from "./components/layout/Footer"
 
 import LandingPage from './pages/LandingPage'
@@ -11,15 +13,16 @@ import SelectedBookPage from './pages/SelectedBookPage'
 import NotFoundPage from './pages/NotFoundPage'
 
 function App() {
+    const websitePaths = getWebsitePaths();
 
     return (
         <div className='app-wrapper'>
             <Router>
                 <Routes>
-                    <Route path='/' element={ <Homepage />} />
-                    <Route path='/database' element={ <DataBasePage />} />
-                    <Route path='/book' element={<SelectedBookPage />} />
-                    <Route path='/landing-page' element={ <LandingPage />} />
+                    <Route path={websitePaths.homepage} element={ <Homepage />} />
+                    <Route path={websitePaths.database} element={ <DataBasePage />} />
+                    <Route path={websitePaths.selectedBook} element={<SelectedBookPage />} />
+                    <Route path={websitePaths.landingPage} element={ <LandingPage />} />
                     <Route path='*' element={ <NotFoundPage /> }></Route>
                 </Routes>
             </Router>

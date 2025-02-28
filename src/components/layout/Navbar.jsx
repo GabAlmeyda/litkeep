@@ -1,6 +1,8 @@
+import { getWebsitePaths } from "../../utils/contants/paths";
+
 import styles from "./Navbar.module.css";
 
-import useTheme from "../../utils/useTheme";
+import useTheme from "../../utils/hooks/useTheme";
 
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 
@@ -17,11 +19,12 @@ import { MdDarkMode, MdLightMode } from "react-icons/md";
  */
 function Navbar({ withoutLogo }) {
     const [theme, toggleTheme] = useTheme();
+    const websitePaths = getWebsitePaths();
 
     return (
         <nav className={styles.navbar}>
             {!withoutLogo && (
-                <a href="/" aria-label="Ir para a página principal">
+                <a href={websitePaths.homepage} aria-label="Ir para a página principal">
                     <img src="/litkeep.png" alt="LitKeep" />
                 </a>
             )}

@@ -1,13 +1,12 @@
 /* Shared styles */
-.features > h2,
-.search > h2,
-.information > h2,
-.cta > h2 {
+:where(.feature, .search, .information, .cta) > h2{
 	margin-bottom: .8rem;
 
 	font-size: clamp(1.6rem, min(5vw, 5vh), 1.8rem);
 	font-weight: 500;
 }
+
+:where(.feature, .search, .information, .cta) > p {color: var(--alt-text-color);}
 
 .cardsContainer {
 	margin-top: 5rem;
@@ -130,6 +129,10 @@
 .feature > * {
 	max-width: 80%;
 	margin-inline: auto;
+}
+
+.feature .card {
+	width: clamp(130px, 70vw, 250px);
 }
 
 .feature__desc {

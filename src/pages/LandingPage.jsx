@@ -1,3 +1,5 @@
+import { getWebsitePaths } from "../utils/contants/paths.js";
+
 import styles from "./LandingPage.module.css";
 
 import { MdOutlineChangeCircle } from "react-icons/md";
@@ -23,6 +25,8 @@ import Header from "../components/layout/Header";
  * @returns {JSX.Element} The rendered Landing Page.
  */
 function LandingPage() {
+    const websitePaths = getWebsitePaths();
+
     return (<>
         <Header navWithoutLogo customClass={styles.header}>
             <div className={styles.imageContainer}>
@@ -36,7 +40,7 @@ function LandingPage() {
             <div className={styles.linkButtonContainer}>
                 <LinkButton
                     label="Acesse nossa página"
-                    to="/"
+                    to={websitePaths.homepage}
                     color="accent"
                     customClasses="bigger"
                 />
@@ -198,7 +202,7 @@ function LandingPage() {
 
                 <LinkButton
                     label="Acesse nossa página"
-                    to="/"
+                    to={websitePaths.homepage}
                     color="accent"
                     customClasses="bigger"
                 />
