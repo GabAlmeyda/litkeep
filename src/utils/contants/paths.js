@@ -1,18 +1,14 @@
 /**
- * returns an object containing all the website paths bellow, dynamically adjusting 
- * based on the deployment environment (GitHub Pages or other platforms):
+ * returns an object containing all the website paths bellow:
  * - **homepage**: the root of the website;
  * - **database**: the database page;
  * - **selectedBook**: the page for a selected book;
  * - **landingPage**: the landing page.
  * 
- * @returns {Object} An object containing all the website paths, adjusting for the 
- * current environment.
+ * @returns {Object} An object containing all the website paths.
  */
 export function getWebsitePaths() {
-	const basePath = window.location.hostname.includes("github.io")
-		? "/litkeep/"
-		: "/";
+	const basePath = "/";
 	
 	return {
 		homepage: basePath,
