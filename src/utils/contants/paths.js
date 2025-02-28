@@ -8,7 +8,7 @@
  * @returns {Object} An object containing all the website paths.
  */
 export function getWebsitePaths() {
-	const basePath = "/";
+	const basePath = "/litkeep.vercel.app/";
 	
 	return {
 		homepage: basePath,
