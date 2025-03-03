@@ -35,7 +35,6 @@ function useLandingPageAnimations() {
 
 		return () => {
 			observer.disconnect();
-			observer.disconnect();
 
 			featureDescs.forEach(desc => desc.classList.remove(animations.baseFadeIn, animations.fadeIn));
 			featureLines.forEach(line => line.classList.remove(animations.baseScaleX, animations.scaleX));

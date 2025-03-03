@@ -31,6 +31,61 @@ function LandingPage() {
 
     useLandingPageAnimations();
 
+    const featureCardsInfo = [
+        {
+            desc: "Adicione seus melhores livros ao seu catálogo pessoal",
+            icon: <IoIosCloseCircleOutline />,
+            text: "Adicione qualquer livro",
+            class: "featureAdd"
+        },
+        {
+            desc: "Remova a qualquer momento o que precisar com apenas um clique",
+            icon: <IoIosCloseCircleOutline />,
+            text: "Remova o que precisar",
+            class: "featureRemove"
+        },
+        {
+            desc: "Altere qualquer informação que você tenha digitado errado",
+            icon: <MdOutlineChangeCircle />,
+            text: "Altere o que for necessário",
+            class: "featureUpdate"
+        },
+    ]
+
+    const searchCardsInfo = [
+        {
+            text: "Ordem Alfabética",
+            class: "alfaList"
+        },
+        {
+            text: "Ordem Numérica",
+            class: "numericList"
+        },
+        {
+            text: "Livros Lidos",
+            class: "readList"
+        }
+    ]
+
+    const additionalCardsInfo = [
+        {
+            text: "Livros Abandonados:",
+            number: 2,
+            class: "abandonedBooks"
+        },
+        {
+            text: "Livros Lidos:",
+            number: 42,
+            class: "readBooks"
+        },
+        {
+            text: "Livros Não Lidos:",
+            number: 5,
+            class: "unreadBooks"
+        }
+
+    ]
+
     return (
         <>
             <Header navWithoutLogo customClass={styles.header}>
@@ -65,65 +120,19 @@ function LandingPage() {
                 <section className={styles.features}>
                     <h2>Tenha total controle sobre os livros que armazena</h2>
 
-                    {/* Add feature */}
-                    <div className={`${styles.feature} ${styles.featureAdd}`}>
-                        <h3 className={styles.feature__desc}>
-                            Adicione seus melhores livros ao seu catálogo
-                            pessoal
-                        </h3>
+                    {featureCardsInfo.map((cardInfo, index) => (
+                        <div className={`${styles.feature} ${styles[cardInfo.class]}`} key={index}>
+                            <h3 className={styles.feature__desc}>{ cardInfo.desc }</h3>
 
-                        <hr className={styles.feature__line} />
-                       
-                        <div className={styles.card}>
-                            <div className={styles.card__icon}>
-                                <IoIosAddCircleOutline />
+                            <hr className={styles.feature__line} />
+                        
+                            <div className={styles.card}>
+                                <div className={styles.card__icon}>{ cardInfo.icon }</div>
+
+                                <p className={styles.card__text}>{ cardInfo.text }</p>
                             </div>
-
-                            <p className={styles.card__text}>
-                                Adicione qualquer livro
-                            </p>
                         </div>
-                    </div>
-
-                    {/* Remove feature */}
-                    <div className={`${styles.feature} ${styles.featureRemove}`}>
-                        <h3 className={styles.feature__desc}>
-                            Remova a qualquer momento o que precisar com apenas
-                            um clique
-                        </h3>
-
-                        <hr className={styles.feature__line} />
-
-                        <div className={styles.card}>
-                            <div className={styles.card__icon}>
-                                <IoIosCloseCircleOutline />
-                            </div>
-
-                            <p className={styles.card__text}>
-                                Remova o que precisar
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Update feature */}
-                    <div className={`${styles.feature} ${styles.featureUpdate}`}>
-                        <h3 className={styles.feature__desc}>
-                            Altere qualquer informação que você tenha digitado
-                            errado
-                        </h3>
-
-                        <hr className={styles.feature__line} />
-
-                        <div className={styles.card}>
-                            <div className={styles.card__icon}>
-                                <MdOutlineChangeCircle />
-                            </div>
-
-                            <p className={styles.card__text}>
-                                Altere o que for necessário
-                            </p>
-                        </div>
-                    </div>
+                    ))}
                 </section>
 
                 {/* Search Section */}
@@ -137,101 +146,31 @@ function LandingPage() {
 
                     <div className={styles.searchCardsWrapper}>
                         <div className={styles.cardsContainer}>
-                            {/* Alfanumeric order list */}
-                            <div className={`${styles.card} ${styles.alfaList}`}>
-                                <p className={styles.card__text}>
-                                    Ordem Alfabética
-                                </p>
-                                <div className={styles.card__linesContainer}>
-                                    <div
-                                        className={styles.linesContainer__line}
-                                    ></div>
-                                    <div
-                                        className={styles.linesContainer__line}
-                                    ></div>
-                                    <div
-                                        className={styles.linesContainer__line}
-                                    ></div>
-                                    <div
-                                        className={styles.linesContainer__line}
-                                    ></div>
-                                    <div
-                                        className={styles.linesContainer__line}
-                                    ></div>
-                                </div>
-                            </div>
-
-                            {/* Numeric order list */}
-                            <div className={`${styles.card} ${styles.numericList}`}>
-                                <p className={styles.card__text}>
-                                    Ordem Numérica
-                                </p>
-                                <div className={styles.card__linesContainer}>
-                                    <div
-                                        className={styles.linesContainer__line}
-                                    ></div>
-                                    <div
-                                        className={styles.linesContainer__line}
-                                    ></div>
-                                    <div
-                                        className={styles.linesContainer__line}
-                                    ></div>
-                                    <div
-                                        className={styles.linesContainer__line}
-                                    ></div>
-                                    <div
-                                        className={styles.linesContainer__line}
-                                    ></div>
-                                </div>
-                            </div>
-
-                            {/* Read books list */}
-                            <div className={`${styles.card} ${styles.readList}`}>
-                                <p className={styles.card__text}>
-                                    Livros Lidos
-                                </p>
-                                <div className={styles.card__linesContainer}>
-                                    <div
-                                        className={styles.linesContainer__line}
-                                    ></div>
-                                    <div
-                                        className={styles.linesContainer__line}
-                                    ></div>
-                                    <div
-                                        className={styles.linesContainer__line}
-                                    ></div>
-                                    <div
-                                        className={styles.linesContainer__line}
-                                    ></div>
-                                    <div
-                                        className={styles.linesContainer__line}
-                                    ></div>
-                                </div>
-                            </div>
+                            {searchCardsInfo.map((cardInfo, index) => 
+                                (<div className={`${styles.card} ${styles[cardInfo.class]}`} key={index}>
+                                    <p className={styles.card__text}>{cardInfo.text}</p>
+                                    <div className={styles.card__linesContainer}>
+                                        {Array.from({ length: 5 }).map((_, index) => (
+                                            <div className={styles.linesContainer__line} key={index}></div>
+                                        ))}
+                                    </div>         
+                                </div>)
+                            )}
                         </div>
 
                         {/* The background shape container */}
                         <div className={styles.shapesContainer}>
-                            <div className={`${styles.shape} ${styles.square}`}></div>
-                            <div className={`${styles.shape} ${styles.square}`}></div>
-                            <div className={`${styles.shape} ${styles.square}`}></div>
-                            <div className={`${styles.shape} ${styles.square}`}></div>
-                            <div className={`${styles.shape} ${styles.square}`}></div>
-                            <div className={`${styles.shape} ${styles.square}`}></div>
+                            {Array.from({ length: 6 }).map((_, index) => (
+                                <div className={`${styles.shape} ${styles.square}`} key={index}></div>
+                            ))}
 
-                            <div className={`${styles.shape} ${styles.circle}`}></div>
-                            <div className={`${styles.shape} ${styles.circle}`}></div>
-                            <div className={`${styles.shape} ${styles.circle}`}></div>
-                            <div className={`${styles.shape} ${styles.circle}`}></div>
-                            <div className={`${styles.shape} ${styles.circle}`}></div>
-                            <div className={`${styles.shape} ${styles.circle}`}></div>
+                            {Array.from({ length: 6 }).map((_, index) => (
+                                <div className={`${styles.shape} ${styles.circle}`} key={index}></div>
+                            ))}
 
-                            <div className={`${styles.shape} ${styles.triangle}`}></div>
-                            <div className={`${styles.shape} ${styles.triangle}`}></div>
-                            <div className={`${styles.shape} ${styles.triangle}`}></div>
-                            <div className={`${styles.shape} ${styles.triangle}`}></div>
-                            <div className={`${styles.shape} ${styles.triangle}`}></div>
-                            <div className={`${styles.shape} ${styles.triangle}`}></div>
+                            {Array.from({ length: 6 }).map((_, index) => (
+                                <div className={`${styles.shape} ${styles.triangle}`} key={index}></div>
+                            ))}
                         </div>
                     </div>
                 </section>
@@ -246,29 +185,12 @@ function LandingPage() {
                     </p>
 
                     <div className={styles.cardsContainer}>
-                        {/* Abandoned books card */}
-                        <div
-                            className={`${styles.card} ${styles.abandonedBooks}`}
-                        >
-                            <p className={styles.card__text}>
-                                Livros Abandonados:
-                            </p>
-                            <p className={styles.card__number}>2</p>
-                        </div>
-
-                        {/* Read books card */}
-                        <div className={`${styles.card} ${styles.readBooks}`}>
-                            <p className={styles.card__text}>Livros Lidos:</p>
-                            <p className={styles.card__number}>42</p>
-                        </div>
-
-                        {/* Unread books card */}
-                        <div className={`${styles.card} ${styles.unreadBooks}`}>
-                            <p className={styles.card__text}>
-                                Livros Não Lidos:
-                            </p>
-                            <p className={styles.card__number}>5</p>
-                        </div>
+                        {additionalCardsInfo.map((cardInfo, index) => (
+                            <div className={`${styles.card} ${styles[cardInfo.class]}`} key={index}>
+                                <p className={styles.card__text}>{ cardInfo.text }</p>
+                                <p className={styles.card__number}>{ cardInfo.number }</p>
+                            </div>
+                        ))}
                     </div>
                 </section>
 

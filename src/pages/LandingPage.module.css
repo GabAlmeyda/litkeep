@@ -281,6 +281,11 @@
 
 
 /* Information section */
+.information > h2,
+.information > p {
+	text-align: right;
+}
+
 .abandonedBooks {
 	left: 120px;
 

@@ -5,7 +5,7 @@
 		transform: translateY(10px);
 	}
 	.fadeIn {
-		animation: fadeIn .6s ease .5s forwards;
+		animation: fadeIn .6s ease .3s forwards;
 	}
 	@keyframes fadeIn {
 		from {
@@ -24,7 +24,7 @@
 		transform: scaleX(0);
 	}
 	.scaleX {
-		animation: scaleX .6s ease forwards;
+		animation: scaleX .4s ease forwards;
 	}
 	@keyframes scaleX {
 		from {
