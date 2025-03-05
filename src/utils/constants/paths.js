@@ -13,7 +13,7 @@ export function getWebsitePaths() {
 	return {
 		homepage: basePath,
 		database: `${basePath}database`,
-		selectedBook: `${basePath}book`,
+		book: `${basePath}book`,
 		landingPage: `${basePath}landing-page`
 	}
 }
@@ -26,10 +26,10 @@ export function getWebsitePaths() {
  * @returns {Object} An object containg all the server paths.
  */
 export function getServerPaths() {
-	const basePath = "http://localhost:3001/";
+	const index = "http://localhost:3001/";
 	
 	return {
-		basePath: basePath,
-		books: `${basePath}books`
+		index: index,
+		books: `${index}books`
 	}
 }

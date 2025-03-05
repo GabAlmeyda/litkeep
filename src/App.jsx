@@ -2,7 +2,7 @@ import "./App.css"
 
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
-import { getWebsitePaths } from './utils/contants/paths.js'
+import { getWebsitePaths } from './utils/constants/paths.js'
 
 import Footer from "./components/layout/Footer"
 

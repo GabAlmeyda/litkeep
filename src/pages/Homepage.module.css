@@ -1,0 +1,15 @@
+.information {
+	text-align: center;
+}
+
+.infoContainer {
+	text-align: center;
+}
+
+.noInfoContainer {
+	margin-top: 1rem;
+}
+
+.noInfoContainer p {
+	color: var(--alt-text-color);
+}

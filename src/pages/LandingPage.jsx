@@ -1,4 +1,6 @@
-import { getWebsitePaths } from "../utils/contants/paths.js";
+import { Helmet } from "react-helmet";
+
+import { getWebsitePaths } from "../utils/constants/paths.js";
 
 import styles from "./LandingPage.module.css";
 
@@ -34,7 +36,7 @@ function LandingPage() {
     const featureCardsInfo = [
         {
             desc: "Adicione seus melhores livros ao seu catálogo pessoal",
-            icon: <IoIosCloseCircleOutline />,
+            icon: <IoIosAddCircleOutline />,
             text: "Adicione qualquer livro",
             class: "featureAdd"
         },
@@ -88,6 +90,10 @@ function LandingPage() {
 
     return (
         <>
+            <Helmet>
+                <title>LitKeep | Landing Page</title>
+                <meta name="robots" content="index, follow"/>
+            </Helmet>
             <Header navWithoutLogo customClass={styles.header}>
                 <div className={styles.imageContainer}>
                     <img

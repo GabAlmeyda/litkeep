@@ -70,6 +70,7 @@
 
 .header img {
 	width: clamp(300px, 90%, 400px);
+	height: auto;
 }
 
 .header h1, .header h2 {

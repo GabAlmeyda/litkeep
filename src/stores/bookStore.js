@@ -16,11 +16,34 @@ const useBookStore = create((set) => ({
 	 * - a number between 0-10;
 	 * - the string 'Abandoned', if the user has abandoned the book;
 	 * - an empty string, if the user has not read the book;
-	 * @property {boolean} ownership - The ownership status of the book. Can be 'true'
-	 * if the user owns the book, or 'false' with they don't.
+	 * @property {string} ownership - The ownership status of the book. Can be 'Yes'
+	 * if the user owns the book, or 'No' with they don't.
 	 * @property {string} startDate - The start date of the reading.
 	 * @property {string} endDate - The end date of the reading.
 	 */
+
+	/**
+	 * Makes the fetch for all registered books and update the store state.
+	 * 
+	 * @throws {Error} - Throws an erro if the HTTP request fails.
+	 */
+	fetchBooks: async () => {
+		try {
+			const response = await fetch(serverPaths.books, {
+				method: "GET"
+			});
+
+			if (!response.ok) {
+				throw new Error(`Request Error: ${response.status} ${response.statusText}`);
+			}
+
+			const registeredBooks = await response.json();
+			set({ books: registeredBooks });
+		}
+		catch (error) {
+			console.error(`Error fetching books: ${error}`);
+		}
+	},
 
 	/**
 	 * Adds a book to the local store and to the backend server
@@ -96,7 +119,10 @@ const useBookStore = create((set) => ({
 			}
 
 			const updatedBook = await response.json();
-			set((state) => ({books: [...state.books.map(book => book.id === updatedBook.id ? updatedBook : book)]}))
+			set((state) => ({
+				books: state.books.map(
+					book => book.id === updatedBook.id ? updatedBook : book)
+			}));
 		}
 		catch (error) {
 			console.error(`Error updating book: ${error}`);
@@ -136,8 +162,8 @@ const useBookStore = create((set) => ({
 	 * @param {Object} filters - An object containing filters criteria for the books;
 	 * @param {string} [filters.ownership] - The ownership status for the books. The values 
 	 * are listed bellow:
-	 * - **true**;
-	 * - **false**.
+	 * - **Yes**;
+	 * - **No**.
 	 * @param {string} [filters.status] - The status of the book. The values are listed bellow:
 	 * - **read**;
 	 * - **unread**;

@@ -1,4 +1,4 @@
-import { getWebsitePaths } from "../../utils/contants/paths";
+import { getWebsitePaths } from "../../utils/constants/paths";
 
 import styles from "./Navbar.module.css";
 
