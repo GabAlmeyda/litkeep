@@ -1,0 +1,13 @@
+.infoCard {
+	width: clamp(150px, 100%, 450px);
+
+	border-radius: 15px;
+	margin-block: 1rem;
+	padding: .5rem;
+
+	background-color: var(--alt-background-color);
+}
+
+.bigger {
+	width: clamp(150px, 100%, 600px);
+}

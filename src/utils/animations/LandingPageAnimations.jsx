@@ -1,7 +1,18 @@
-import animations from './LandingPageAnimations.module.css'
-import styles from '../../pages/LandingPage.module.css'
+import animations from './LandingPageAnimations.module.css';
+import styles from '../../pages/LandingPage.module.css';
 import { useEffect } from 'react';
 
+/**
+ * Animates the cards and the shapes of the 'LandingPage' component.
+ * 
+ * All of the three animations used (scale X, fade-in and slide-up) are defined
+ * in the 'LandingPageAnimation' CSS file.
+ * 
+ * This hook animates the elements based in the 'IntersectionOberserver' API, animating
+ * when the elements entered the user's viewport, when the 'LandingPage' component is finally 
+ * rendered (by using the 'useEffect' hook)
+ * 
+ */
 function useLandingPageAnimations() {
 	useEffect(() => {
 		const featureDescs = document.querySelectorAll(`.${styles.feature__desc}`);

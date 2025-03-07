@@ -2,10 +2,10 @@
 	"books": [
 		{
 			"id": 1234,
-			"title": "E Não Sobrou Nenhum",
+			"title": "A Fórmula Mágica de Joel Greenbrant para Bater o Mercado de Ações",
 			"author": "Agatha Christie",
 			"genre": "Suspense",
-			"rating": 10.0,
+			"rating": 9.9,
 			"ownership": "Sim",
 			"startDate": "12/05/2023",
 			"endDate": "15/05/2023"

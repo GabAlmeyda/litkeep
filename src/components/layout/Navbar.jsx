@@ -1,8 +1,7 @@
 import { getWebsitePaths } from "../../utils/constants/paths";
+import useTheme from "../../utils/hooks/useTheme";
 
 import styles from "./Navbar.module.css";
-
-import useTheme from "../../utils/hooks/useTheme";
 
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 
@@ -13,17 +12,18 @@ import { MdDarkMode, MdLightMode } from "react-icons/md";
  * and the site's logo. The logo can be hide if the **'withoutLogo'** prop is 
  * present.
  * 
- * @param {boolean} [withoutLogo] - Hides the site's logo if provided. 
+ * @param {Object} props - The properties to be passed to the component.
+ * @param {boolean} [props.hideLogo] - Hides the site's logo if provided. 
  * 
  * @returns {JSX.Element} The rendered nav element.
  */
-function Navbar({ withoutLogo }) {
+function Navbar({ hideLogo=false }) {
     const [theme, toggleTheme] = useTheme();
     const websitePaths = getWebsitePaths();
 
     return (
         <nav className={styles.navbar}>
-            {!withoutLogo && (
+            {!hideLogo && (
                 <a href={websitePaths.homepage} aria-label="Ir para a página principal">
                     <img src="/litkeep.png" alt="LitKeep" />
                 </a>

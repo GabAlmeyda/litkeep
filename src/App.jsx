@@ -1,16 +1,16 @@
-import "./App.css"
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { getWebsitePaths } from './utils/constants/paths.js';
 
-import { getWebsitePaths } from './utils/constants/paths.js'
+import "./App.css";
 
-import Footer from "./components/layout/Footer"
+import Footer from "./components/layout/Footer";
 
-import LandingPage from './pages/LandingPage'
-import Homepage from './pages/Homepage'
-import DataBasePage from './pages/DataBasePage'
-import SelectedBookPage from './pages/SelectedBookPage'
-import NotFoundPage from './pages/NotFoundPage'
+import LandingPage from './pages/LandingPage';
+import Homepage from './pages/Homepage';
+import DataBasePage from './pages/DataBasePage';
+import SelectedBookPage from './pages/SelectedBookPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
     const websitePaths = getWebsitePaths();

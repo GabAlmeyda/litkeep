@@ -1,9 +1,10 @@
+/* Information section */
 .information {
 	text-align: center;
 }
 
-.infoContainer {
-	text-align: center;
+.loadingContainer p{
+	color: var(--alt-text-color);
 }
 
 .noInfoContainer {
@@ -12,4 +13,83 @@
 
 .noInfoContainer p {
 	color: var(--alt-text-color);
+}
+
+.infoContainer {
+	min-width: 100%;
+	max-width: 600px;
+
+	margin-top: 2rem;
+	margin-inline: auto;
+
+	text-align: center;
+}
+
+.bestBook {	
+	padding-top: 1rem;
+
+	text-align: center;
+}
+
+.bestBook__title {
+	font-size: 1.5rem;
+	font-weight: 600;
+}
+
+.bestBook__author {
+	color: var(--alt-text-color);
+	font-weight: 500;
+	font-size: 1.2rem;
+}
+
+.bestBook__icon {
+	position: relative;
+}
+
+.bestBook__icon svg {
+	font-size: 9rem;
+}
+
+.bestBook__icon svg * {
+	color: rgb(230, 230, 3);
+}
+
+.bestBook__icon h3 {
+	position: absolute;
+	left: 50%;
+	top: 38%;
+
+	font-size: 1.7rem;
+	font-weight: bold;
+
+	transform: translateX(-50%);
+	color: #111;
+}
+
+.bestBook > p {
+	font-size: 1.1rem;
+}
+
+.bestBook hr {
+	width: clamp(300px, 100%, 400px);
+
+	margin-inline: auto;
+	margin-bottom: .5rem;
+}
+
+.bestBook__tag {
+	display: flex;
+	justify-content: center;
+}
+
+.infoCardsContainer {
+	display: flex;
+	gap: .5rem;
+
+	margin-bottom: -1.5rem;
+}
+
+.infoCard__num {
+	font-size: 1.5rem;
+	font-weight: bolder;
 }
