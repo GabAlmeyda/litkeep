@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import clsx from "clsx";
 
 import styles from "./InfoCard.module.css";
@@ -34,5 +35,11 @@ function InfoCard({ alignment = "left", customClasses = "", children }) {
         </div>
     );
 }
+
+InfoCard.propTypes = {
+    alignment: PropTypes.oneOf(["left", "center", "right"]),
+    customClasses: PropTypes.string,
+    children: PropTypes.node,
+};
 
 export default InfoCard;

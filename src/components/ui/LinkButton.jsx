@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { Link } from "react-router-dom";
 
 import styles from "./LinkButton.module.css";
+import PropTypes from "prop-types";
 
 /**
  * renders a customizable link button.
@@ -18,10 +19,17 @@ import styles from "./LinkButton.module.css";
  *
  * @returns {JSX.Element} The rendered link button for navigation.
  */
-function LinkButton({ label = "PLACEHOLDER", to = "#", color = "accent", customClasses = "" }) {
+function LinkButton({
+    label = "PLACEHOLDER",
+    to = "#",
+    color = "accent",
+    customClasses = "",
+}) {
     const validColors = ["accent", "surface"];
     if (!validColors.includes(color)) {
-        console.warn(`The color '${color}' is invalid for the 'LinkButton' component. Defaulting to 'accent'.`);
+        console.warn(
+            `The color '${color}' is invalid for the 'LinkButton' component. Defaulting to 'accent'.`
+        );
         color = "accent";
     }
 
@@ -40,5 +48,12 @@ function LinkButton({ label = "PLACEHOLDER", to = "#", color = "accent", customC
         </Link>
     );
 }
+
+LinkButton.propTypes = {
+    label: PropTypes.string,
+    to: PropTypes.string,
+    color: PropTypes.oneOf(["accent", "surface"]),
+    customClasses: PropTypes.string,
+};
 
 export default LinkButton;

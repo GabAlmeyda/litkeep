@@ -29,6 +29,7 @@ function Homepage() {
 
     const [bestBook, setBestBook] = useState(undefined);
     const [isFetchFinished, setIsFetchFinished] = useState(false);
+    const [additionalInfo, setAdditionalInfo] = useState([{}, {}, {}, {}]);
 
     // Fetches books from the server and updates the fetch status
     useEffect(() => {
@@ -39,14 +40,14 @@ function Homepage() {
         };
 
         fetchAndSetBooks();
-    }, []);
+    }, [fetchBooks]);
 
     // Updates the 'bestBook' when the fetch status is 'true'
     {
         /*
-        bestBook === undefined: bestBook wasn't selected (waiting for the fetch result);
-        bestBook === null: bestBook doesn't exist (books is empty);
-        others: books isn't empty and the bestBook was selected.
+        bestBook === undefined: 'bestBook' wasn't selected (waiting for the fetch result);
+        bestBook === null: 'bestBook' doesn't exist (books is empty);
+        bestBook === {...}: 'bestBook' was selected (books isn't empty).
     */
     }
     useEffect(() => {
@@ -64,7 +65,23 @@ function Homepage() {
 
             setBestBook(bestBookRating);
         }
-    }, [books]);
+    }, [books, isFetchFinished]);
+
+    // Updates the 'additionalInfo' when the fetch status is 'true'
+    useEffect(() => {
+        if (isFetchFinished && books.length !== 0) {
+            const readBooks = filterBooks({ status: "read" });
+            const unreadBooks = filterBooks({ status: "unread" });
+            const ownershipBooks = filterBooks({ ownership: true });
+
+            setAdditionalInfo([
+                { num: books.length, label: "Livros Registrados" },
+                { num: ownershipBooks.length, label: "Livros em sua posse" },
+                { num: unreadBooks.length, label: "Livros não Lidos" },
+                { num: readBooks.length, label: "Livros já Lidos" },
+            ]);
+        }
+    }, [books, isFetchFinished, filterBooks]);
 
     // Updates the <meta> tags
     useEffect(() => {
@@ -92,11 +109,8 @@ function Homepage() {
             <section className={styles.information}>
                 <h2>Informações Gerais</h2>
 
-                {bestBook === undefined ? (
-                    <div className={styles.loadingContainer}>
-                        <p>Carregando...</p>
-                    </div>
-                ) : bestBook === null ? (
+                {/* If 'books' is empty (no books added) */}
+                {(isFetchFinished && books.length === 0) ? (
                     <div className={styles.noInfoContainer}>
                         <p>Parece que você não tem livros na sua lista.</p>
 
@@ -107,64 +121,61 @@ function Homepage() {
                         />
                     </div>
                 ) : (
-                    <div className={styles.infoContainer}>
+                    <div className={styles.infoContainer} aria-busy={!isFetchFinished}>
                         <InfoCard alignment="center">
-                            <div className={styles.bestBook}>
-                                <h3 className={styles.bestBook__title}>
-                                    {bestBook.title}
-                                </h3>
-                                <h4 className={styles.bestBook__author}>
-                                    {bestBook.author}
-                                </h4>
-
-                                <div className={styles.bestBook__icon}>
-                                    <MdOutlineStarPurple500 />
-                                    <h3>{bestBook.rating}</h3>
+                            {/* If the 'bestBook' wasn't selected (fetching 'books') */}
+                            {(!isFetchFinished || bestBook === undefined) ? (
+                                <div className={styles.loadingContainer} aria-live="polite" role="status">
+                                    Carregando...
                                 </div>
+                            ) : (
+                                <div className={styles.bestBook}>
+                                    <h3 className={styles.bestBook__title}>
+                                        {bestBook.title}
+                                    </h3>
+                                    <h4 className={styles.bestBook__author}>
+                                        {bestBook.author}
+                                    </h4>
 
-                                <p>Melhor pontuação</p>
+                                    <div className={styles.bestBook__icon}>
+                                        <MdOutlineStarPurple500 />
+                                        <h3>{bestBook.rating}</h3>
+                                    </div>
+                                    <p>Melhor pontuação</p>
+                                    <hr />
 
-                                <hr />
+                                    <span className={styles.bestBook__tag}>
+                                        <TagCard label={bestBook.genre} />
+                                    </span>
 
-                                <span className={styles.bestBook__tag}>
-                                    <TagCard />
-                                </span>
-
-                                <LinkButton
-                                    to={`${websitePaths.book}/${bestBook.id}`}
-                                    label="Acesse o livro"
-                                    color="accent"
-                                />
-                            </div>
+                                    <LinkButton
+                                        to={`${websitePaths.book}/${bestBook.id}`}
+                                        label="Acesse o livro"
+                                        color="accent"
+                                    />
+                                </div>
+                            )}
                         </InfoCard>
 
                         <div className={styles.infoCardsContainer}>
-                            <InfoCard alignment="center">
-                                <h3 className={styles.infoCard__num}>53</h3>
-                                <p className={styles.inforCard__label}>
-                                    Livros Registrados
-                                </p>
-                            </InfoCard>
-                            <InfoCard alignment="center">
-                                <h3 className={styles.infoCard__num}>50</h3>
-                                <p className={styles.inforCard__label}>
-                                    Livros em sua Posse
-                                </p>
-                            </InfoCard>
-                        </div>
-                        <div className={styles.infoCardsContainer}>
-                            <InfoCard alignment="center">
-                                <h3 className={styles.infoCard__num}>49</h3>
-                                <p className={styles.inforCard__label}>
-                                    Livros já Lidos
-                                </p>
-                            </InfoCard>
-                            <InfoCard alignment="center">
-                                <h3 className={styles.infoCard__num}>2</h3>
-                                <p className={styles.inforCard__label}>
-                                    Livros Abandonados
-                                </p>
-                            </InfoCard>
+                            {additionalInfo.map((book, index) => (
+                                <InfoCard
+                                    alignment="center"
+                                    key={index}
+                                    customClasses="noMargin"
+                                >
+                                    {bestBook ? (<>
+                                        <h3 className={styles.infoCard__num}>
+                                            {book.num}
+                                        </h3>
+                                        <p className={styles.inforCard__label}>
+                                            {book.label}
+                                        </p>
+                                    </>) : (
+                                        <span className={styles.infoCard__loading} role="status"></span>
+                                    )}
+                                </InfoCard>
+                            ))}
                         </div>
                     </div>
                 )}

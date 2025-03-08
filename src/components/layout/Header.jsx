@@ -1,5 +1,4 @@
-import React from "react";
-
+import PropTypes from "prop-types";
 import styles from "./Header.module.css";
 
 import Navbar from "./Navbar";
@@ -25,5 +24,11 @@ function Header({ navWithoutLogo, customClass, children }) {
         </header>
     );
 }
+
+Header.propTypes = {
+    navWithoutLogo: PropTypes.bool,
+    customClass: PropTypes.oneOf([PropTypes.object, PropTypes.string]),
+    children: PropTypes.node,
+};
 
 export default Header;

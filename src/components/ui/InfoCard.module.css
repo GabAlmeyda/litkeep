@@ -11,3 +11,7 @@
 .bigger {
 	width: clamp(150px, 100%, 600px);
 }
+
+.noMargin {
+	margin: 0;
+}

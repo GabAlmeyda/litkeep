@@ -2,11 +2,12 @@
 	"books": [
 		{
 			"id": 1234,
-			"title": "A Fórmula Mágica de Joel Greenbrant para Bater o Mercado de Ações",
+			"title": "Convite para um Homicídio",
 			"author": "Agatha Christie",
 			"genre": "Suspense",
 			"rating": 9.9,
-			"ownership": "Sim",
+			"status": "read",
+			"ownership": true,
 			"startDate": "12/05/2023",
 			"endDate": "15/05/2023"
 		}

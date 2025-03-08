@@ -53,7 +53,7 @@ function LandingPage() {
 
             metaTag.content = content;
         });
-    });
+    }, []);
 
     const websitePaths = getWebsitePaths();
 
@@ -122,7 +122,7 @@ function LandingPage() {
                 </div>
 
                 <h1>
-                    O mais completo site para
+                    O mais completo site para{" "}
                     <span>armazenar suas memórias</span>
                 </h1>
                 <h2>
@@ -158,7 +158,7 @@ function LandingPage() {
 
                             <hr className={styles.feature__line} />
 
-                            <div className={styles.card}>
+                            <div className={styles.card} aria-hidden="true">
                                 <div className={styles.card__icon}>
                                     {cardInfo.icon}
                                 </div>
@@ -180,7 +180,7 @@ function LandingPage() {
                         você leu e não leu e muito mais!
                     </p>
 
-                    <div className={styles.searchCardsWrapper}>
+                    <div className={styles.searchCardsWrapper} aria-hidden="true">
                         <div className={styles.cardsContainer}>
                             {searchCardsInfo.map((cardInfo, index) => (
                                 <div
@@ -245,7 +245,7 @@ function LandingPage() {
                         possível
                     </p>
 
-                    <div className={styles.cardsContainer}>
+                    <div className={styles.cardsContainer} aria-hidden="true">
                         {additionalCardsInfo.map((cardInfo, index) => (
                             <div
                                 className={`${styles.card} ${

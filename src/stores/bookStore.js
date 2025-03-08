@@ -4,7 +4,7 @@ import { getServerPaths } from "../utils/constants/paths";
 
 const serverPaths = getServerPaths();
 
-const useBookStore = create((set) => ({
+const useBookStore = create((set, get) => ({
 	books: [],
 	
 	/**
@@ -160,10 +160,10 @@ const useBookStore = create((set) => ({
 	 * the books that matches the specified conditions.
 	 * 
 	 * @param {Object} filters - An object containing filters criteria for the books;
-	 * @param {string} [filters.ownership] - The ownership status for the books. The values 
+	 * @param {boolean} [filters.ownership] - The ownership status for the books. The values 
 	 * are listed bellow:
-	 * - **Yes**;
-	 * - **No**.
+	 * - **true**: The user has the book;
+	 * - **false**: The user hasn't the book.
 	 * @param {string} [filters.status] - The status of the book. The values are listed bellow:
 	 * - **read**;
 	 * - **unread**;
