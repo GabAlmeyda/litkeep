@@ -11,7 +11,7 @@ import LinkButton from "../../components/ui/LinkButton";
 import InfoCard from "../../components/ui/InfoCard";
 import Header from "../../components/layout/Header";
 import ServerErrorScreen from "../../components/layout/ServerErrorScreen";
-import Dropdown from "../../components/form/DropDown";
+import Dropdown from "../../components/form/Dropdown";
 import Button from "../../components/ui/Button";
 
 import BestBookCard from "./BestBookCard";
