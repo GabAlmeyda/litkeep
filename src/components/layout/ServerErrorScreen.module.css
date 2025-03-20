@@ -1,0 +1,33 @@
+.error {
+	min-height: 82dvh;
+	min-height: 82dvh;
+
+	padding-block: 0;
+
+	text-align: center;
+}
+
+.error__warning svg {
+	margin-top: 4rem;
+
+	font-size: clamp(5rem, min(25vw, 25vh), 10rem);
+}
+
+.error__warning svg * {
+	color: var(--text-color);
+}
+
+.error h2 {
+	font-size: clamp(1.6rem, min(9vw, 9vh), 1.9rem);
+	font-weight: bold;
+	letter-spacing: .05rem;
+}
+
+.error h3 {
+	font-size: clamp(1.3rem, min(6vw, 6vh), 1.6rem);
+	font-weight: 500;
+}
+
+.error p {
+	margin-top: 3rem;
+}

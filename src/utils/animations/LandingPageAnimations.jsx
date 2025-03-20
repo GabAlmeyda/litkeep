@@ -1,5 +1,5 @@
 import animations from './LandingPageAnimations.module.css';
-import styles from '../../pages/LandingPage.module.css';
+import styles from '../../pages/LandingPage/LandingPage.module.css';
 import { useEffect } from 'react';
 
 /**

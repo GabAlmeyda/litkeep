@@ -1,8 +1,14 @@
 .footer {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
 	position: relative;
 	bottom: 0;
 
 	padding: 1rem;
+
+	height: 10vh;
 
 	background-color: var(--surface-color);
 }

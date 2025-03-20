@@ -17,7 +17,7 @@ import { MdDarkMode, MdLightMode } from "react-icons/md";
  * @param {Object} props - The properties to be passed to the component.
  * @param {boolean} [props.hideLogo] - Hides the site's logo if provided.
  *
- * @returns {JSX.Element} The rendered nav element.
+ * @returns {JSX.Element} A JSX element representing the nav component.
  */
 function Navbar({ hideLogo = false }) {
     const [theme, toggleTheme] = useTheme();

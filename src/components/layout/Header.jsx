@@ -13,7 +13,7 @@ import Navbar from "./Navbar";
  * @param {React.ReactNode} [props.children] - Optional content to be rendered inside the header.
  * If no content is passed, the header will only contain the 'Navbar' component.
  *
- * @returns {JSX.Element} The rendered header component.
+ * @returns {JSX.Element} A JSX element representing the header component.
  */
 function Header({ navWithoutLogo, customClass, children }) {
     return (

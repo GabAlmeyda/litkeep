@@ -1,13 +1,5 @@
-.linkContainer {
-	display: inline-block;
-
-	margin-top: 2rem;
-
-	text-decoration: none;
-}
-
 .button {
-	display: flex;
+	display: inline-block;
 	justify-content: center;
 	align-items: center;
 
@@ -21,6 +13,7 @@
 	font-size: .9rem;
 	font-weight: 400;
 	letter-spacing: .05rem;
+	text-decoration: none;
 
 	transition: .2s ease-in-out;
 }
@@ -81,10 +74,7 @@
 
 .bigger {
 	padding: .4rem .9rem;
+	margin-top: 5rem;
 
 	font-size: 1.2rem;
-}
-
-.linkContainer:has(.bigger) {
-	margin-top: 5rem;
 }

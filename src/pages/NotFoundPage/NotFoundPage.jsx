@@ -13,7 +13,7 @@ function NotFoundPage() {
 		document.title = "LitKeep | Página não Encontrada"
 
 		metaTags.forEach((name, content) => {
-			let metaTag = document.querySelector(`meta[name=${name}`);
+			let metaTag = document.querySelector(`meta[name="${name}"]`);
 
 			if (!metaTag) {
 				metaTag = document.createElement("meta");
@@ -25,9 +25,9 @@ function NotFoundPage() {
 		})
 	}, [])
 
-	return (<>
+	return (<section className={styles.notFound}>
 		
-	</>)
+	</section>)
 }
 
 export default NotFoundPage

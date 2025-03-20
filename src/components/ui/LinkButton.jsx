@@ -5,7 +5,7 @@ import styles from "./LinkButton.module.css";
 import PropTypes from "prop-types";
 
 /**
- * renders a customizable link button.
+ * Renders a customizable link button for navigation between pages.
  *
  * @param {Object} props - The properties to be passed to the component.
  * @param {string} [props.label="PLACEHOLDER"] - The visible text of the button;
@@ -17,7 +17,7 @@ import PropTypes from "prop-types";
  * the stroke will reveive the specified color. Defaults to 'true' if present;
  *  - **bigger:** If provided, the button's size will be bigger.
  *
- * @returns {JSX.Element} The rendered link button for navigation.
+ * @returns {JSX.Element} A JSX element represent a link button for navigation.
  */
 function LinkButton({
     label = "PLACEHOLDER",
@@ -34,17 +34,17 @@ function LinkButton({
     }
 
     return (
-        <Link to={to} className={styles.linkContainer}>
-            <button
-                className={clsx(
-                    styles.button,
-                    styles[color],
-                    customClasses &&
-                        customClasses.split(" ").map((cls) => styles[cls])
-                )}
-            >
-                {label}
-            </button>
+        <Link
+            to={to}
+            className={clsx(
+                styles.button,
+                styles[color],
+                customClasses &&
+                    customClasses.split(" ").map(cls => styles[cls])
+            )}
+            role="button"
+        >
+            {label}
         </Link>
     );
 }

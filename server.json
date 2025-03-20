@@ -10,6 +10,83 @@
 			"ownership": true,
 			"startDate": "12/05/2023",
 			"endDate": "15/05/2023"
+		},
+		{
+			"id": 5678,
+			"title": "A Mandíbula de Caim",
+			"author": "Torquemada",
+			"genre": "Mistério",
+			"rating": 10.0,
+			"status": "read",
+			"ownership": true,
+			"startDate": "12/12/2024",
+			"endDate": ""
+		},
+		{
+			"id": 4321,
+			"title": "Os Testamentos",
+			"author": "Margaret Atwood",
+			"genre": "Drama",
+			"rating": "",
+			"status": "unred",
+			"ownership": true,
+			"startDate": "",
+			"endDate": ""
+		},
+		{
+			"id": 8765,
+			"title": "As Rodas da Fortuna",
+			"author": "Felipe Daielo",
+			"genre": "História",
+			"rating": "abandoned",
+			"status": "abandoned",
+			"ownership": false,
+			"startDate": "02/05/2020",
+			"endDate": ""
+		},
+		{
+			"id": 1234,
+			"title": "Convite para um Homicídio",
+			"author": "Agatha Christie",
+			"genre": "Suspense",
+			"rating": 9.9,
+			"status": "read",
+			"ownership": true,
+			"startDate": "12/05/2023",
+			"endDate": "15/05/2023"
+		},
+		{
+			"id": 5678,
+			"title": "A Mandíbula de Caim",
+			"author": "Torquemada",
+			"genre": "Mistério",
+			"rating": 10.0,
+			"status": "read",
+			"ownership": true,
+			"startDate": "12/12/2024",
+			"endDate": ""
+		},
+		{
+			"id": 4321,
+			"title": "Os Testamentos",
+			"author": "Margaret Atwood",
+			"genre": "Drama",
+			"rating": "",
+			"status": "unred",
+			"ownership": true,
+			"startDate": "",
+			"endDate": ""
+		},
+		{
+			"id": 8765,
+			"title": "a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a a ",
+			"author": "Felipe Daielo",
+			"genre": "História",
+			"rating": "abandoned",
+			"status": "abandoned",
+			"ownership": false,
+			"startDate": "02/05/2020",
+			"endDate": ""
 		}
 	]
 }

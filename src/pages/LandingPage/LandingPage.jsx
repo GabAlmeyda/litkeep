@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 
-import { getWebsitePaths } from "../utils/constants/paths.js";
-import useLandingPageAnimations from "../utils/animations/LandingPageAnimations.jsx";
+import { getWebsitePaths } from "../../utils/constants/paths.js";
+import useLandingPageAnimations from "../../utils/animations/LandingPageAnimations.jsx";
 
 import styles from "./LandingPage.module.css";
 
@@ -9,8 +9,8 @@ import { MdOutlineChangeCircle } from "react-icons/md";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
-import LinkButton from "../components/ui/LinkButton";
-import Header from "../components/layout/Header";
+import LinkButton from "../../components/ui/LinkButton.jsx";
+import Header from "../../components/layout/Header.jsx";
 
 const metaTags = [
     {
@@ -180,7 +180,10 @@ function LandingPage() {
                         você leu e não leu e muito mais!
                     </p>
 
-                    <div className={styles.searchCardsWrapper} aria-hidden="true">
+                    <div
+                        className={styles.searchCardsWrapper}
+                        aria-hidden="true"
+                    >
                         <div className={styles.cardsContainer}>
                             {searchCardsInfo.map((cardInfo, index) => (
                                 <div

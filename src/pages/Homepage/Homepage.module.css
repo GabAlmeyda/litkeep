@@ -1,0 +1,51 @@
+/* Information section */
+.information {
+	text-align: center;
+}
+
+.noInfoContainer {
+	margin-top: 1rem;
+}
+
+.noInfoContainer p {
+	color: var(--alt-text-color);
+}
+
+.infoContainer {
+	min-width: 100%;
+	max-width: 600px;
+
+	margin-top: 2rem;
+	margin-inline: auto;
+
+	text-align: center;
+}
+
+.infoContainer > * {
+	margin-inline: auto;
+}
+
+
+
+/* Book list section */
+.bookList {
+	text-align: center;
+}
+
+.bookList__btns {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 1rem;
+
+	width: 100%;
+
+	margin-block: 2rem;
+}
+
+.bookList__showMoreBtnContainer {
+	display: flex;
+	justify-content: center;
+	margin-top: 2rem;
+}

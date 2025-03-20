@@ -11,7 +11,7 @@ import styles from "./InfoCard.module.css";
  * @param {string} [props.customClasses=""] - Space-separated list of custom CSS class names to be applied.
  * @param {React.ReactNode} props.children - The content to be rendered inside the card.
  *
- * @returns {React.JSX.Element} A customizable information card.
+ * @returns {JSX.Element} A JSX element representing the customizable information card.
  */
 function InfoCard({ alignment = "left", customClasses = "", children }) {
     const validAlignment = ["left", "center", "right"];
@@ -39,7 +39,7 @@ function InfoCard({ alignment = "left", customClasses = "", children }) {
 InfoCard.propTypes = {
     alignment: PropTypes.oneOf(["left", "center", "right"]),
     customClasses: PropTypes.string,
-    children: PropTypes.node,
+    children: PropTypes.node.isRequired,
 };
 
 export default InfoCard;

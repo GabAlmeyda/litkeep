@@ -6,6 +6,8 @@
 		"footer"
 	;
 
+	grid-template-rows: auto;
+
 }
 
 header {
@@ -15,7 +17,7 @@ header {
 main {
 	grid-area: main;
 
-	min-height: 100vh;
+	min-height: 82dvh;
 }
 
 footer {

@@ -1,0 +1,85 @@
+.bookList__items {
+	display: grid;
+	grid-template-columns: 1fr;
+	justify-items: center;
+	gap: 1rem;
+}
+
+.book__title,
+.book__author {
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	line-clamp: 2;
+	-webkit-box-orient: vertical;
+
+	max-width: 250px;
+
+	text-overflow: ellipsis;
+	overflow: hidden;	
+}
+
+.book__title {
+	font-weight: bold;
+	letter-spacing: .03rem;
+	font-size: 1.2rem;
+}
+
+.book__author {
+	margin-bottom: 1rem;
+
+	color: var(--alt-text-color);
+	letter-spacing: .01rem;
+}
+
+.book__btnIconContainer {
+	position: absolute;
+	top: .5rem;
+	right: .5rem;
+}
+
+.book__line {
+	margin-bottom: 1rem;
+	margin-top: .5rem;
+}
+
+.book__infoContainer {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+
+	width: 100%;
+	max-width: 300px;
+}
+
+.bookInfo {
+	display: flex;
+	flex-flow: column wrap;
+}
+
+.bookInfo__label {
+	color: var(--alt-text-color);
+	font-size: .9rem;
+}
+
+.bookInfo__data {
+	font-size: 1.05rem;
+	letter-spacing: .03rem;
+	font-weight: 500;
+}
+
+.loadingContainer {
+	height: 200px;
+	width: 100%;
+
+	background-color: var(--alt-background-color);
+}
+
+
+
+/* Media Queries */
+@media screen and (min-width: 700px) {
+	.bookList__items {
+		justify-content: center;
+		grid-template-columns: repeat(2, minmax(300px, 500px));
+	}
+}
