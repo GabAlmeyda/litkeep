@@ -1,6 +1,7 @@
+import { useEffect, useRef, useState } from "react";
+
 import PropTypes from "prop-types";
 import styles from "./DropDown.module.css";
-import { useState } from "react";
 
 /**
  * Renders a custom dropdown list with the provided options.
@@ -28,6 +29,21 @@ function Dropdown({ optionsValues }) {
     const [isOpen, setIsOpen] = useState(false);
     const [selected, setSelected] = useState(Object.values(optionsValues)[0]);
 
+    const dropdownRef = useRef(null);
+
+    useEffect(() => {
+        if (!isOpen) return;
+
+        const handleMouseDown = (e) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(e.target))
+                setIsOpen(false);
+        };
+
+        document.addEventListener("mousedown", handleMouseDown);
+
+        return () => document.removeEventListener("mousedown", handleMouseDown);
+    }, [isOpen]);
+
     const options = Object.values(optionsValues);
     const dataValues = Object.keys(optionsValues);
 
@@ -43,16 +59,16 @@ function Dropdown({ optionsValues }) {
     const handleKeyDown = (e) => {
         if (!isOpen) return;
 
-        if (e.key === "Enter" || e.key === " ") {
+        if (e.key === "Escape") setIsOpen(false);
+
+        if (e.currentTarget.tagName === "LI" && (e.key === "Enter" || e.key === " ")) {
             e.preventDefault();
-            const option = e.target.textContent;
-            handleSelect(option);
+            handleSelect(e.currentTarget.textContent);
         }
-        else if (e.key === "Escape") setIsOpen(false);
     };
 
     return (
-        <div className={styles.dropdown}>
+        <div className={styles.dropdown} ref={dropdownRef} onKeyDown={handleKeyDown}>
             <div className={styles.dropdown__visibleContent}>
                 <span>Tipo: | </span>
                 <button
@@ -61,7 +77,7 @@ function Dropdown({ optionsValues }) {
                     aria-expanded={isOpen}
                     aria-activedescendant={
                         isOpen
-                            ? `dropdown-option-${options.indexOf(selected)}`
+                            ? `dropdown-option-${selected}`
                             : undefined
                     }
                     role="combobox"
@@ -69,9 +85,7 @@ function Dropdown({ optionsValues }) {
                     aria-controls="dropdown__menu"
                     tabIndex={0}
                 >
-                    <span
-                        className={styles.visibleContent__label}
-                    >
+                    <span className={styles.visibleContent__label}>
                         {selected}
                     </span>
                     <span className={styles.visibleContent__icon}></span>
@@ -79,7 +93,7 @@ function Dropdown({ optionsValues }) {
             </div>
 
             <ul
-                style={{display: isOpen ? "inline-block" : "none"}}
+                style={{ display: isOpen ? "inline-block" : "none" }}
                 className={styles.dropdown__content}
                 id="dropdown__menu"
                 role="listbox"
@@ -90,9 +104,9 @@ function Dropdown({ optionsValues }) {
                         onClick={() => handleSelect(opt)}
                         onKeyDown={handleKeyDown}
                         data-value={dataValues[index]}
-                        id={`dropdown-option-${index}`}
+                        id={`dropdown-option-${opt}`}
                         className={styles.dropdown__option}
-                        key={index}
+                        key={dataValues[index]}
                         role="option"
                         aria-selected={selected === opt}
                         tabIndex={0}

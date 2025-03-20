@@ -27,6 +27,14 @@ const metaTags = [
     { name: "robots", content: "index, follow" },
 ];
 
+const dropdownOptions = {
+    registered: "Todos registrados",
+    read: "Livros lidos",
+    unread: "Livros não lidos",
+    abandoned: "Livros abandonados",
+    ownership: "Livros em posse",
+};
+
 function Homepage() {
     const { books, fetchStatus, filterBooks } = useBookStore((state) => state);
 
@@ -41,8 +49,15 @@ function Homepage() {
 
     const windowSize = useWindowSize();
 
-    useInitializeBooks();
+    const WEBSITE_PATHS = getWebsitePaths();
 
+    const isMobile = windowSize.width < 700;
+    const visibleBooks = isBooksExpanded
+        ? books
+        : books.slice(0, isMobile ? 3 : 6);
+    const canShowMoreButton = books.length > (isMobile ? 3 : 6);
+
+    useInitializeBooks();
     // Updates the 'bestBook' and the 'additionalInfo' when the 'fetchStatus' is "success"
     useEffect(() => {
         if (fetchStatus === "success") {
@@ -104,22 +119,6 @@ function Homepage() {
         );
     }
 
-    const websitePaths = getWebsitePaths();
-
-    const isMobile = windowSize.width < 700;
-    const visibleBooks = isBooksExpanded
-        ? books
-        : books.slice(0, isMobile ? 3 : 6);
-    const canShowMoreButton = books.length > (isMobile ? 3 : 6);
-
-    const dropdownOptions = {
-        registered: "Todos registrados",
-        read: "Livros lidos",
-        unread: "Livros não lidos",
-        abandoned: "Livros abandonados",
-        ownership: "Livros em posse",
-    };
-
     return (
         <>
             <Header />
@@ -135,7 +134,7 @@ function Homepage() {
 
                             <div className={styles.linkButtonContainer}>
                                 <LinkButton
-                                    to={websitePaths.database}
+                                    to={WEBSITE_PATHS.database}
                                     label="Adicione um livro"
                                     color="accent"
                                 />
@@ -173,7 +172,7 @@ function Homepage() {
                         <Dropdown optionsValues={dropdownOptions} />
 
                         <LinkButton
-                            to={websitePaths.database}
+                            to={WEBSITE_PATHS.database}
                             label="Adicione um livro"
                         />
                     </div>

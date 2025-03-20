@@ -2,14 +2,20 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 
 import { bookShapeType } from "../../utils/propTypes/propTypes";
+import { getWebsitePaths } from "../../utils/constants/paths";
 
 import styles from "./BookList.module.css";
-
-import { CiCircleMore } from "react-icons/ci";
 
 import InfoCard from "../../components/ui/InfoCard";
 import TagCard from "../../components/ui/TagCard";
 import MoreOptions from "../../components/ui/MoreOptions";
+import { useNavigate } from "react-router-dom";
+
+const moreOptionsMap = {
+    view: "Ver o livro",
+    update: "Editar o livro",
+    remove: "Remover o livro",
+};
 
 /**
  * Renders a book list with all the registered books.
@@ -24,13 +30,18 @@ import MoreOptions from "../../components/ui/MoreOptions";
  * @returns {JSX.Element} A JSX element representing the book list component.
  */
 function BookList({ visibleBooks, isFetchFinished, isMobile }) {
-    const handleMoreOptionSelect = (action) => {
+    const navigate = useNavigate();
+
+    const WEBSITE_PATHS = getWebsitePaths();
+
+    const LOADING_BLANK_CARDS = isMobile ? 3 : 6;
+
+    const handleMoreOptionSelect = (action, bookId) => {
         switch (action) {
             case "view":
-                break;
             case "update":
-                break;
             case "remove":
+                navigate(WEBSITE_PATHS.database, { state: { bookId: bookId } });
                 break;
             default:
                 console.error(
@@ -38,14 +49,6 @@ function BookList({ visibleBooks, isFetchFinished, isMobile }) {
                 );
         }
     };
-
-    const moreOptionsMap = {
-        view: "Ver o livro",
-        edit: "Editar o livro",
-        remove: "Remover o livro",
-    };
-
-    const LOADING_BLANK_CARDS = isMobile ? 3 : 6;
 
     return (
         <div className={styles.bookList__items} id="bookList__items">
@@ -61,9 +64,10 @@ function BookList({ visibleBooks, isFetchFinished, isMobile }) {
 
                           <div className={styles.book__btnIconContainer}>
                               <MoreOptions
-                                  icon={<CiCircleMore />}
                                   options={moreOptionsMap}
-                                  handleSelect={handleMoreOptionSelect}
+                                  handleSelect={(action) =>
+                                      handleMoreOptionSelect(action, book.id)
+                                  }
                               />
                           </div>
 
