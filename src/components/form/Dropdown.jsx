@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import PropTypes from "prop-types";
-import styles from "./DropDown.module.css";
+import styles from "./Dropdown.module.css";
 
 /**
  * Renders a custom dropdown list with the provided options.
