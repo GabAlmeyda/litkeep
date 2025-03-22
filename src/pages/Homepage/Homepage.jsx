@@ -12,7 +12,6 @@ import InfoCard from "../../components/ui/InfoCard";
 import Header from "../../components/layout/Header";
 import ServerErrorScreen from "../../components/layout/ServerErrorScreen";
 import Dropdown from "../../components/form/Dropdown";
-import Button from "../../components/ui/Button";
 
 import BestBookCard from "./BestBookCard";
 import AdditionalInfoCards from "./AdditionalInfoCards";
@@ -45,19 +44,15 @@ function Homepage() {
     const [additionalInfo, setAdditionalInfo] = useState(
         Array.from({ length: 4 }, () => null)
     );
-    const [isBooksExpanded, setIsBooksExpanded] = useState(false);
-
+    const [filteredBooks, setFilteredBooks] = useState(books);
     const windowSize = useWindowSize();
 
     const WEBSITE_PATHS = getWebsitePaths();
 
     const isMobile = windowSize.width < 700;
-    const visibleBooks = isBooksExpanded
-        ? books
-        : books.slice(0, isMobile ? 3 : 6);
-    const canShowMoreButton = books.length > (isMobile ? 3 : 6);
 
     useInitializeBooks();
+
     // Updates the 'bestBook' and the 'additionalInfo' when the 'fetchStatus' is "success"
     useEffect(() => {
         if (fetchStatus === "success") {
@@ -72,7 +67,6 @@ function Homepage() {
                 null
             );
             setBestBook(bestBookRating);
-
             setAdditionalInfo([
                 { num: books.length, label: "Livros Registrados" },
                 {
@@ -88,6 +82,7 @@ function Homepage() {
                     label: "Livros já Lidos",
                 },
             ]);
+            setFilteredBooks(books);
         }
     }, [books, fetchStatus, filterBooks]);
 
@@ -107,6 +102,27 @@ function Homepage() {
             metaTag.content = content;
         });
     }, []);
+
+    const handleFilterBooks = (dataValue) => {
+        switch (dataValue) {
+            case "ownership":
+                setFilteredBooks(books.filterBooks({ ownership: true }));
+                console.log(filteredBooks);
+                break;
+            case "read":
+            case "unread":
+            case "abandoned":
+                setFilteredBooks(books.filterBooks({ status: dataValue }));
+                break;
+            case "registered":
+                setFilteredBooks(books);
+                break;
+            default:
+                console.error(
+                    `Invalid filter criteria '${dataValue}' received in 'HomePage'. Expect one of "read", "unread", "abandoned", "registered" or "ownership".`
+                );
+        }
+    };
 
     // Handle error: early return to stop rendering the rest of the component
     if (fetchStatus === "error") {
@@ -169,7 +185,10 @@ function Homepage() {
                     <h2>Livros Registrados</h2>
 
                     <div className={styles.bookList__btns}>
-                        <Dropdown optionsValues={dropdownOptions} />
+                        <Dropdown
+                            optionsValues={dropdownOptions}
+                            handleSelect={handleFilterBooks}
+                        />
 
                         <LinkButton
                             to={WEBSITE_PATHS.database}
@@ -178,27 +197,10 @@ function Homepage() {
                     </div>
 
                     <BookList
-                        visibleBooks={visibleBooks}
+                        visibleBooks={filteredBooks}
                         isMobile={isMobile}
                         isFetchFinished={fetchStatus === "success"}
                     />
-
-                    {/* Only shows the button if the number of visible cards (books.length) 
-                    is greater than 3, for mobile, and 6, for desktop */}
-                    {canShowMoreButton && (
-                        <div className={styles.bookList__showMoreBtnContainer}>
-                            <Button
-                                bgColor="#a202f0"
-                                aria-controls="bookList__items"
-                                aria-expanded={isBooksExpanded}
-                                onClick={() =>
-                                    setIsBooksExpanded(!isBooksExpanded)
-                                }
-                            >
-                                {isBooksExpanded ? "Ver menos" : "Ver mais"}
-                            </Button>
-                        </div>
-                    )}
                 </section>
             </main>
         </>

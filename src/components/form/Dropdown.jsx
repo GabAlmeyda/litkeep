@@ -9,6 +9,7 @@ import styles from "./Dropdown.module.css";
  * @param {object} props - The properties of the component.
  * @param {object.<string, string>} props.optionsValues - An object where the keys representing the
  * data values and the values are the visible text.
+ * @param {func} props.handleSelect - The callback function to handle the selection of one option.
  *
  * @example
  * const dropdownOptions = {
@@ -19,13 +20,12 @@ import styles from "./Dropdown.module.css";
  * }
  *
  * <Dropdown
- *     label="Please select:"
  *     optionsValues={dropdownOptions}
  * />
  *
  * @returns {JSX.Element} A JSX element representing the dropdown component.
  */
-function Dropdown({ optionsValues }) {
+function Dropdown({ optionsValues, handleSelect }) {
     const [isOpen, setIsOpen] = useState(false);
     const [selected, setSelected] = useState(Object.values(optionsValues)[0]);
 
@@ -51,9 +51,10 @@ function Dropdown({ optionsValues }) {
         setIsOpen(!isOpen);
     };
 
-    const handleSelect = (option) => {
+    const handleClick = (option) => {
         setSelected(option);
         setIsOpen(false);
+        handleSelect(dataValues.indexOf(option));
     };
 
     const handleKeyDown = (e) => {
@@ -61,14 +62,21 @@ function Dropdown({ optionsValues }) {
 
         if (e.key === "Escape") setIsOpen(false);
 
-        if (e.currentTarget.tagName === "LI" && (e.key === "Enter" || e.key === " ")) {
+        if (
+            e.currentTarget.tagName === "LI" &&
+            (e.key === "Enter" || e.key === " ")
+        ) {
             e.preventDefault();
-            handleSelect(e.currentTarget.textContent);
+            handleClick(e.currentTarget.textContent);
         }
     };
 
     return (
-        <div className={styles.dropdown} ref={dropdownRef} onKeyDown={handleKeyDown}>
+        <div
+            className={styles.dropdown}
+            ref={dropdownRef}
+            onKeyDown={handleKeyDown}
+        >
             <div className={styles.dropdown__visibleContent}>
                 <span>Tipo: | </span>
                 <button
@@ -76,9 +84,7 @@ function Dropdown({ optionsValues }) {
                     id="dropdown__button"
                     aria-expanded={isOpen}
                     aria-activedescendant={
-                        isOpen
-                            ? `dropdown-option-${selected}`
-                            : undefined
+                        isOpen ? `dropdown-option-${selected}` : undefined
                     }
                     role="combobox"
                     aria-haspopup="listbox"
@@ -99,19 +105,19 @@ function Dropdown({ optionsValues }) {
                 role="listbox"
                 aria-labelledby="dropdown__button"
             >
-                {options.map((opt, index) => (
+                {options.map((option, index) => (
                     <li
-                        onClick={() => handleSelect(opt)}
+                        onClick={() => handleClick(option)}
                         onKeyDown={handleKeyDown}
                         data-value={dataValues[index]}
-                        id={`dropdown-option-${opt}`}
+                        id={`dropdown-option-${option}`}
                         className={styles.dropdown__option}
                         key={dataValues[index]}
                         role="option"
-                        aria-selected={selected === opt}
+                        aria-selected={selected === option}
                         tabIndex={0}
                     >
-                        {opt}
+                        {option}
                     </li>
                 ))}
             </ul>
@@ -121,6 +127,7 @@ function Dropdown({ optionsValues }) {
 
 Dropdown.propTypes = {
     optionsValues: PropTypes.objectOf(PropTypes.string).isRequired,
+    handleSelect: PropTypes.func.isRequired,
 };
 
 export default Dropdown;

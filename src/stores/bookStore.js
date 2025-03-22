@@ -3,7 +3,7 @@ import { create } from "zustand";
 import { getServerPaths } from "../utils/constants/paths";
 import { useEffect } from "react";
 
-const serverPaths = getServerPaths();
+const SERVER_PATHS = getServerPaths();
 
 /**
  * Zustando store for managing book-related data and operations.
@@ -53,7 +53,7 @@ const useBookStore = create((set, get) => ({
     fetchBooks: async () => {
         set({ fetchStatus: "loading", error: null });
         try {
-            const response = await fetch(serverPaths.books, {
+            const response = await fetch(SERVER_PATHS.books, {
                 method: "GET",
             });
 
@@ -83,7 +83,7 @@ const useBookStore = create((set, get) => ({
         set({ fetchStatus: "loading", error: null });
 
         try {
-            const response = await fetch(serverPaths.books, {
+            const response = await fetch(SERVER_PATHS.books, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(newBook),
@@ -118,7 +118,7 @@ const useBookStore = create((set, get) => ({
         set({ fetchStatus: "loading", error: null });
 
         try {
-            const response = await fetch(`${serverPaths.books}/${bookId}`, {
+            const response = await fetch(`${SERVER_PATHS.books}/${bookId}`, {
                 method: "DELETE",
             });
 
@@ -150,7 +150,7 @@ const useBookStore = create((set, get) => ({
         set({ fetchStatus: "loading", error: null });
 
         try {
-            const response = await fetch(`${serverPaths.books}/${book.id}`, {
+            const response = await fetch(`${SERVER_PATHS.books}/${book.id}`, {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(book),
