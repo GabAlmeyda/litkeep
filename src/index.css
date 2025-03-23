@@ -15,6 +15,10 @@
 
 	--background-color: hsl(272, 65%, 90%);
 	--alt-background-color: hsl(271, 23%, 70%);
+
+	--contrast-color: hsl(0, 0%, 17%);
+	--contrast-color-hover: hsl(0, 0%, 14%);
+	--contrast-color-active: hsl(0, 0%, 11%);
 }
 
 .dark {
@@ -31,6 +35,10 @@
 
 	--background-color: hsl(0, 0%, 15%);
 	--alt-background-color: hsl(0, 0%, 24%);
+
+	--contrast-color: hsl(0, 0%, 53%);
+	--contrast-color-hover: hsl(0, 0%, 43%);
+	--contrast-color-active: hsl(0, 0%, 35%);
 }
 
 * {

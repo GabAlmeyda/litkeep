@@ -10,4 +10,5 @@ export const bookShapeType = PropTypes.shape({
     ownership: PropTypes.bool.isRequired,
     startDate: PropTypes.string.isRequired,
     endDate: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
 });

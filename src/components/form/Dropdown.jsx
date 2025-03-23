@@ -1,68 +1,98 @@
 import { useEffect, useRef, useState } from "react";
-
 import PropTypes from "prop-types";
+
 import styles from "./Dropdown.module.css";
 
 /**
- * Renders a custom dropdown list with the provided options.
+ * Renders a custom dropdown list with the provided options. This component calls a callback
+ * function when clicking in one option, passing the selected option's value as the argument.
  *
  * @param {object} props - The properties of the component.
  * @param {object.<string, string>} props.optionsValues - An object where the keys representing the
- * data values and the values are the visible text.
- * @param {func} props.handleSelect - The callback function to handle the selection of one option.
+ * data values and the values are the visible text. If an array is passed, the data values are equal
+ * to the displayed options.
+ * @param {Function} props.handleSelect - The callback function to handle the selection of one option.
+ * This function is called passing the name and the data-value as the argument.
+ * @param {string} props.name - The name attribute for the input, to manage forms data.
+ * @param {String} props.value - The value of the selected option. If not passed (or a falsy value), the
+ * first option is setted by default.
  *
  * @example
+ * const [selectedLesson, setSelectedLesson] = useState("");
+ *
  * const dropdownOptions = {
  *     math: "Math lessons",
  *     port: "Portuguese lessons",
  *     english: "English lessons",
+ * };
  *
- * }
+ * const handleSelectOption = (name, option) => {
+ *     console.log(`name: ${name}, option: ${option}`);
+ *     setSelectedLesson(option);
+ * };
  *
  * <Dropdown
  *     optionsValues={dropdownOptions}
+ *     handleSelect={handleSelectOption}
+ *     name="lesson"
+ *     value={selectedLesson}
  * />
  *
  * @returns {JSX.Element} A JSX element representing the dropdown component.
  */
-function Dropdown({ optionsValues, handleSelect }) {
+function Dropdown({ optionsValues, handleSelect, name, value }) {
     const [isOpen, setIsOpen] = useState(false);
-    const [selected, setSelected] = useState(Object.values(optionsValues)[0]);
-
+    const [selected, setSelected] = useState(
+        value ||
+            (Array.isArray(optionsValues)
+                ? optionsValues[0]
+                : Object.values(optionsValues)[0])
+    );
     const dropdownRef = useRef(null);
 
+    // handles the click outside to close de dropdown
     useEffect(() => {
-        if (!isOpen) return;
-
-        const handleMouseDown = (e) => {
+        const handleClickOutside = (e) => {
             if (dropdownRef.current && !dropdownRef.current.contains(e.target))
                 setIsOpen(false);
         };
 
-        document.addEventListener("mousedown", handleMouseDown);
+        document.addEventListener("mousedown", handleClickOutside);
 
-        return () => document.removeEventListener("mousedown", handleMouseDown);
-    }, [isOpen]);
+        return () =>
+            document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
-    const options = Object.values(optionsValues);
-    const dataValues = Object.keys(optionsValues);
+    const isValidOptions =
+        Array.isArray(optionsValues) ||
+        (typeof optionsValues === "object" && optionsValues !== null);
+    if (!isValidOptions) {
+        console.error(
+            `'${typeof optionsValues}' is a invalid type for the 'optionsValues' parameter. It should be an array or a object.`
+        );
+        return null;
+    }
 
-    const toggleDropdown = () => {
-        setIsOpen(!isOpen);
-    };
+    const options = Array.isArray(optionsValues)
+        ? optionsValues
+        : Object.keys(optionsValues);
+    const dataValues = Array.isArray(optionsValues)
+        ? optionsValues
+        : Object.values(optionsValues);
 
     const handleClick = (option) => {
         setSelected(option);
         setIsOpen(false);
-        handleSelect(dataValues.indexOf(option));
+
+        const selectedOption = dataValues[options.indexOf(option)];
+        handleSelect(name, selectedOption);
     };
 
     const handleKeyDown = (e) => {
         if (!isOpen) return;
 
         if (e.key === "Escape") setIsOpen(false);
-
-        if (
+        else if (
             e.currentTarget.tagName === "LI" &&
             (e.key === "Enter" || e.key === " ")
         ) {
@@ -74,13 +104,17 @@ function Dropdown({ optionsValues, handleSelect }) {
     return (
         <div
             className={styles.dropdown}
+            style={{ borderRadius: isOpen ? "5px 5px 0 0" : "5px" }}
             ref={dropdownRef}
             onKeyDown={handleKeyDown}
         >
-            <div className={styles.dropdown__visibleContent}>
-                <span>Tipo: | </span>
+            <input type="hidden" name={name} value={selected} />
+
+            <div className={styles.dropdown__buttonContainer}>
                 <button
-                    onClick={toggleDropdown}
+                    onClick={() => setIsOpen(!isOpen)}
+                    type="button"
+                    className={styles.button}
                     id="dropdown__button"
                     aria-expanded={isOpen}
                     aria-activedescendant={
@@ -91,10 +125,8 @@ function Dropdown({ optionsValues, handleSelect }) {
                     aria-controls="dropdown__menu"
                     tabIndex={0}
                 >
-                    <span className={styles.visibleContent__label}>
-                        {selected}
-                    </span>
-                    <span className={styles.visibleContent__icon}></span>
+                    <span className={styles.button__label}>{selected}</span>
+                    <span className={styles.button__icon}></span>
                 </button>
             </div>
 
@@ -126,8 +158,11 @@ function Dropdown({ optionsValues, handleSelect }) {
 }
 
 Dropdown.propTypes = {
-    optionsValues: PropTypes.objectOf(PropTypes.string).isRequired,
+    optionsValues: PropTypes.oneOf([PropTypes.array, PropTypes.object])
+        .isRequired,
     handleSelect: PropTypes.func.isRequired,
+    name: PropTypes.string.isRequired,
+    value: PropTypes.string,
 };
 
 export default Dropdown;

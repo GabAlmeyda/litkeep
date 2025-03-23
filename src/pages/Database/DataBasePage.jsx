@@ -2,6 +2,10 @@ import { useEffect } from "react";
 
 import styles from "./DataBasePage.module.css";
 
+import Header from "../../components/layout/Header";
+
+import BookForm from "./BookForm";
+
 const metaTags = [
     {
         name: "description",
@@ -29,7 +33,18 @@ function DataBasePage() {
         });
     }, []);
 
-    return <></>;
+    return (
+        <>
+            <Header />
+
+            <section className={styles.form}>
+
+                <hr />
+
+                <BookForm />
+            </section>
+        </>
+    );
 }
 
 export default DataBasePage;

@@ -103,16 +103,16 @@ function Homepage() {
         });
     }, []);
 
-    const handleFilterBooks = (dataValue) => {
+    const handleFilterBooks = (_, dataValue) => {
         switch (dataValue) {
             case "ownership":
-                setFilteredBooks(books.filterBooks({ ownership: true }));
+                setFilteredBooks(filterBooks({ ownership: true }));
                 console.log(filteredBooks);
                 break;
             case "read":
             case "unread":
             case "abandoned":
-                setFilteredBooks(books.filterBooks({ status: dataValue }));
+                setFilteredBooks(filterBooks({ status: dataValue }));
                 break;
             case "registered":
                 setFilteredBooks(books);
@@ -188,6 +188,7 @@ function Homepage() {
                         <Dropdown
                             optionsValues={dropdownOptions}
                             handleSelect={handleFilterBooks}
+                            name="filterOption"
                         />
 
                         <LinkButton
