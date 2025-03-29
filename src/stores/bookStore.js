@@ -1,7 +1,7 @@
 import { create } from "zustand";
+import { useEffect } from "react";
 
 import { getServerPaths } from "../utils/constants/paths";
-import { useEffect } from "react";
 
 const SERVER_PATHS = getServerPaths();
 
@@ -32,17 +32,7 @@ const useBookStore = create((set, get) => ({
     error: null,
 
     /**
-     * @typedef {Object} Book
-     * @property {string} title - The book's title.
-     * @property {string} author - The name of the book's author.
-     * @property {string} genre - The book's genre.
-     * @property {string | number} rating - the book's rating. Possible values:
-     * - a number between 0 and 10.
-     * - the string 'abandoned', if the user has abandoned the book.
-     * - an empty string, if the user has not read the book.
-     * @property {boolean} ownership - Indicates if the user owns the book (`true`) or not (`false`).
-     * @property {string} startDate - The start date of the reading.
-     * @property {string} endDate - The end date of the reading.
+     * @typedef {import("../utils/propTypes/propTypes").bookShapeType} bookShapeType
      */
 
     /**
@@ -75,7 +65,7 @@ const useBookStore = create((set, get) => ({
      * Adds a book to the local store and to the backend server
      *
      * @async
-     * @param {Book} newBook - The book to the added to the database.
+     * @param {bookShapeType} newBook - The book to the added to the database.
      *
      * @throws {Error} - Throws an error if the HTTP request fails.
      */
@@ -142,7 +132,7 @@ const useBookStore = create((set, get) => ({
      * Updates a book from the local store and from the backend server.
      *
      * @async
-     * @param {Book} book - The updated book.
+     * @param {bookShapeType} book - The updated book.
      *
      * @throws {Error} - Throws an error if the HTTP request fails.
      */
@@ -185,7 +175,7 @@ const useBookStore = create((set, get) => ({
      * - **title**.
      * @param {string} text - The text to be search across the database.
      *
-     * @returns {Array<Book>} Returns an array with the books.
+     * @returns {Array<bookShapeType>} Returns an array with the books.
      *
      * @throws {Error} Throws an error if the query type provided is invalid.
      */
@@ -233,7 +223,7 @@ const useBookStore = create((set, get) => ({
      * const filteredBooks = filterBooks(criterias);
      * console.log(filteredBooks);
      *
-     * @returns {Array<Book>} Returns an array with the books. If no filters are passed, all books
+     * @returns {Array<bookShapeType>} Returns an array with the books. If no filters are passed, all books
      * are returned.
      *
      * @throws {Error} Throws an error if the filter criteria isn't valid.

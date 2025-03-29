@@ -1,3 +1,5 @@
+/* This object maps the genre's label with the corresponding background
+color. The keys are the label and the values are the background color */
 export const genreColorsMap = {
     "Romance": "#FF5733",
     "Drama": "#FF5733",

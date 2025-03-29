@@ -3,7 +3,8 @@
 	align-items: center;
 	gap: 4px;
 	
-	width: 150px;
+	width: fit-content;
+	max-width: 150px;
 
 	border-radius: 50px;
 	padding: .2rem .4rem;

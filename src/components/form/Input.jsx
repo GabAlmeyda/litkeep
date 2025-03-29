@@ -16,6 +16,36 @@ const validTypes = [
     "datetime-local",
 ];
 
+/**
+ * Renders a custom controlled input field.
+ * 
+ * @param {object} props - The properties of the component.
+ * @param {string} props.type - The input type. This component accepts the following types:
+ * - "text", "password", "email", "url", "number", "tel", "search", 
+ * - "date", "month", "week", "time", "datetime-local".
+ * If no type is provided, the default type is "text".
+ * @param {string} [props.placeholder="digite aqui"] - The placeholder text inside of the input. 
+ * If no placeholder is provided, the default placeholder is "digite aqui".
+ * @param {Function} props.handleChange - The function to control the input changes, 
+ * passed to the 'onChange' attribute'. It receives a event as an argument.
+ * @param {string} props.name - The name attribute of the input, to manage forms data.
+ * @param {any} props.value - The value of the input field, controlled by the parent 
+ * component. This should match the type of input.
+ * 
+ * @example
+ * const [inputValue, setInputValue] = useState("");
+ * const handleInputChange = (e) => setInputChange(e.target.value);
+ * 
+ * <Input 
+ *   type="email" 
+ *   placeholder="Digite seu email"
+ *   handleChange={handleInputChange} 
+ *   name="email" 
+ *   value={inputValue}
+ * />
+ *  
+ * @returns {JSX.Element} A JSX element representing the input field.
+ */
 function Input({
     type = "text",
     placeholder = "Digite aqui",
@@ -44,24 +74,11 @@ function Input({
 }
 
 Input.propTypes = {
-    type: PropTypes.oneOf([
-        "text",
-        "password",
-        "email",
-        "url",
-        "number",
-        "tel",
-        "search",
-        "date",
-        "month",
-        "week",
-        "time",
-        "datetime-local",
-    ]).isRequired,
-    placeholder: PropTypes.string.isRequired,
+    type: PropTypes.oneOf(validTypes),
+    placeholder: PropTypes.string,
     handleChange: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
+    value: PropTypes.any.isRequired,
 };
 
 export default Input;

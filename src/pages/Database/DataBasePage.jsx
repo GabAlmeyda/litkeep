@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 
+import useBookStore, { useInitializeBooks } from '../../stores/bookStore';
+
 import styles from "./DataBasePage.module.css";
 
 import Header from "../../components/layout/Header";
-
 import BookForm from "./BookForm";
+import BookTable from './BookTable';
 
 const metaTags = [
     {
@@ -15,7 +17,20 @@ const metaTags = [
     { name: "robots", content: "noindex, nofollow" },
 ];
 
-function DataBasePage() {
+const headingsMap = {
+    title: "Título",
+    author: "Autor",
+    rating: "Pontuação",
+    genre: "Gênero",
+    ownership: "Posse do livro",
+    startDate: "Início da leitura",
+    endDate: "Fim da leitura",
+};
+
+function DataBasePage () {
+    const { books } = useBookStore((state) => state);
+    useInitializeBooks();
+
     // Updates the <meta> tags
     useEffect(() => {
         document.title = "LitKeep | Banco de Dados";
@@ -37,12 +52,21 @@ function DataBasePage() {
         <>
             <Header />
 
-            <section className={styles.form}>
-
-                <hr />
-
-                <BookForm />
-            </section>
+            <main>
+                <section className={styles.form}>
+    
+                    <hr />
+    
+                    <BookForm />
+    
+                    <hr />
+    
+                    <BookTable
+                        headings={headingsMap }
+                        bookArray={books}
+                    />
+                </section>
+            </main>
         </>
     );
 }
