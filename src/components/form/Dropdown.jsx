@@ -42,12 +42,7 @@ import styles from "./Dropdown.module.css";
  */
 function Dropdown({ optionsValues, handleSelect, name, value }) {
     const [isOpen, setIsOpen] = useState(false);
-    const [selected, setSelected] = useState(
-        value ||
-            (Array.isArray(optionsValues)
-                ? optionsValues[0]
-                : Object.values(optionsValues)[0])
-    );
+    const [selected, setSelected] = useState(value);
     const dropdownRef = useRef(null);
 
     // handles the click outside to close de dropdown
@@ -63,6 +58,8 @@ function Dropdown({ optionsValues, handleSelect, name, value }) {
             document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
+    // verifies if the provided 'optionsValues' is a valid type (array or object),
+    // then changes the first selected option to the first avaliabe option
     const isValidOptions =
         Array.isArray(optionsValues) ||
         (typeof optionsValues === "object" && optionsValues !== null);
@@ -71,21 +68,27 @@ function Dropdown({ optionsValues, handleSelect, name, value }) {
             `'${typeof optionsValues}' is a invalid type for the 'optionsValues' parameter. It should be an array or a object.`
         );
         return null;
+    } else {
+        !selected && setSelected(
+            Array.isArray(optionsValues)
+                ? optionsValues[0]
+                : Object.values(optionsValues)[0]
+        );
     }
 
-    const options = Array.isArray(optionsValues)
+    const dataValues = Array.isArray(optionsValues)
         ? optionsValues
         : Object.keys(optionsValues);
-    const dataValues = Array.isArray(optionsValues)
+    const options = Array.isArray(optionsValues)
         ? optionsValues
         : Object.values(optionsValues);
 
-    const handleClick = (option) => {
+    const handleClick = (option, index) => {
         setSelected(option);
         setIsOpen(false);
 
-        const selectedOption = dataValues[options.indexOf(option)];
-        handleSelect(name, selectedOption);
+        const selectedDataValue = dataValues[index];
+        handleSelect(name, selectedDataValue);
     };
 
     const handleKeyDown = (e) => {
@@ -139,7 +142,7 @@ function Dropdown({ optionsValues, handleSelect, name, value }) {
             >
                 {options.map((option, index) => (
                     <li
-                        onClick={() => handleClick(option)}
+                        onClick={() => handleClick(option, index)}
                         onKeyDown={handleKeyDown}
                         data-value={dataValues[index]}
                         id={`dropdown-option-${option}`}

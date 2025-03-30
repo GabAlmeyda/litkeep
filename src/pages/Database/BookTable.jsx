@@ -3,11 +3,14 @@ import { bookShapeType } from "../../utils/propTypes/propTypes";
 
 import styles from "./BookTable.module.css";
 
+const regex = /^(\d+(\.\d+)?)(px|rem|em|%|vw|vh)$/;
+
 function BookTable({ headings, bookArray, dataWidth = "100px" }) {
-    if (!/^\d+px$/.test(dataWidth)) {
+    if (!regex.test(dataWidth)) {
         console.warn(
             `Invalid measure '${dataWidth}' received in 'BookTable' component. defaulting to '100px'.`
         );
+        dataWidth = "100px";
     }
 
     const headingTitles = Object.values(headings);

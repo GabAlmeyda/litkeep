@@ -1,15 +1,20 @@
 .tableContainer {
+    overflow: auto;
+
     width: calc(100% + .5rem);
-    max-width: calc(100% + .5rem);
-    overflow-x: auto;
+    height: 20rem;
 
     padding-bottom: .5rem;
+    border-radius: 10px;
 }
 
 .table {
+    position: relative;
+    overflow: hidden;
     table-layout: fixed;
 
     border-radius: 10px;
+    border-spacing: 0;
     border-collapse: collapse;
 
     background-color: var(--alt-background-color);
@@ -28,7 +33,13 @@
     white-space: nowrap;
 }
 
+.table__headRow {
+    position: sticky;
+    top: 0;
+}
+
 .table__headRow th {
+    text-align: left;
     border-right: 1px solid var(--alt-background-color);
 
     background-color: var(--contrast-color);

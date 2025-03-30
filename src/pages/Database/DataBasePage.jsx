@@ -1,12 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-import useBookStore, { useInitializeBooks } from '../../stores/bookStore';
+import useBookStore, { useInitializeBooks } from "../../stores/bookStore";
+import { genreColorsMap } from "../../utils/constants/books";
 
 import styles from "./DataBasePage.module.css";
 
 import Header from "../../components/layout/Header";
+
 import BookForm from "./BookForm";
-import BookTable from './BookTable';
+import BookTable from "./BookTable";
 
 const metaTags = [
     {
@@ -26,9 +28,21 @@ const headingsMap = {
     startDate: "Início da leitura",
     endDate: "Fim da leitura",
 };
+const genreOptions = Object.keys(genreColorsMap);
 
-function DataBasePage () {
+function DataBasePage() {
     const { books } = useBookStore((state) => state);
+    const [bookData, setBookData] = useState({
+        title: "",
+        author: "",
+        genre: genreOptions[0],
+        rating: "",
+        status: "",
+        ownership: "",
+        startDate: "",
+        endDate: "",
+    });
+
     useInitializeBooks();
 
     // Updates the <meta> tags
@@ -48,23 +62,27 @@ function DataBasePage () {
         });
     }, []);
 
+    const handleChange = (name, value) => {
+        setBookData((prevData) => ({ ...prevData, [name]: value }));
+    };
+
     return (
         <>
             <Header />
 
             <main>
                 <section className={styles.form}>
-    
                     <hr />
-    
-                    <BookForm />
-    
-                    <hr />
-    
-                    <BookTable
-                        headings={headingsMap }
-                        bookArray={books}
+
+                    <BookForm
+                        bookData={bookData}
+                        dropdownOptions={genreOptions}
+                        handleChange={handleChange}
                     />
+
+                    <hr />
+
+                    <BookTable headings={headingsMap} bookArray={books} />
                 </section>
             </main>
         </>

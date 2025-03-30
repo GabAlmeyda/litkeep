@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 import { getWebsitePaths } from "../../utils/constants/paths";
 import useWindowSize from "../../utils/hooks/useWindowSize";
-
 import useBookStore, { useInitializeBooks } from "../../stores/bookStore";
 
 import styles from "./Homepage.module.css";
@@ -103,6 +102,17 @@ function Homepage() {
         });
     }, []);
 
+    // Handle error: early return to stop rendering the rest of the component
+    if (fetchStatus === "error") {
+        return (
+            <>
+                <Header />
+
+                <ServerErrorScreen />
+            </>
+        );
+    }
+
     const handleFilterBooks = (_, dataValue) => {
         switch (dataValue) {
             case "ownership":
@@ -123,17 +133,6 @@ function Homepage() {
                 );
         }
     };
-
-    // Handle error: early return to stop rendering the rest of the component
-    if (fetchStatus === "error") {
-        return (
-            <>
-                <Header />
-
-                <ServerErrorScreen />
-            </>
-        );
-    }
 
     return (
         <>
