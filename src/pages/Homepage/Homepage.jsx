@@ -113,23 +113,22 @@ function Homepage() {
         );
     }
 
-    const handleFilterBooks = (_, dataValue) => {
-        switch (dataValue) {
+    const handleFilterBooks = (_, filterOption) => {
+        switch (filterOption) {
             case "ownership":
                 setFilteredBooks(filterBooks({ ownership: true }));
-                console.log(filteredBooks);
                 break;
             case "read":
             case "unread":
             case "abandoned":
-                setFilteredBooks(filterBooks({ status: dataValue }));
+                setFilteredBooks(filterBooks({ status: filterOption }));
                 break;
             case "registered":
                 setFilteredBooks(books);
                 break;
             default:
                 console.error(
-                    `Invalid filter criteria '${dataValue}' received in 'HomePage'. Expect one of "read", "unread", "abandoned", "registered" or "ownership".`
+                    `Invalid filter criteria '${filterOption}' received in 'HomePage'. Expect one of "read", "unread", "abandoned", "registered" or "ownership".`
                 );
         }
     };

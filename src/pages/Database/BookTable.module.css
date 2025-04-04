@@ -1,11 +1,10 @@
 .tableContainer {
+    clip-path: inset(0px round 10px);
     overflow: auto;
 
     width: calc(100% + .5rem);
     height: 20rem;
 
-    padding-bottom: .5rem;
-    border-radius: 10px;
 }
 
 .table {
@@ -13,15 +12,19 @@
     overflow: hidden;
     table-layout: fixed;
 
-    border-radius: 10px;
-    border-spacing: 0;
     border-collapse: collapse;
+    border-radius: 10px;
 
     background-color: var(--alt-background-color);
 }
 
-.table__headRow th,
-.table__bodyRow td {
+.table__head {
+    position: sticky;
+    top: 0;
+}
+
+.table__head th,
+.table__body td {
     width: 180px;
     min-width: 180px;
     max-width: 180px;
@@ -33,12 +36,7 @@
     white-space: nowrap;
 }
 
-.table__headRow {
-    position: sticky;
-    top: 0;
-}
-
-.table__headRow th {
+.table__head th {
     text-align: left;
     border-right: 1px solid var(--alt-background-color);
 
@@ -46,19 +44,28 @@
 
     color: var(--background-color);
 }
-.table__headRow th:last-child {
+.table__head th:last-child {
     border-right: none;
     border-top-right-radius: 10px;
 }
-.table__headRow th:first-child {
+.table__head th:first-child {
     border-top-left-radius: 10px;
 }
 
-.table__bodyRow {
+.table__body tr {
     cursor: pointer;
 
     border-bottom: 1px solid var(--contrast-color);
 }
-.table__bodyRow:last-child {
+.table__body tr:nth-last-child(2) {
     border-bottom: none;
+}
+
+.table__emptyRow {
+    height: 100%;
+
+    border-bottom: none !important;
+    cursor: auto !important;
+
+    background-color: var(--alt-background-color);
 }

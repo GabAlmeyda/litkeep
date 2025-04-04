@@ -25,8 +25,8 @@ function BookTable({ headings, bookArray, dataWidth = "100px" }) {
     return (
         <div className={styles.tableContainer}>
             <table className={styles.table}>
-                <thead>
-                    <tr className={styles.table__headRow}>
+                <thead className={styles.table__head}>
+                    <tr>
                         {headingTitles.map((heading, index) => (
                             <th key={`heading-${keyValues[index]}`}>
                                 {heading}
@@ -35,7 +35,7 @@ function BookTable({ headings, bookArray, dataWidth = "100px" }) {
                     </tr>
                 </thead>
 
-                <tbody>
+                <tbody className={styles.table__body}>
                     {bookArray.map((book) => (
                         <tr
                             className={styles.table__bodyRow}
@@ -51,6 +51,10 @@ function BookTable({ headings, bookArray, dataWidth = "100px" }) {
                             ))}
                         </tr>
                     ))}
+
+                    <tr className={styles.table__emptyRow} aria-hidden="true">
+                        <td colSpan="100%"></td>
+                    </tr>
                 </tbody>
             </table>
         </div>

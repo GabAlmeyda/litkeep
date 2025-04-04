@@ -9,6 +9,8 @@ import Header from "../../components/layout/Header";
 
 import BookForm from "./BookForm";
 import BookTable from "./BookTable";
+import Dropdown from "../../components/form/Dropdown";
+import ServerErrorScreen from "../../components/layout/ServerErrorScreen";
 
 const metaTags = [
     {
@@ -30,8 +32,17 @@ const headingsMap = {
 };
 const genreOptions = Object.keys(genreColorsMap);
 
+const dropdownOptions = {
+    registered: "Todos registrados",
+    read: "Livros lidos",
+    unread: "Livros não lidos",
+    abandoned: "Livros abandonados",
+    ownership: "Livros em posse",
+};
+
 function DataBasePage() {
-    const { books } = useBookStore((state) => state);
+    const { books, fetchStatus, filterBooks } = useBookStore((state) => state);
+    const [filteredBooks, setFilteredBooks] = useState(books);
     const [bookData, setBookData] = useState({
         title: "",
         author: "",
@@ -62,8 +73,39 @@ function DataBasePage() {
         });
     }, []);
 
+    // Handle error: early return to stop rendering the rest of the component
+    if (fetchStatus === "error") {
+        return (
+            <>
+                <Header />
+
+                <ServerErrorScreen />
+            </>
+        );
+    }
+
     const handleChange = (name, value) => {
         setBookData((prevData) => ({ ...prevData, [name]: value }));
+    };
+
+    const handleFilterBooks = (_, filterOption) => {
+        switch (filterOption) {
+            case "ownership":
+                setFilteredBooks(filterBooks({ ownership: true }));
+                break;
+            case "read":
+            case "unread":
+            case "abandoned":
+                setFilteredBooks(filterBooks({ status: filterOption }));
+                break;
+            case "registered":
+                setFilteredBooks(books);
+                break;
+            default:
+                console.error(
+                    `Invalid filter criteria '${filterOption}' received in 'DataBasePage'. Expect one of "read", "unread", "abandoned", "registered" or "ownership".`
+                );
+        }
     };
 
     return (
@@ -82,7 +124,16 @@ function DataBasePage() {
 
                     <hr />
 
-                    <BookTable headings={headingsMap} bookArray={books} />
+                    <Dropdown
+                        optionsValues={dropdownOptions}
+                        handleSelect={handleFilterBooks}
+                        name="filterOption"
+                    />
+
+                    <BookTable
+                        headings={headingsMap}
+                        bookArray={filteredBooks}
+                    />
                 </section>
             </main>
         </>

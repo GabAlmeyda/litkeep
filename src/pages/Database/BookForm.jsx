@@ -8,7 +8,7 @@ import Input from "../../components/form/Input";
 import TextArea from "../../components/form/TextArea";
 import Dropdown from "../../components/form/Dropdown";
 
-function BookForm({bookData, dropdownOptions, handleChange}) {
+function BookForm({ bookData, dropdownOptions, handleChange, handleSubmit }) {
     const handleFieldChange = (name, value) => {
         handleChange(name, value);
     };
@@ -95,6 +95,7 @@ BookForm.propTypes = {
     dropdownOptions: PropTypes.oneOf([PropTypes.array, PropTypes.object])
         .isRequired,
     handleChange: PropTypes.func.isRequired,
+    handleSubmit: PropTypes.func.isRequired,
 };
 
 export default BookForm;

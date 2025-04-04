@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 
 import styles from "./Dropdown.module.css";
 
+import ErrorFallback from "../ui/ErrorFallback";
+
 /**
  * Renders a custom dropdown list with the provided options. This component calls a callback
  * function when clicking in one option, passing the selected option's value as the argument.
@@ -14,7 +16,7 @@ import styles from "./Dropdown.module.css";
  * @param {Function} props.handleSelect - The callback function to handle the selection of one option.
  * This function is called passing the name and the data-value as the argument.
  * @param {string} props.name - The name attribute for the input, to manage forms data.
- * @param {String} props.value - The value of the selected option. If not passed (or a falsy value), the
+ * @param {String} [props.value] - The value of the selected option. If not passed (or a falsy value), the
  * first option is setted by default.
  *
  * @example
@@ -65,15 +67,17 @@ function Dropdown({ optionsValues, handleSelect, name, value }) {
         (typeof optionsValues === "object" && optionsValues !== null);
     if (!isValidOptions) {
         console.error(
-            `'${typeof optionsValues}' is a invalid type for the 'optionsValues' parameter. It should be an array or a object.`
+            `Invalid type '${typeof optionsValues}' received in 'Dropdown' component for the parameter 'optionsValues'. It should be an array or a object.`
         );
-        return null;
+
+        return <ErrorFallback componentName="Dropdown" />;
     } else {
-        !selected && setSelected(
-            Array.isArray(optionsValues)
-                ? optionsValues[0]
-                : Object.values(optionsValues)[0]
-        );
+        !selected &&
+            setSelected(
+                Array.isArray(optionsValues)
+                    ? optionsValues[0]
+                    : Object.values(optionsValues)[0]
+            );
     }
 
     const dataValues = Array.isArray(optionsValues)

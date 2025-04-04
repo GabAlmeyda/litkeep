@@ -1,0 +1,26 @@
+.error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: clamp(250px, 80%, 350px);
+
+    border-radius: 10px;
+    padding: .4rem .6rem;
+    margin: .5rem;
+
+    background-color: rgb(241, 42, 42);
+}
+
+.error__icon,
+.error__icon > * {
+    margin-right: 5px;
+
+    color: white;
+    font-size: 2rem;
+}
+
+.error__message {
+    color: white;
+    font-size: .9rem;
+}
