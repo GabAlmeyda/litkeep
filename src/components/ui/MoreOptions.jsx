@@ -16,7 +16,7 @@ import { CiCircleMore } from "react-icons/ci";
  * @param {object.<string, string>} props.options - An object where each key represents an
  * action (e.g. 'edit', 'remove'), and the corresponding value is the text displayed for that
  * option.
- * @param {function} props.handleSelect - The function to handle the option
+ * @param {function} props.onSelect - The function to handle the option
  * selection, receiving the key (data-action) of the selected option was an argument.
  *
  * @example
@@ -31,13 +31,13 @@ import { CiCircleMore } from "react-icons/ci";
  *
  * <MoreOptions
  *     options={options}
- *     handleSelect={handleSelect}
+ *     onSelect={handleSelect}
  * />
  *
  * @returns {JSX.Element} A JSX element representing the more options dropdown
  * component.
  */
-function MoreOptions({ options, handleSelect }) {
+function MoreOptions({ options, onSelect }) {
     const [isOpen, setIsOpen] = useState(false);
     const menuRef = useRef(null);
 
@@ -62,7 +62,7 @@ function MoreOptions({ options, handleSelect }) {
             (e.key === "Enter" || e.key === " ")
         ) {
             e.preventDefault();
-            handleSelect(e.currentTarget.dataset.action);
+            onSelect(e.currentTarget.dataset.action);
         }
     };
 
@@ -97,7 +97,10 @@ function MoreOptions({ options, handleSelect }) {
                 {Object.entries(options).map(([key, label]) => (
                     <li
                         className={styles.dropdown__item}
-                        onClick={() => handleSelect(key)}
+                        onClick={() => {
+                            setIsOpen(false);
+                            onSelect(key);
+                        }}
                         onKeyDown={handleKeyDown}
                         data-action={key}
                         key={key}
@@ -114,7 +117,7 @@ function MoreOptions({ options, handleSelect }) {
 
 MoreOptions.propTypes = {
     options: PropTypes.objectOf(PropTypes.string).isRequired,
-    handleSelect: PropTypes.func.isRequired,
+    onSelect: PropTypes.func.isRequired,
 };
 
 export default MoreOptions;

@@ -185,7 +185,7 @@ function Homepage() {
                     <div className={styles.bookList__btns}>
                         <Dropdown
                             optionsValues={dropdownOptions}
-                            handleSelect={handleFilterBooks}
+                            onSelect={handleFilterBooks}
                             name="filterOption"
                         />
 

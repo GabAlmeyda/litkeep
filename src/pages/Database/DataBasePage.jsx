@@ -88,6 +88,10 @@ function DataBasePage() {
         setBookData((prevData) => ({ ...prevData, [name]: value }));
     };
 
+    const handleAction = (action) => {
+        console.log(action);
+    };
+
     const handleFilterBooks = (_, filterOption) => {
         switch (filterOption) {
             case "ownership":
@@ -120,13 +124,14 @@ function DataBasePage() {
                         bookData={bookData}
                         dropdownOptions={genreOptions}
                         handleChange={handleChange}
+                        onAction={handleAction}
                     />
 
                     <hr />
 
                     <Dropdown
                         optionsValues={dropdownOptions}
-                        handleSelect={handleFilterBooks}
+                        onSelect={handleFilterBooks}
                         name="filterOption"
                     />
 

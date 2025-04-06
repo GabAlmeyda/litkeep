@@ -76,7 +76,7 @@ function BookList({ visibleBooks, isFetchFinished, isMobile }) {
                                 <div className={styles.book__btnIconContainer}>
                                     <MoreOptions
                                         options={moreOptionsMap}
-                                        handleSelect={(action) =>
+                                        onSelect={(action) =>
                                             handleMoreOptionSelect(
                                                 action,
                                                 book.id

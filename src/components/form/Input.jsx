@@ -18,40 +18,42 @@ const validTypes = [
 
 /**
  * Renders a custom controlled input field.
- * 
+ *
  * @param {object} props - The properties of the component.
  * @param {string} props.type - The input type. This component accepts the following types:
- * - "text", "password", "email", "url", "number", "tel", "search", 
+ * - "text", "password", "email", "url", "number", "tel", "search",
  * - "date", "month", "week", "time", "datetime-local".
  * If no type is provided, the default type is "text".
- * @param {string} [props.placeholder="digite aqui"] - The placeholder text inside of the input. 
+ * @param {string} [props.placeholder="digite aqui"] - The placeholder text inside of the input.
  * If no placeholder is provided, the default placeholder is "digite aqui".
- * @param {Function} props.handleChange - The function to control the input changes, 
+ * @param {Function} props.onChange - The function to control the input changes,
  * passed to the 'onChange' attribute'. It receives a event as an argument.
  * @param {string} props.name - The name attribute of the input, to manage forms data.
- * @param {any} props.value - The value of the input field, controlled by the parent 
+ * @param {any} props.value - The value of the input field, controlled by the parent
  * component. This should match the type of input.
- * 
+ * @param {string} [props.id] - The id attribute for the input.
+ *
  * @example
  * const [inputValue, setInputValue] = useState("");
  * const handleInputChange = (e) => setInputChange(e.target.value);
- * 
- * <Input 
- *   type="email" 
+ *
+ * <Input
+ *   type="email"
  *   placeholder="Digite seu email"
- *   handleChange={handleInputChange} 
- *   name="email" 
+ *   onChange={handleInputChange}
+ *   name="email"
  *   value={inputValue}
  * />
- *  
+ *
  * @returns {JSX.Element} A JSX element representing the input field.
  */
 function Input({
     type = "text",
     placeholder = "Digite aqui",
-    handleChange,
+    onChange,
     name,
     value,
+    id,
 }) {
     if (!validTypes.includes(type)) {
         console.warn(
@@ -64,10 +66,11 @@ function Input({
         <input
             type={type}
             placeholder={placeholder}
-            onChange={handleChange}
+            onChange={onChange}
             className={styles.input}
             name={name}
             value={value}
+            id={id}
             autoComplete="off"
         />
     );
@@ -76,9 +79,10 @@ function Input({
 Input.propTypes = {
     type: PropTypes.oneOf(validTypes),
     placeholder: PropTypes.string,
-    handleChange: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
     value: PropTypes.any.isRequired,
+    id: PropTypes.string,
 };
 
 export default Input;

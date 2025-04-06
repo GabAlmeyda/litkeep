@@ -13,11 +13,12 @@ import ErrorFallback from "../ui/ErrorFallback";
  * @param {object.<string, string>} props.optionsValues - An object where the keys representing the
  * data values and the values are the visible text. If an array is passed, the data values are equal
  * to the displayed options.
- * @param {Function} props.handleSelect - The callback function to handle the selection of one option.
+ * @param {Function} props.onSelect - The callback function to handle the selection of one option.
  * This function is called passing the name and the data-value as the argument.
  * @param {string} props.name - The name attribute for the input, to manage forms data.
  * @param {String} [props.value] - The value of the selected option. If not passed (or a falsy value), the
  * first option is setted by default.
+ * @param {string} [props.id] - The id attribute for the dropdown element.
  *
  * @example
  * const [selectedLesson, setSelectedLesson] = useState("");
@@ -35,14 +36,14 @@ import ErrorFallback from "../ui/ErrorFallback";
  *
  * <Dropdown
  *     optionsValues={dropdownOptions}
- *     handleSelect={handleSelectOption}
+ *     onSelect={handleSelectOption}
  *     name="lesson"
  *     value={selectedLesson}
  * />
  *
  * @returns {JSX.Element} A JSX element representing the dropdown component.
  */
-function Dropdown({ optionsValues, handleSelect, name, value }) {
+function Dropdown({ optionsValues, onSelect, name, value, id }) {
     const [isOpen, setIsOpen] = useState(false);
     const [selected, setSelected] = useState(value);
     const dropdownRef = useRef(null);
@@ -92,7 +93,7 @@ function Dropdown({ optionsValues, handleSelect, name, value }) {
         setIsOpen(false);
 
         const selectedDataValue = dataValues[index];
-        handleSelect(name, selectedDataValue);
+        onSelect(name, selectedDataValue);
     };
 
     const handleKeyDown = (e) => {
@@ -113,6 +114,7 @@ function Dropdown({ optionsValues, handleSelect, name, value }) {
             className={styles.dropdown}
             style={{ borderRadius: isOpen ? "5px 5px 0 0" : "5px" }}
             ref={dropdownRef}
+            id={id}
             onKeyDown={handleKeyDown}
         >
             <input type="hidden" name={name} value={selected} />
@@ -167,9 +169,10 @@ function Dropdown({ optionsValues, handleSelect, name, value }) {
 Dropdown.propTypes = {
     optionsValues: PropTypes.oneOf([PropTypes.array, PropTypes.object])
         .isRequired,
-    handleSelect: PropTypes.func.isRequired,
+    onSelect: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
     value: PropTypes.string,
+    id: PropTypes.string,
 };
 
 export default Dropdown;

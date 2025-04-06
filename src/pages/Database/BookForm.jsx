@@ -4,33 +4,90 @@ import { bookShapeType } from "../../utils/propTypes/propTypes";
 
 import styles from "./BookForm.module.css";
 
+import { IoSearch } from "react-icons/io5";
+
 import Input from "../../components/form/Input";
 import TextArea from "../../components/form/TextArea";
 import Dropdown from "../../components/form/Dropdown";
+import Button from "../../components/ui/Button";
+import MoreOptions from "../../components/ui/MoreOptions";
 
-function BookForm({ bookData, dropdownOptions, handleChange, handleSubmit }) {
+const moreOptionsMap = {
+    clear: "Limpar tudo",
+    delete: "Remover livro",
+};
+
+/**
+ * Renders a form element to fill the book data. All the inputs and buttons
+ * utilities are described bellow:
+ *
+ * ### Inputs fields:
+ * - Book's title (`text`).
+ * - Book's author (`text`).
+ * - Book's genre (the 'Dropdown' component, returning a `<dropdown>` element).
+ * - Book's start reading date (`text`).
+ * - Book's end reading date (`text`).
+ * - Book's rating (`float` | `"abandonado"` | empty string `""`).
+ * - User onwershipes of the book (`"sim"`, `"não"`).
+ * - Book's description (The 'Textarea' component, returning a `<textarea>` element).
+ *
+ * ### Buttons:
+ * - **Adicionar**: Adds a new book, triggering the `"add"` action.
+ * - **Atualizar**: Updates a registered book, triggering the `"update"` action.
+ * - **Remover livro**: Removes a registered book, trigering the `"remove"` action.
+ * - **Pesquisar**: Searches a book by the 'book's title' input, triggering the `"search"`
+ * action.
+ * - **Limpar tudo**: Clears all the input fields, triggering the `"clear"` action.
+ *
+ * ### Props:
+ * @param {bookShapeType} bookData - The book object.
+ * @param {object | Array} dropdownOptions - The options for the 'Dropdown' component.
+ * @param {Function} onChange - The function to control the input changes. Receives the 
+ * name and value of the input as the arguments.
+ * @param {Function} onAction - The callback function to handle the buton click. Receives
+ * the action of the button, all of them listed bellow:
+ * - `"add"`.
+ * - `"update"`.
+ * - `"remove"`.
+ * - `"search"`.
+ * - `"clear"`.
+ *
+ * @returns {JSX.Element} A JSX element representing a form to fill the book data.
+ */
+function BookForm({ bookData, dropdownOptions, onChange, onAction }) {
     const handleFieldChange = (name, value) => {
-        handleChange(name, value);
+        onChange(name, value);
     };
 
     return (
         <form
             className={styles.form}
             onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
+            onSubmit={(e) => e.preventDefault()}
         >
-            <Input
-                type="text"
-                placeholder="Nome do livro"
-                handleChange={(e) =>
-                    handleFieldChange(e.target.name, e.target.value)
-                }
-                name="title"
-                value={bookData.title}
-            />
+            <label htmlFor="bookTitle" className={styles.form__titleInput}>
+                <Input
+                    type="text"
+                    placeholder="Nome do livro"
+                    onChange={(e) =>
+                        handleFieldChange(e.target.name, e.target.value)
+                    }
+                    name="title"
+                    value={bookData.title}
+                    id="bookTitle"
+                />
+                <button
+                    aria-label="Pesquisar livro pelo nome"
+                    type="button"
+                    onClick={() => onAction("search")}
+                >
+                    <IoSearch />
+                </button>
+            </label>
             <Input
                 type="text"
                 placeholder="Nome do autor"
-                handleChange={(e) =>
+                onChange={(e) =>
                     handleFieldChange(e.target.name, e.target.value)
                 }
                 name="author"
@@ -38,14 +95,14 @@ function BookForm({ bookData, dropdownOptions, handleChange, handleSubmit }) {
             />
             <Dropdown
                 optionsValues={dropdownOptions}
-                handleSelect={(name, option) => handleFieldChange(name, option)}
+                onSelect={(name, option) => handleFieldChange(name, option)}
                 name="genre"
                 value={bookData.genre}
             />
             <Input
                 type="text"
                 placeholder="Início da leitura"
-                handleChange={(e) =>
+                onChange={(e) =>
                     handleFieldChange(e.target.name, e.target.value)
                 }
                 name="startDate"
@@ -54,7 +111,7 @@ function BookForm({ bookData, dropdownOptions, handleChange, handleSubmit }) {
             <Input
                 type="text"
                 placeholder="Fim da leitura"
-                handleChange={(e) =>
+                onChange={(e) =>
                     handleFieldChange(e.target.name, e.target.value)
                 }
                 name="endDate"
@@ -63,7 +120,7 @@ function BookForm({ bookData, dropdownOptions, handleChange, handleSubmit }) {
             <Input
                 type="text"
                 placeholder="Nota"
-                handleChange={(e) =>
+                onChange={(e) =>
                     handleFieldChange(e.target.name, e.target.value)
                 }
                 name="rating"
@@ -72,7 +129,7 @@ function BookForm({ bookData, dropdownOptions, handleChange, handleSubmit }) {
             <Input
                 type="text"
                 placeholder="Posse do livro"
-                handleChange={(e) =>
+                onChange={(e) =>
                     handleFieldChange(e.target.name, e.target.value)
                 }
                 name="ownership"
@@ -80,12 +137,39 @@ function BookForm({ bookData, dropdownOptions, handleChange, handleSubmit }) {
             />
 
             <TextArea
-                handleChange={(e) =>
+                onChange={(e) =>
                     handleFieldChange(e.target.name, e.target.value)
                 }
                 name="description"
                 value={bookData.description}
             />
+
+            <div className={styles.form__buttons}>
+                <span className={styles.buttons__left}>
+                    <Button
+                        bgColor="#2bbad4"
+                        fontColor="#fff"
+                        onClick={() => onAction("add")}
+                    >
+                        Adicionar
+                    </Button>
+
+                    <Button
+                        bgColor="#350a7b"
+                        fontColor="#fff"
+                        onClick={() => onAction("update")}
+                    >
+                        Atualizar
+                    </Button>
+                </span>
+
+                <span className={styles.buttons__right}>
+                    <MoreOptions
+                        options={moreOptionsMap}
+                        onSelect={(dataAction) => onAction(dataAction)}
+                    />
+                </span>
+            </div>
         </form>
     );
 }
@@ -94,8 +178,8 @@ BookForm.propTypes = {
     bookData: PropTypes.shape(bookShapeType).isRequired,
     dropdownOptions: PropTypes.oneOf([PropTypes.array, PropTypes.object])
         .isRequired,
-    handleChange: PropTypes.func.isRequired,
-    handleSubmit: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onAction: PropTypes.func.isRequired,
 };
 
 export default BookForm;
