@@ -12,6 +12,60 @@ import { IoIosCloseCircleOutline } from "react-icons/io";
 import LinkButton from "../../components/ui/LinkButton.jsx";
 import Header from "../../components/layout/Header.jsx";
 
+const featureCardsInfo = [
+    {
+        desc: "Adicione seus melhores livros ao seu catálogo pessoal",
+        icon: <IoIosAddCircleOutline />,
+        text: "Adicione qualquer livro",
+        class: "featureAdd",
+    },
+    {
+        desc: "Remova a qualquer momento o que precisar com apenas um clique",
+        icon: <IoIosCloseCircleOutline />,
+        text: "Remova o que precisar",
+        class: "featureRemove",
+    },
+    {
+        desc: "Altere qualquer informação que você tenha digitado errado",
+        icon: <MdOutlineChangeCircle />,
+        text: "Altere o que for necessário",
+        class: "featureUpdate",
+    },
+];
+
+const searchCardsInfo = [
+    {
+        text: "Ordem Alfabética",
+        class: "alfaList",
+    },
+    {
+        text: "Ordem Numérica",
+        class: "numericList",
+    },
+    {
+        text: "Livros Lidos",
+        class: "readList",
+    },
+];
+
+const additionalCardsInfo = [
+    {
+        text: "Livros Abandonados:",
+        number: 2,
+        class: "abandonedBooks",
+    },
+    {
+        text: "Livros Lidos:",
+        number: 42,
+        class: "readBooks",
+    },
+    {
+        text: "Livros Não Lidos:",
+        number: 5,
+        class: "unreadBooks",
+    },
+];
+
 const metaTags = [
     {
         name: "description",
@@ -56,60 +110,6 @@ function LandingPage() {
     }, []);
 
     const websitePaths = getWebsitePaths();
-
-    const featureCardsInfo = [
-        {
-            desc: "Adicione seus melhores livros ao seu catálogo pessoal",
-            icon: <IoIosAddCircleOutline />,
-            text: "Adicione qualquer livro",
-            class: "featureAdd",
-        },
-        {
-            desc: "Remova a qualquer momento o que precisar com apenas um clique",
-            icon: <IoIosCloseCircleOutline />,
-            text: "Remova o que precisar",
-            class: "featureRemove",
-        },
-        {
-            desc: "Altere qualquer informação que você tenha digitado errado",
-            icon: <MdOutlineChangeCircle />,
-            text: "Altere o que for necessário",
-            class: "featureUpdate",
-        },
-    ];
-
-    const searchCardsInfo = [
-        {
-            text: "Ordem Alfabética",
-            class: "alfaList",
-        },
-        {
-            text: "Ordem Numérica",
-            class: "numericList",
-        },
-        {
-            text: "Livros Lidos",
-            class: "readList",
-        },
-    ];
-
-    const additionalCardsInfo = [
-        {
-            text: "Livros Abandonados:",
-            number: 2,
-            class: "abandonedBooks",
-        },
-        {
-            text: "Livros Lidos:",
-            number: 42,
-            class: "readBooks",
-        },
-        {
-            text: "Livros Não Lidos:",
-            number: 5,
-            class: "unreadBooks",
-        },
-    ];
 
     return (
         <>

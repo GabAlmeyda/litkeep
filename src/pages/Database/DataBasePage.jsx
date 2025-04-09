@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 import useBookStore, { useInitializeBooks } from "../../stores/bookStore";
 import { genreColorsMap } from "../../utils/constants/books";
@@ -6,11 +7,12 @@ import { genreColorsMap } from "../../utils/constants/books";
 import styles from "./DataBasePage.module.css";
 
 import Header from "../../components/layout/Header";
+import Dropdown from "../../components/form/Dropdown";
+import ServerErrorScreen from "../../components/layout/ServerErrorScreen";
+import BookToast from "../../components/ui/BookToast";
 
 import BookForm from "./BookForm";
 import BookTable from "./BookTable";
-import Dropdown from "../../components/form/Dropdown";
-import ServerErrorScreen from "../../components/layout/ServerErrorScreen";
 
 const metaTags = [
     {
@@ -41,9 +43,18 @@ const dropdownOptions = {
 };
 
 function DataBasePage() {
-    const { books, fetchStatus, filterBooks } = useBookStore((state) => state);
+    const {
+        books,
+        fetchStatus,
+        addBook,
+        removeBook,
+        UpdateBook,
+        searchBooks,
+        filterBooks,
+    } = useBookStore((state) => state);
     const [filteredBooks, setFilteredBooks] = useState(books);
     const [bookData, setBookData] = useState({
+        id: undefined,
         title: "",
         author: "",
         genre: genreOptions[0],
@@ -55,6 +66,10 @@ function DataBasePage() {
     });
 
     useInitializeBooks();
+
+    useEffect(() => {
+        setFilteredBooks(books);
+    }, [books])
 
     // Updates the <meta> tags
     useEffect(() => {
@@ -88,8 +103,61 @@ function DataBasePage() {
         setBookData((prevData) => ({ ...prevData, [name]: value }));
     };
 
+    // handles the action returned by the 'BookForm' component.
     const handleAction = (action) => {
-        console.log(action);
+        switch (action) {
+            case "add":
+                if (!bookData.title) {
+                    console.warn("The book's title is a required field!");
+                    return;
+                }
+                if (!bookData.ownership) {
+                    console.warn("The book ownership is a required field!");
+                    return;
+                }
+
+                addBook({ ...bookData, id: uuidv4() });
+                break;
+            case "update":
+                if (!bookData.title) {
+                    console.warn("The book's title is a required field!");
+                    return;
+                }
+                if (!bookData.ownership) {
+                    console.warn("The book ownership is a required field!");
+                    return;
+                }
+
+                UpdateBook(bookData);
+                break;
+            case "remove":
+                // Confirmation to remove the book
+                removeBook(bookData.id);
+                break;
+            case "searchByTitle":
+                searchBooks("title", bookData.title);
+                break;
+            case "searchByAuthor":
+                searchBooks("author", bookData.author);
+                break;
+            case "clear":
+                setBookData((prevData) => ({
+                    ...prevData,
+                    title: "",
+                    author: "",
+                    genre: genreOptions[0],
+                    rating: "",
+                    status: "",
+                    ownership: "",
+                    startDate: "",
+                    endDate: "",
+                }));
+                break;
+            default:
+                console.error(
+                    `Invalid action '${action}' received from 'BookForm' component.`
+                );
+        }
     };
 
     const handleFilterBooks = (_, filterOption) => {
@@ -118,12 +186,16 @@ function DataBasePage() {
 
             <main>
                 <section className={styles.form}>
+                    <BookToast
+                        action="add"
+                        status={"loading"}
+                    />
                     <hr />
 
                     <BookForm
                         bookData={bookData}
                         dropdownOptions={genreOptions}
-                        handleChange={handleChange}
+                        onChange={handleChange}
                         onAction={handleAction}
                     />
 

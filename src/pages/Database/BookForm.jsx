@@ -35,21 +35,22 @@ const moreOptionsMap = {
  * - **Adicionar**: Adds a new book, triggering the `"add"` action.
  * - **Atualizar**: Updates a registered book, triggering the `"update"` action.
  * - **Remover livro**: Removes a registered book, trigering the `"remove"` action.
- * - **Pesquisar**: Searches a book by the 'book's title' input, triggering the `"search"`
- * action.
+ * - **Pesquisar**: Searches a book, or by the 'book's title' input, triggering the `"searchByTitle"`
+ * action, or by the 'book's author' input, triggering the `"searchByAuthor"` action.
  * - **Limpar tudo**: Clears all the input fields, triggering the `"clear"` action.
  *
  * ### Props:
  * @param {bookShapeType} bookData - The book object.
  * @param {object | Array} dropdownOptions - The options for the 'Dropdown' component.
- * @param {Function} onChange - The function to control the input changes. Receives the 
+ * @param {Function} onChange - The function to control the input changes. Receives the
  * name and value of the input as the arguments.
  * @param {Function} onAction - The callback function to handle the buton click. Receives
  * the action of the button, all of them listed bellow:
  * - `"add"`.
  * - `"update"`.
  * - `"remove"`.
- * - `"search"`.
+ * - `"searchByTitle"`.
+ * - `"searchByAuthor"`.
  * - `"clear"`.
  *
  * @returns {JSX.Element} A JSX element representing a form to fill the book data.
@@ -77,22 +78,36 @@ function BookForm({ bookData, dropdownOptions, onChange, onAction }) {
                     id="bookTitle"
                 />
                 <button
+                    className={styles.searchButton}
                     aria-label="Pesquisar livro pelo nome"
                     type="button"
-                    onClick={() => onAction("search")}
+                    onClick={() => onAction("searchByTitle")}
                 >
                     <IoSearch />
                 </button>
             </label>
-            <Input
-                type="text"
-                placeholder="Nome do autor"
-                onChange={(e) =>
-                    handleFieldChange(e.target.name, e.target.value)
-                }
-                name="author"
-                value={bookData.author}
-            />
+
+            <label htmlFor="bookAuthor" className={styles.form__authorInput}>
+                <Input
+                    type="text"
+                    placeholder="Nome do autor"
+                    onChange={(e) =>
+                        handleFieldChange(e.target.name, e.target.value)
+                    }
+                    name="author"
+                    value={bookData.author}
+                    id="bookAuthor"
+                />
+
+                <button
+                    className={styles.searchButton}
+                    aria-label="Pesquisar livro pelo autor"
+                    type="button"
+                    onClick={() => onAction("searchByAuthor")}
+                >
+                    <IoSearch />
+                </button>
+            </label>
             <Dropdown
                 optionsValues={dropdownOptions}
                 onSelect={(name, option) => handleFieldChange(name, option)}

@@ -10,7 +10,7 @@ import { genreColorsMap } from "../constants/books";
  * 
  * Each book object should contain the following properties:
  * 
- * - **id** (`number`): A unique identifier for the book.
+ * - **id** (`string`): A unique identifier for the book.
  * - **title** (`string`): The title of the book.
  * - **author** (`string`): The author of the book.
  * - **genre** (`string`): The literary genre of the book. Must be one of the keys 
@@ -33,7 +33,7 @@ import { genreColorsMap } from "../constants/books";
  * - **descripton** (`string`): The user's description of the book.
  */
 export const bookShapeType = PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
     genre: PropTypes.oneOf(Object.keys(genreColorsMap)).isRequired,

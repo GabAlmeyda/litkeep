@@ -100,7 +100,7 @@ const useBookStore = create((set, get) => ({
      * Removes a book from the local store and from the backend server.
      *
      * @async
-     * @param {number} bookId - The book's ID.
+     * @param {string} bookId - The book's ID.
      *
      * @throws {Error} throws an error if the HTTP request fails.
      */

@@ -44,11 +44,12 @@
     grid-column: 1 / 3;
 }
 
-.form__titleInput {
+.form__titleInput,
+.form__authorInput {
     position: relative;
 }
 
-.form__titleInput button {
+.searchButton {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -67,7 +68,7 @@
     background-color: var(--text-color);
 }
 
-.form__titleInput button * {
+.searchButton * {
     font-size: 1.5rem;
     color: var(--background-color);
 }
