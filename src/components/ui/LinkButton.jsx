@@ -40,7 +40,7 @@ function LinkButton({
                 styles.button,
                 styles[color],
                 customClasses &&
-                    customClasses.split(" ").map(cls => styles[cls])
+                    customClasses.split(" ").map((cls) => styles[cls])
             )}
             role="button"
         >

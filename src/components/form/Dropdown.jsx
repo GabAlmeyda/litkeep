@@ -9,7 +9,7 @@ import ErrorFallback from "../ui/ErrorFallback";
  * Renders a custom dropdown list with the provided options. This component calls a callback
  * function when clicking in one option, passing the selected option's value as the argument.
  *
- * @param {object} props - The properties of the component.
+ * @param {Object} props - The properties of the component.
  * @param {object.<string, string>} props.optionsValues - An object where the keys representing the
  * data values and the values are the visible text. If an array is passed, the data values are equal
  * to the displayed options.
@@ -47,6 +47,10 @@ function Dropdown({ optionsValues, onSelect, name, value, id }) {
     const [isOpen, setIsOpen] = useState(false);
     const [selected, setSelected] = useState(value);
     const dropdownRef = useRef(null);
+
+    useEffect(() => {
+        setSelected(value);
+    }, [value]);
 
     // handles the click outside to close de dropdown
     useEffect(() => {

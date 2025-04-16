@@ -8,7 +8,7 @@ import styles from "./TagCard.module.css";
  * Renders a small tag card represeting a book genre. The background color is
  * dymanically assigned based on the genre, as defined in the 'genreColorsMap' object.
  *
- * @param {object} props - The properties of the component.
+ * @param {Object} props - The properties of the component.
  * @param {string} props.genre - The genre to be displayed on the tag card. If a invalid
  * genre is provided, the genre is default to the first option avaliable in the 'genreColorsMap'
  * object.

@@ -8,12 +8,12 @@ import InfoCard from "../../components/ui/InfoCard";
  * Renders additional information inside of a `InfoCard` component. If the
  * fetch is in proccess, this component renders blank cards as a feddback.
  *
- * @param {object} props - The properties of the component.
- * @param {Array<bookShapeType>} props.additionalInfo - The array containing all 
+ * @param {Object} props - The properties of the component.
+ * @param {Array<bookShapeType>} props.additionalInfo - The array containing all
  * the information to be displayed.
  * @param {boolean} props.isFetchFinished - The success fetch status of the request.
  *
- * @returns {JSX.Element} A JSX element representing the container of the 
+ * @returns {JSX.Element} A JSX element representing the container of the
  * information to be displayed.
  */
 function AdditionalInfoCards({ additionalInfo, isFetchFinished }) {

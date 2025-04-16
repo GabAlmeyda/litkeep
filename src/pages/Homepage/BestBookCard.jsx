@@ -10,13 +10,13 @@ import LinkButton from "../../components/ui/LinkButton";
 import PropTypes from "prop-types";
 
 /**
- * Renders a card for the book with the best rating. If the fetch is in 
+ * Renders a card for the book with the best rating. If the fetch is in
  * proccess, this component renders a blank card as a feedback.
- * 
- * @param {object} props - The properties of the component.
+ *
+ * @param {Object} props - The properties of the component.
  * @param {bookShapeType} props.bestBook - The book with the best rating.
  * @param {boolean} props.isFetchFinished - The success fetch status of the request.
- *  
+ *
  * @returns {JSX.Element} A JSX element representing the best book's card
  * component.
  */

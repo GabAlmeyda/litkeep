@@ -3,29 +3,29 @@ import styles from "./TextArea.module.css";
 
 /**
  * Renders a custom controlled text area input field.
- * 
- * @param {object} props - The properties of the component.
- * @param {string} [props.placeholder="Digite aqui"] - The placeholder text inside the text 
+ *
+ * @param {Object} props - The properties of the component.
+ * @param {string} [props.placeholder="Digite aqui"] - The placeholder text inside the text
  * area input. Default to "Digite aqui" if no provided.
- * @param {Function} props.onChange - The function to handle the text 
+ * @param {Function} props.onChange - The function to handle the text
  * area input changes. This function receives an event as an argument.
  * @param {string} props.name - The name attribute of the input field, to manage
- * forms data. 
+ * forms data.
  * @param {string} props.value - The controlled value of the text area input.
  * @param {string} [props.id] - The id attribute for the element.
- * 
+ *
  * @example
  * const [textareaValue, setTextareaValue] = useState("");
  * const handleTextareaChange = (e) => setTextareaValue(e.target.value);
- * 
- * <Textarea 
+ *
+ * <Textarea
  *     placeholder="Insira seu comentário"
  *     onChange={handleTextareaChange}
  *     name="coment"
  *     value={textareaValue}
  * />
- *  
- * @returns 
+ *
+ * @returns
  */
 function TextArea({ placeholder = "Digite aqui", onChange, name, value, id }) {
     return (

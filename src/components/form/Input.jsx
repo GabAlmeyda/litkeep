@@ -19,7 +19,7 @@ const validTypes = [
 /**
  * Renders a custom controlled input field.
  *
- * @param {object} props - The properties of the component.
+ * @param {Object} props - The properties of the component.
  * @param {string} props.type - The input type. This component accepts the following types:
  * - "text", "password", "email", "url", "number", "tel", "search",
  * - "date", "month", "week", "time", "datetime-local".

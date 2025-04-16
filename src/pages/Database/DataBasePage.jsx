@@ -42,34 +42,40 @@ const dropdownOptions = {
     ownership: "Livros em posse",
 };
 
+const initialBookData = {
+    id: "",
+    title: "",
+    author: "",
+    genre: genreOptions[0],
+    rating: "",
+    status: "",
+    ownership: "",
+    startDate: "",
+    endDate: "",
+};
+
 function DataBasePage() {
     const {
         books,
         fetchStatus,
         addBook,
         removeBook,
-        UpdateBook,
+        updateBook,
         searchBooks,
         filterBooks,
     } = useBookStore((state) => state);
     const [filteredBooks, setFilteredBooks] = useState(books);
-    const [bookData, setBookData] = useState({
-        id: undefined,
-        title: "",
-        author: "",
-        genre: genreOptions[0],
-        rating: "",
-        status: "",
-        ownership: "",
-        startDate: "",
-        endDate: "",
+    const [bookToastInfo, setBookToastInfo] = useState({
+        action: null,
+        status: null,
     });
+    const [bookData, setBookData] = useState(initialBookData);
 
     useInitializeBooks();
 
     useEffect(() => {
         setFilteredBooks(books);
-    }, [books])
+    }, [books]);
 
     // Updates the <meta> tags
     useEffect(() => {
@@ -99,64 +105,65 @@ function DataBasePage() {
         );
     }
 
-    const handleChange = (name, value) => {
+    const handleInputChange = (name, value) => {
         setBookData((prevData) => ({ ...prevData, [name]: value }));
     };
 
-    // handles the action returned by the 'BookForm' component.
-    const handleAction = (action) => {
+    const handleBookFormAction = (action) => {
         switch (action) {
             case "add":
-                if (!bookData.title) {
-                    console.warn("The book's title is a required field!");
-                    return;
-                }
-                if (!bookData.ownership) {
-                    console.warn("The book ownership is a required field!");
-                    return;
-                }
-
                 addBook({ ...bookData, id: uuidv4() });
                 break;
+
             case "update":
-                if (!bookData.title) {
-                    console.warn("The book's title is a required field!");
-                    return;
-                }
-                if (!bookData.ownership) {
-                    console.warn("The book ownership is a required field!");
+                if (!bookData.id) {
+                    setBookToastInfo({
+                        action: "update",
+                        status: "notFound",
+                    });
                     return;
                 }
 
-                UpdateBook(bookData);
+                updateBook(bookData);
                 break;
+
             case "remove":
-                // Confirmation to remove the book
+                if (!bookData.id) {
+                    setBookToastInfo({
+                        action: "remove",
+                        status: "notFound",
+                    });
+                    return;
+                }
+
+                //confirmation to remove the book
+
                 removeBook(bookData.id);
                 break;
+
             case "searchByTitle":
                 searchBooks("title", bookData.title);
                 break;
+
             case "searchByAuthor":
                 searchBooks("author", bookData.author);
                 break;
+
             case "clear":
-                setBookData((prevData) => ({
-                    ...prevData,
-                    title: "",
-                    author: "",
-                    genre: genreOptions[0],
-                    rating: "",
-                    status: "",
-                    ownership: "",
-                    startDate: "",
-                    endDate: "",
-                }));
+                setBookData(initialBookData);
                 break;
+
             default:
                 console.error(
                     `Invalid action '${action}' received from 'BookForm' component.`
                 );
+        }
+
+        if (["add", "update", "remove"].includes(action)) {
+            setBookToastInfo({
+                action: action,
+                status: fetchStatus,
+            });
         }
     };
 
@@ -180,23 +187,26 @@ function DataBasePage() {
         }
     };
 
+    // handles the double-click on a table row
+    const handleTableDoubleClick = (book) => {
+        setBookData(book);
+    };
+
     return (
         <>
             <Header />
 
             <main>
                 <section className={styles.form}>
-                    <BookToast
-                        action="add"
-                        status={"loading"}
-                    />
+                    {bookToastInfo.action && <BookToast {...bookToastInfo} key={Date.now()} />}
+
                     <hr />
 
                     <BookForm
                         bookData={bookData}
                         dropdownOptions={genreOptions}
-                        onChange={handleChange}
-                        onAction={handleAction}
+                        onChange={handleInputChange}
+                        onAction={handleBookFormAction}
                     />
 
                     <hr />
@@ -210,6 +220,7 @@ function DataBasePage() {
                     <BookTable
                         headings={headingsMap}
                         bookArray={filteredBooks}
+                        onDoubleClick={handleTableDoubleClick}
                     />
                 </section>
             </main>

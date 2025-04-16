@@ -14,7 +14,7 @@ import MoreOptions from "../../components/ui/MoreOptions";
 
 const moreOptionsMap = {
     clear: "Limpar tudo",
-    delete: "Remover livro",
+    remove: "Remover livro",
 };
 
 /**

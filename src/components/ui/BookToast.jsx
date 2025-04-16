@@ -3,27 +3,28 @@ import PropTypes from "prop-types";
 import styles from "./BookToast.module.css";
 
 import { IoWarning } from "react-icons/io5";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import ErrorFallback from "./ErrorFallback";
 
 /**
- * Renders a toast message component, giving a feedback to the user about a 
- * book-related action. The toast automatically disappears after 3 seconds or 
+ * Renders a toast message component, giving a feedback to the user about a
+ * book-related action. The toast automatically disappears after 3 seconds or
  * can be manually dismissed by clicking on it.
- * 
- * @param {object} props - The properties of the component.
+ *
+ * @param {Object} props - The properties of the component.
  * @param {"add" | "remove" | "update"} props.action - The action being made.
- * @param {"loading" | "finished" | "error"} props.status - The status of the action.
- *  
- * @returns {JSX.Element} a JSX element representing a toast message notification for 
+ * @param {"loading" | "success" | "error" | "notFound"} props.status - The status of the action.
+ *
+ * @returns {JSX.Element} a JSX element representing a toast message notification for
  * a book action.
  */
-function BookToast ({ action, status }) {
+function BookToast({ action, status }) {
+    const [showBookToast, setShowBookToast] = useState(true);
 
     // Removes the toast after 3 seconds
     useEffect(() => {
         const closeToast = () => {
-            const toast = document.querySelector(`.${styles.toast}`);
-            if (toast) toast.remove();
+            setShowBookToast(false);
         };
 
         const timeOutId = setTimeout(closeToast, 3000);
@@ -34,18 +35,22 @@ function BookToast ({ action, status }) {
     const actionStatusMap = {
         add: {
             loading: "Adicionando Livro...",
-            finished: "Livro Adicionado!",
+            success: "Livro Adicionado!",
             error: "Erro ao adicionar livro!",
         },
         update: {
             loading: "Atualizando Livro...",
-            finished: "Livro Atualizado!",
+            success: "Livro Atualizado!",
             error: "Erro ao atualizar livro!",
+            notFound:
+                "O livro não pode ser atualizado pois ainda não foi adicionado!",
         },
-        delete: {
+        remove: {
             loading: "Removendo Livro...",
-            finished: "Livro Removido!",
+            success: "Livro Removido!",
             error: "Erro ao remover livro!",
+            notFound:
+                "O livro não pode ser removido pois ainda não foi adicionado!",
         },
     };
 
@@ -54,40 +59,49 @@ function BookToast ({ action, status }) {
         case "loading":
             backgroundColor = "#f59405";
             break;
-        case "finished":
+        case "success":
             backgroundColor = "#02b01f";
             break;
         case "error":
+        case "notFound":
             backgroundColor = "#c90202";
             break;
+        default:
+            console.error(
+                `Invalid status '${status}' received in 'BookToast' component. Expect one of "loading", "success", "error" or "notFound".`
+            );
+            <ErrorFallback componentName="BookToast" />;
     }
 
     const handleClick = (e) => {
         if (e.currentTarget.className === styles.toast) {
-            e.currentTarget.remove();
+            setShowBookToast(false);
         }
     };
 
     return (
-        <div
-            className={styles.toast}
-            style={{ backgroundColor: backgroundColor }}
-            onClick={handleClick}
-        >
-            {status === "error" && (
-                <IoWarning className={styles.toast__warning} />
-            )}
+        showBookToast && (
+            <div
+                className={styles.toast}
+                style={{ backgroundColor: backgroundColor }}
+                onClick={handleClick}
+            >
+                {status === "error" && (
+                    <IoWarning className={styles.toast__warning} />
+                )}
 
-            <p className={styles.toast__message}>
-                {actionStatusMap[action][status]}
-            </p>
-        </div>
+                <p className={styles.toast__message}>
+                    {actionStatusMap[action][status]}
+                </p>
+            </div>
+        )
     );
 }
 
 BookToast.propTypes = {
-    action: PropTypes.oneOf(["add", "update", "delete"]).isRequired,
-    status: PropTypes.oneOf(["loading", "finished", "error"]).isRequired,
+    action: PropTypes.oneOf(["add", "update", "remove"]).isRequired,
+    status: PropTypes.oneOf(["loading", "success", "error", "notFound"])
+        .isRequired,
 };
 
 export default BookToast;

@@ -12,7 +12,7 @@ import { CiCircleMore } from "react-icons/ci";
  * clicked. This component is typically used for providing addiitonal actions or
  * options.
  *
- * @param {object} props - The properties of the component.
+ * @param {Object} props - The properties of the component.
  * @param {object.<string, string>} props.options - An object where each key represents an
  * action (e.g. 'edit', 'remove'), and the corresponding value is the text displayed for that
  * option.

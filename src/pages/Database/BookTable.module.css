@@ -54,6 +54,7 @@
 
 .table__body tr {
     cursor: pointer;
+    user-select: none;
 
     border-bottom: 1px solid var(--contrast-color);
 }

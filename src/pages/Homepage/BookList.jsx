@@ -23,7 +23,7 @@ const moreOptionsMap = {
  * Renders a book list with all the provided books. When the fetching is in process,
  * this component renders a visual feedback with some blank cards,
  *
- * @param {object} props - The properties of the component.
+ * @param {Object} props - The properties of the component.
  * @param {Array<bookShapeType>} props.visibleBooks - An array containing the books to
  * be displayed inside the component.
  * @param {boolean} props.isMobile - A boolean value representing if the layout of the book list
