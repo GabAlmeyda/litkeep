@@ -1,3 +1,12 @@
+.label {
+    position: relative;
+
+    display: inline-block;
+
+    width: 100%;
+    max-width: 450px;
+}
+
 .dropdown {
 	position: relative;
 
@@ -95,4 +104,20 @@
 }
 .dropdown__option:last-child {
 	border-bottom: none;
+}
+
+.errorDropdown {
+    border-color: red;
+}
+.errorDropdown:hover {
+    border-color: red;
+}
+.errorDropdown:focus-within {
+    border-color: red;
+}
+
+.errorMessage {
+    color: red;
+    font-size: .8rem;
+    letter-spacing: .05rem;
 }

@@ -44,8 +44,7 @@
     grid-column: 1 / 3;
 }
 
-.form__titleInput,
-.form__authorInput {
+.form__searchInput {
     position: relative;
 }
 
@@ -61,6 +60,8 @@
     right: 0;
     top: 0;
     bottom: 0;
+
+    height: 2.03rem;
 
     border: none;
     border-radius: 0 20px 20px 0;

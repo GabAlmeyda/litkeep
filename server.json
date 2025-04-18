@@ -56,17 +56,6 @@
       "endDate": "15/05/2023"
     },
     {
-      "id": "6",
-      "title": "A Mandíbula de Caim",
-      "author": "Torquemada",
-      "genre": "Mistério",
-      "rating": 10,
-      "status": "read",
-      "ownership": true,
-      "startDate": "12/12/2024",
-      "endDate": ""
-    },
-    {
       "id": "7",
       "title": "Os Testamentos",
       "author": "Margaret Atwood",
@@ -359,6 +348,72 @@
       "rating": "",
       "status": "",
       "ownership": "SIM",
+      "startDate": "",
+      "endDate": ""
+    },
+    {
+      "id": "ecedc3e9-66c1-4f2a-ba33-36e24338cf6e",
+      "title": "",
+      "author": "",
+      "genre": "Romance",
+      "rating": "",
+      "status": "",
+      "ownership": "",
+      "startDate": "",
+      "endDate": ""
+    },
+    {
+      "id": "9e49f4bf-a30a-48fc-97ce-6fb0690164b7",
+      "title": "asdfasdfasdasdffasdsasdf",
+      "author": "",
+      "genre": "Romance",
+      "rating": "",
+      "status": "",
+      "ownership": "",
+      "startDate": "",
+      "endDate": ""
+    },
+    {
+      "id": "19765d1a-db7f-4f11-8845-1ac365c602a8",
+      "title": "Seila",
+      "author": "",
+      "genre": "Romance",
+      "rating": "",
+      "status": "",
+      "ownership": "SIm",
+      "startDate": "",
+      "endDate": ""
+    },
+    {
+      "id": "cd1ee283-5a1a-47a1-b53d-0e690b31aec5",
+      "title": "Sim",
+      "author": "",
+      "genre": "Romance",
+      "rating": "",
+      "status": "",
+      "ownership": "Sim",
+      "startDate": "",
+      "endDate": ""
+    },
+    {
+      "id": "41bd8dc8-0f01-4b1c-8aec-957b474deeea",
+      "title": "Nome",
+      "author": "",
+      "genre": "Romance",
+      "rating": "",
+      "status": "",
+      "ownership": "Sim",
+      "startDate": "",
+      "endDate": ""
+    },
+    {
+      "id": "e58dee9b-f3a9-4e17-9ce8-bfea2dd98e72",
+      "title": "SIM",
+      "author": "",
+      "genre": "Romance",
+      "rating": "",
+      "status": "",
+      "ownership": "SI",
       "startDate": "",
       "endDate": ""
     }

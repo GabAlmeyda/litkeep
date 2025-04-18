@@ -109,44 +109,51 @@ function DataBasePage() {
         setBookData((prevData) => ({ ...prevData, [name]: value }));
     };
 
-    const handleBookFormAction = (action) => {
+    const handleBookFormAction = (action, errors) => {
         switch (action) {
             case "add":
-                addBook({ ...bookData, id: uuidv4() });
+                if (!errors.err) {
+                    addBook({ ...bookData, id: uuidv4() });
+                    setBookData(initialBookData);
+                }
                 break;
 
             case "update":
-                if (!bookData.id) {
+                if (errors.id) {
                     setBookToastInfo({
                         action: "update",
                         status: "notFound",
                     });
                     return;
                 }
-
-                updateBook(bookData);
+                if (!errors) {
+                    updateBook(bookData);
+                    setBookData(initialBookData);
+                }
                 break;
 
             case "remove":
-                if (!bookData.id) {
+                if (errors.id) {
                     setBookToastInfo({
                         action: "remove",
                         status: "notFound",
                     });
                     return;
                 }
-
-                //confirmation to remove the book
-
                 removeBook(bookData.id);
+                setBookData(initialBookData);
                 break;
 
             case "searchByTitle":
-                searchBooks("title", bookData.title);
+                if (!errors.err) {
+                    searchBooks("title", bookData.title);
+                }
                 break;
 
             case "searchByAuthor":
-                searchBooks("author", bookData.author);
+                if (!errors.err) {
+                    searchBooks("author", bookData.author);
+                }
                 break;
 
             case "clear":
@@ -159,7 +166,7 @@ function DataBasePage() {
                 );
         }
 
-        if (["add", "update", "remove"].includes(action)) {
+        if (["add", "update", "remove"].includes(action) && !errors.err) {
             setBookToastInfo({
                 action: action,
                 status: fetchStatus,
@@ -189,6 +196,7 @@ function DataBasePage() {
 
     // handles the double-click on a table row
     const handleTableDoubleClick = (book) => {
+        window.scrollTo(0, 0);
         setBookData(book);
     };
 
@@ -198,7 +206,9 @@ function DataBasePage() {
 
             <main>
                 <section className={styles.form}>
-                    {bookToastInfo.action && <BookToast {...bookToastInfo} key={Date.now()} />}
+                    {bookToastInfo.action && (
+                        <BookToast {...bookToastInfo} key={Date.now()} />
+                    )}
 
                     <hr />
 

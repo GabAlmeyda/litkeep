@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { useEffect, useRef, useState } from "react";
 
 import { bookShapeType } from "../../utils/propTypes/propTypes";
 
@@ -39,13 +40,23 @@ const moreOptionsMap = {
  * action, or by the 'book's author' input, triggering the `"searchByAuthor"` action.
  * - **Limpar tudo**: Clears all the input fields, triggering the `"clear"` action.
  *
+ * ### Validations:
+ * - The book's title and ownership are required fields for the `"add"` and `"update"` actions.
+ * - The book's title is a required field for the `"searchByTitle"` action.
+ * - The book's author is a required field for the `"searchByAuthor"` action.
+ *
+ * If any of the required fields are not filled, an error message will be displayed, and the
+ * onAction function will be called with the errors as `true`. Otherwise, the onAction function
+ * will be called with `false` as the errors.
+ *
  * ### Props:
  * @param {bookShapeType} bookData - The book object.
- * @param {object | Array} dropdownOptions - The options for the 'Dropdown' component.
+ * @param {Object | Array} dropdownOptions - The options for the 'Dropdown' component.
  * @param {Function} onChange - The function to control the input changes. Receives the
  * name and value of the input as the arguments.
  * @param {Function} onAction - The callback function to handle the buton click. Receives
- * the action of the button, all of them listed bellow:
+ * the action of the button (`string`) and the errors (`boolean`).
+ * #### Avaliable actions:
  * - `"add"`.
  * - `"update"`.
  * - `"remove"`.
@@ -55,8 +66,88 @@ const moreOptionsMap = {
  *
  * @returns {JSX.Element} A JSX element representing a form to fill the book data.
  */
-function BookForm({ bookData, dropdownOptions, onChange, onAction }) {
+function BookForm ({ bookData, dropdownOptions, onChange, onAction }) {
+    // State to manage the errors of the input fields.
+    const [errors, setErrors] = useState({});
+    const searchInputRef = useRef(null);
+
+    // Sets the height of the search buttons to match the height of the input field.
+    useEffect(() => {
+        const searchButtonsArray = document.querySelectorAll(
+            `.${styles.searchButton}`
+        );
+
+        const handleResize = () => {
+            if (searchInputRef.current) {
+                const { height } =
+                    searchInputRef.current.getBoundingClientRect();
+                searchButtonsArray.forEach((button) => {
+                    button.style.height = `${height}px`;
+                });
+            }
+        };
+
+        window.addEventListener("resize", handleResize);
+        handleResize();
+
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    // Validates the input fields and sets the error's key/value pair if any field is invalid.
+    const handleAction = (action) => {
+        const errorsObject = {};
+
+        switch (action) {
+            case "add":
+                if (!bookData.title) {
+                    errorsObject.title = "Título obrigatório.";
+                }
+                if (!bookData.ownership) {
+                    errorsObject.ownership = "Posse obrigatória.";
+                }
+                break;
+
+            case "update":
+                if (!bookData.title) {
+                    errorsObject.title = "Título obrigatório.";
+                }
+                if (!bookData.ownership) {
+                    errorsObject.ownership = "Posse obrigatória.";
+                }
+                if (!bookData.id) {
+                    errorsObject.id = "ID do livro obrigatório.";
+                }
+                break;
+
+            case "remove":
+                if (!bookData.id) {
+                    errorsObject.id = "ID do livro obrigatório.";
+                }
+                break;
+
+            case "searchByTitle":
+                if (!bookData.title) {
+                    errorsObject.title = "Título obrigatório para a busca.";
+                }
+                break;
+
+            case "searchByAuthor":
+                if (!bookData.author) {
+                    errorsObject.author = "Autor obrigatório para a busca.";
+                }
+                break;
+        }
+
+        const containsErrors = Object.keys(errorsObject).length > 0;
+
+        setErrors({ ...errorsObject });
+        onAction(action, {err: containsErrors, ...errorsObject});
+    };
+
     const handleFieldChange = (name, value) => {
+        if (typeof value === "string") value = value.trim();
+
+        setErrors({});
         onChange(name, value);
     };
 
@@ -66,10 +157,11 @@ function BookForm({ bookData, dropdownOptions, onChange, onAction }) {
             onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
             onSubmit={(e) => e.preventDefault()}
         >
-            <label htmlFor="bookTitle" className={styles.form__titleInput}>
+            <div className={styles.form__searchInput} ref={searchInputRef}>
                 <Input
                     type="text"
                     placeholder="Nome do livro"
+                    errorMessage={errors.title}
                     onChange={(e) =>
                         handleFieldChange(e.target.name, e.target.value)
                     }
@@ -81,16 +173,17 @@ function BookForm({ bookData, dropdownOptions, onChange, onAction }) {
                     className={styles.searchButton}
                     aria-label="Pesquisar livro pelo nome"
                     type="button"
-                    onClick={() => onAction("searchByTitle")}
+                    onClick={() => handleAction("searchByTitle")}
                 >
                     <IoSearch />
                 </button>
-            </label>
+            </div>
 
-            <label htmlFor="bookAuthor" className={styles.form__authorInput}>
+            <div className={styles.form__searchInput}>
                 <Input
                     type="text"
                     placeholder="Nome do autor"
+                    errorMessage={errors.author}
                     onChange={(e) =>
                         handleFieldChange(e.target.name, e.target.value)
                     }
@@ -103,16 +196,17 @@ function BookForm({ bookData, dropdownOptions, onChange, onAction }) {
                     className={styles.searchButton}
                     aria-label="Pesquisar livro pelo autor"
                     type="button"
-                    onClick={() => onAction("searchByAuthor")}
+                    onClick={() => handleAction("searchByAuthor")}
                 >
                     <IoSearch />
                 </button>
-            </label>
+            </div>
             <Dropdown
                 optionsValues={dropdownOptions}
                 onSelect={(name, option) => handleFieldChange(name, option)}
                 name="genre"
                 value={bookData.genre}
+                id="bookGenre"
             />
             <Input
                 type="text"
@@ -122,6 +216,7 @@ function BookForm({ bookData, dropdownOptions, onChange, onAction }) {
                 }
                 name="startDate"
                 value={bookData.startDate}
+                id="bookStartDate"
             />
             <Input
                 type="text"
@@ -131,6 +226,7 @@ function BookForm({ bookData, dropdownOptions, onChange, onAction }) {
                 }
                 name="endDate"
                 value={bookData.endDate}
+                id="bookEndDate"
             />
             <Input
                 type="text"
@@ -140,15 +236,18 @@ function BookForm({ bookData, dropdownOptions, onChange, onAction }) {
                 }
                 name="rating"
                 value={bookData.rating}
+                id="bookRating"
             />
             <Input
                 type="text"
                 placeholder="Posse do livro"
+                errorMessage={errors.ownership}
                 onChange={(e) =>
                     handleFieldChange(e.target.name, e.target.value)
                 }
                 name="ownership"
                 value={bookData.ownership}
+                id="bookOwnership"
             />
 
             <TextArea
@@ -157,6 +256,7 @@ function BookForm({ bookData, dropdownOptions, onChange, onAction }) {
                 }
                 name="description"
                 value={bookData.description}
+                id="bookDescription"
             />
 
             <div className={styles.form__buttons}>
@@ -164,7 +264,7 @@ function BookForm({ bookData, dropdownOptions, onChange, onAction }) {
                     <Button
                         bgColor="#2bbad4"
                         fontColor="#fff"
-                        onClick={() => onAction("add")}
+                        onClick={() => handleAction("add")}
                     >
                         Adicionar
                     </Button>
@@ -172,7 +272,7 @@ function BookForm({ bookData, dropdownOptions, onChange, onAction }) {
                     <Button
                         bgColor="#350a7b"
                         fontColor="#fff"
-                        onClick={() => onAction("update")}
+                        onClick={() => handleAction("update")}
                     >
                         Atualizar
                     </Button>
@@ -181,7 +281,7 @@ function BookForm({ bookData, dropdownOptions, onChange, onAction }) {
                 <span className={styles.buttons__right}>
                     <MoreOptions
                         options={moreOptionsMap}
-                        onSelect={(dataAction) => onAction(dataAction)}
+                        onSelect={(dataAction) => handleAction(dataAction)}
                     />
                 </span>
             </div>

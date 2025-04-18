@@ -33,6 +33,28 @@ const dropdownOptions = {
     ownership: "Livros em posse",
 };
 
+/**
+ * Renders a Homepage to display the best book's information, additional information
+ * about the registered books and the list containing information about the registered
+ * books.
+ * 
+ * ## Features
+ * - A card to display the best book's information.
+ * - Four cards displaying information about the registered books:
+ *   - Number of registered books.
+ *   - Number of read books.
+ *   - Number of unread books.
+ *   - Number of abandoned books.
+ * - A expansive list containing information about all the registered books.
+ * 
+ * ## Actions
+ * - A dropdown element to filter the displayed books.
+ * - A button to add another book.
+ * - A button to expande the list.
+ * 
+ * 
+ * @returns {JSX.Element} A JSX element representing the website's homepage.
+ */
 function Homepage() {
     const { books, fetchStatus, filterBooks } = useBookStore((state) => state);
 

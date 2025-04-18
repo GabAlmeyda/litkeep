@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import styles from "./Dropdown.module.css";
 
 import ErrorFallback from "../ui/ErrorFallback";
+import clsx from "clsx";
 
 /**
  * Renders a custom dropdown list with the provided options. This component calls a callback
@@ -18,7 +19,7 @@ import ErrorFallback from "../ui/ErrorFallback";
  * @param {string} props.name - The name attribute for the input, to manage forms data.
  * @param {String} [props.value] - The value of the selected option. If not passed (or a falsy value), the
  * first option is setted by default.
- * @param {string} [props.id] - The id attribute for the dropdown element.
+ * @param {string} props.id - The id attribute for the dropdown element.
  *
  * @example
  * const [selectedLesson, setSelectedLesson] = useState("");
@@ -43,7 +44,7 @@ import ErrorFallback from "../ui/ErrorFallback";
  *
  * @returns {JSX.Element} A JSX element representing the dropdown component.
  */
-function Dropdown({ optionsValues, onSelect, name, value, id }) {
+function Dropdown({ optionsValues, onSelect, errorMessage, name, value, id }) {
     const [isOpen, setIsOpen] = useState(false);
     const [selected, setSelected] = useState(value);
     const dropdownRef = useRef(null);
@@ -114,59 +115,74 @@ function Dropdown({ optionsValues, onSelect, name, value, id }) {
     };
 
     return (
-        <div
-            className={styles.dropdown}
-            style={{ borderRadius: isOpen ? "5px 5px 0 0" : "5px" }}
-            ref={dropdownRef}
-            id={id}
-            onKeyDown={handleKeyDown}
-        >
-            <input type="hidden" name={name} value={selected} />
-
-            <div className={styles.dropdown__buttonContainer}>
-                <button
-                    onClick={() => setIsOpen(!isOpen)}
-                    type="button"
-                    className={styles.button}
-                    id="dropdown__button"
-                    aria-expanded={isOpen}
-                    aria-activedescendant={
-                        isOpen ? `dropdown-option-${selected}` : undefined
-                    }
-                    role="combobox"
-                    aria-haspopup="listbox"
-                    aria-controls="dropdown__menu"
-                    tabIndex={0}
-                >
-                    <span className={styles.button__label}>{selected}</span>
-                    <span className={styles.button__icon}></span>
-                </button>
-            </div>
-
-            <ul
-                style={{ display: isOpen ? "inline-block" : "none" }}
-                className={styles.dropdown__content}
-                id="dropdown__menu"
-                role="listbox"
-                aria-labelledby="dropdown__button"
+        <label htmlFor={id} className={styles.label}>
+            <div
+                className={clsx(
+                    styles.dropdown,
+                    errorMessage && styles.errorDropdown
+                )}
+                style={{ borderRadius: isOpen ? "5px 5px 0 0" : "5px" }}
+                ref={dropdownRef}
+                id={id}
+                onKeyDown={handleKeyDown}
+                aria-describedby={errorMessage ? `${name}-error` : undefined}
             >
-                {options.map((option, index) => (
-                    <li
-                        onClick={() => handleClick(option, index)}
-                        onKeyDown={handleKeyDown}
-                        data-value={dataValues[index]}
-                        id={`dropdown-option-${option}`}
-                        className={styles.dropdown__option}
-                        key={dataValues[index]}
-                        role="option"
-                        aria-selected={selected === option}
+                <input type="hidden" name={name} value={selected} />
+
+                <div className={styles.dropdown__buttonContainer}>
+                    <button
+                        onClick={() => setIsOpen(!isOpen)}
+                        type="button"
+                        className={styles.button}
+                        id="dropdown__button"
+                        aria-expanded={isOpen}
+                        aria-activedescendant={
+                            isOpen ? `dropdown-option-${selected}` : undefined
+                        }
+                        role="combobox"
+                        aria-haspopup="listbox"
+                        aria-controls="dropdown__menu"
                         tabIndex={0}
                     >
-                        {option}
-                    </li>
-                ))}
-            </ul>
-        </div>
+                        <span className={styles.button__label}>{selected}</span>
+                        <span className={styles.button__icon}></span>
+                    </button>
+                </div>
+
+                <ul
+                    style={{ display: isOpen ? "inline-block" : "none" }}
+                    className={styles.dropdown__content}
+                    id="dropdown__menu"
+                    role="listbox"
+                    aria-labelledby="dropdown__button"
+                >
+                    {options.map((option, index) => (
+                        <li
+                            onClick={() => handleClick(option, index)}
+                            onKeyDown={handleKeyDown}
+                            data-value={dataValues[index]}
+                            id={`dropdown-option-${option}`}
+                            className={styles.dropdown__option}
+                            key={dataValues[index]}
+                            role="option"
+                            aria-selected={selected === option}
+                            tabIndex={0}
+                        >
+                            {option}
+                        </li>
+                    ))}
+                </ul>
+            </div>
+            {errorMessage && (
+                <p
+                    className={styles.errorMessage}
+                    aria-live="polite"
+                    id={`${name}-error`}
+                >
+                    {errorMessage}
+                </p>
+            )}
+        </label>
     );
 }
 
@@ -174,9 +190,10 @@ Dropdown.propTypes = {
     optionsValues: PropTypes.oneOf([PropTypes.array, PropTypes.object])
         .isRequired,
     onSelect: PropTypes.func.isRequired,
+    errorMessage: PropTypes.string,
     name: PropTypes.string.isRequired,
     value: PropTypes.string,
-    id: PropTypes.string,
+    id: PropTypes.string.isRequired,
 };
 
 export default Dropdown;
