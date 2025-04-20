@@ -48,12 +48,9 @@ function Dropdown({ optionsValues, onSelect, errorMessage, name, value, id }) {
     const [isOpen, setIsOpen] = useState(false);
     const [selected, setSelected] = useState(value);
     const dropdownRef = useRef(null);
+    const optionsRef = useRef(null);
 
-    useEffect(() => {
-        setSelected(value);
-    }, [value]);
-
-    // handles the click outside to close de dropdown
+    // handles the click outside to close the dropdown
     useEffect(() => {
         const handleClickOutside = (e) => {
             if (dropdownRef.current && !dropdownRef.current.contains(e.target))
@@ -101,21 +98,55 @@ function Dropdown({ optionsValues, onSelect, errorMessage, name, value, id }) {
         onSelect(name, selectedDataValue);
     };
 
-    const handleKeyDown = (e) => {
-        if (!isOpen) return;
-
-        if (e.key === "Escape") setIsOpen(false);
-        else if (
-            e.currentTarget.tagName === "LI" &&
-            (e.key === "Enter" || e.key === " ")
-        ) {
+    const handleLabelKeyDown = (e) => {
+        if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
-            handleClick(e.currentTarget.textContent);
+            setIsOpen(!isOpen);
+        } else if (e.key === "Escape") {
+            setIsOpen(false);
+        } else if (e.key === "ArrowDown" && e.target.tagName === "BUTTON") {
+            e.preventDefault();
+            setIsOpen(true);
+            optionsRef.current.children[0].focus();
+        }
+    };
+
+    const handleOptionKeyDown = (e) => {
+        const options = optionsRef.current.children;
+        const currentOption = e.currentTarget;
+
+        if (e.key === "ArrowDown") {
+            e.preventDefault();
+            const nextOption = currentOption.nextElementSibling;
+
+            if (nextOption) {
+                nextOption.focus();
+            } else {
+                options[0].focus();
+            }
+        } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            const previousOption = currentOption.previousElementSibling;
+            if (previousOption) {
+                previousOption.focus();
+            } else {
+                options[options.length - 1].focus();
+            }
+        } else if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            handleClick(
+                currentOption.innerText,
+                Array.from(options).indexOf(currentOption)
+            );
         }
     };
 
     return (
-        <label htmlFor={id} className={styles.label}>
+        <label
+            htmlFor={id}
+            className={styles.label}
+            onKeyDown={handleLabelKeyDown}
+        >
             <div
                 className={clsx(
                     styles.dropdown,
@@ -124,11 +155,14 @@ function Dropdown({ optionsValues, onSelect, errorMessage, name, value, id }) {
                 style={{ borderRadius: isOpen ? "5px 5px 0 0" : "5px" }}
                 ref={dropdownRef}
                 id={id}
-                onKeyDown={handleKeyDown}
                 aria-describedby={errorMessage ? `${name}-error` : undefined}
             >
-                <input type="hidden" name={name} value={selected} />
-
+                <input
+                    type="hidden"
+                    name={name}
+                    value={selected}
+                    aria-hidden="true"
+                />
                 <div className={styles.dropdown__buttonContainer}>
                     <button
                         onClick={() => setIsOpen(!isOpen)}
@@ -144,8 +178,16 @@ function Dropdown({ optionsValues, onSelect, errorMessage, name, value, id }) {
                         aria-controls="dropdown__menu"
                         tabIndex={0}
                     >
-                        <span className={styles.button__label}>{selected}</span>
-                        <span className={styles.button__icon}></span>
+                        <span
+                            className={styles.button__label}
+                            aria-hidden="true"
+                        >
+                            {selected}
+                        </span>
+                        <span
+                            className={styles.button__icon}
+                            aria-hidden="true"
+                        ></span>
                     </button>
                 </div>
 
@@ -153,13 +195,17 @@ function Dropdown({ optionsValues, onSelect, errorMessage, name, value, id }) {
                     style={{ display: isOpen ? "inline-block" : "none" }}
                     className={styles.dropdown__content}
                     id="dropdown__menu"
+                    ref={optionsRef}
                     role="listbox"
                     aria-labelledby="dropdown__button"
                 >
                     {options.map((option, index) => (
                         <li
-                            onClick={() => handleClick(option, index)}
-                            onKeyDown={handleKeyDown}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                handleClick(option, index);
+                            }}
+                            onKeyDown={handleOptionKeyDown}
                             data-value={dataValues[index]}
                             id={`dropdown-option-${option}`}
                             className={styles.dropdown__option}

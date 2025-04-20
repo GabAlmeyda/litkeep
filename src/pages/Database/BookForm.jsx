@@ -46,16 +46,18 @@ const moreOptionsMap = {
  * - The book's author is a required field for the `"searchByAuthor"` action.
  *
  * If any of the required fields are not filled, an error message will be displayed, and the
- * onAction function will be called with the errors as `true`. Otherwise, the onAction function
+ * `onAction` function will be called with the errors as `true`. Otherwise, the `onAction` function
  * will be called with `false` as the errors.
  *
  * ### Props:
  * @param {bookShapeType} bookData - The book object.
- * @param {Object | Array} dropdownOptions - The options for the 'Dropdown' component.
+ * @param {Object | Array} dropdownOptions - The options for the `Dropdown` component.
  * @param {Function} onChange - The function to control the input changes. Receives the
  * name and value of the input as the arguments.
- * @param {Function} onAction - The callback function to handle the buton click. Receives
- * the action of the button (`string`) and the errors (`boolean`).
+ * @param {Function} onAction - The callback function to handle a button click. Receives
+ * the action of the button (`string`) and the errors (`object`), containing all the errors 
+ * messages and a `err` key. If there are no errors, the `err` key will be `false`. Otherwise,
+ * it will be `true`.
  * #### Avaliable actions:
  * - `"add"`.
  * - `"update"`.
@@ -145,8 +147,6 @@ function BookForm ({ bookData, dropdownOptions, onChange, onAction }) {
     };
 
     const handleFieldChange = (name, value) => {
-        if (typeof value === "string") value = value.trim();
-
         setErrors({});
         onChange(name, value);
     };

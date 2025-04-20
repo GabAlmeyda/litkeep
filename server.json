@@ -1,28 +1,6 @@
 {
   "books": [
     {
-      "id": "1",
-      "title": "Convite para um Homicídio",
-      "author": "Agatha Christie",
-      "genre": "Suspense",
-      "rating": 9.9,
-      "status": "read",
-      "ownership": true,
-      "startDate": "12/05/2023",
-      "endDate": "15/05/2023"
-    },
-    {
-      "id": "2",
-      "title": "A Mandíbula de Caim",
-      "author": "Torquemada",
-      "genre": "Mistério",
-      "rating": 10,
-      "status": "read",
-      "ownership": true,
-      "startDate": "12/12/2024",
-      "endDate": ""
-    },
-    {
       "id": "3",
       "title": "Os Testamentos",
       "author": "Margaret Atwood",

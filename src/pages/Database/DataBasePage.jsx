@@ -66,8 +66,8 @@ function DataBasePage() {
     } = useBookStore((state) => state);
     const [filteredBooks, setFilteredBooks] = useState(books);
     const [bookToastInfo, setBookToastInfo] = useState({
-        action: null,
-        status: null,
+        action: undefined,
+        status: undefined,
     });
     const [bookData, setBookData] = useState(initialBookData);
 
@@ -109,7 +109,16 @@ function DataBasePage() {
         setBookData((prevData) => ({ ...prevData, [name]: value }));
     };
 
+    // Validates the book data and calls the appropriate action and shows the toast
+    // message based on the action performed
     const handleBookFormAction = (action, errors) => {
+        setBookToastInfo({
+            action: undefined,
+            status: undefined,
+        });
+
+        console.log("BookForm action:", action);
+
         switch (action) {
             case "add":
                 if (!errors.err) {
@@ -146,13 +155,13 @@ function DataBasePage() {
 
             case "searchByTitle":
                 if (!errors.err) {
-                    searchBooks("title", bookData.title);
+                    setFilteredBooks(searchBooks("title", bookData.title));
                 }
                 break;
 
             case "searchByAuthor":
                 if (!errors.err) {
-                    searchBooks("author", bookData.author);
+                    setFilteredBooks(searchBooks("author", bookData.author));
                 }
                 break;
 

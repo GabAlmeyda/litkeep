@@ -3,12 +3,12 @@
 
     display: inline-block;
 
-    width: 100%;
-    max-width: 450px;
+	max-width: 450px;
 }
 
 .dropdown {
 	position: relative;
+	user-select: none;
 
 	display: inline-flex;
 
