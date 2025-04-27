@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import { useEffect, useRef, useState } from "react";
 
 import { bookShapeType } from "../../utils/propTypes/propTypes";
+import { validateBookData } from "../../utils/services/bookFormHandler";
 
 import styles from "./BookForm.module.css";
 
@@ -52,10 +53,11 @@ const moreOptionsMap = {
  * ### Props:
  * @param {bookShapeType} bookData - The book object.
  * @param {Object | Array} dropdownOptions - The options for the `Dropdown` component.
+ * @param {Array<string>} bookIdsArray - An array containing the ids of all registered books.
  * @param {Function} onChange - The function to control the input changes. Receives the
  * name and value of the input as the arguments.
  * @param {Function} onAction - The callback function to handle a button click. Receives
- * the action of the button (`string`) and the errors (`object`), containing all the errors 
+ * the action of the button (`string`) and the errors (`object`), containing all the errors
  * messages and a `err` key. If there are no errors, the `err` key will be `false`. Otherwise,
  * it will be `true`.
  * #### Avaliable actions:
@@ -68,7 +70,13 @@ const moreOptionsMap = {
  *
  * @returns {JSX.Element} A JSX element representing a form to fill the book data.
  */
-function BookForm ({ bookData, dropdownOptions, onChange, onAction }) {
+function BookForm({
+    bookData,
+    dropdownOptions,
+    onChange,
+    onAction,
+    bookIdsArray,
+}) {
     // State to manage the errors of the input fields.
     const [errors, setErrors] = useState({});
     const searchInputRef = useRef(null);
@@ -83,6 +91,7 @@ function BookForm ({ bookData, dropdownOptions, onChange, onAction }) {
             if (searchInputRef.current) {
                 const { height } =
                     searchInputRef.current.getBoundingClientRect();
+
                 searchButtonsArray.forEach((button) => {
                     button.style.height = `${height}px`;
                 });
@@ -97,53 +106,10 @@ function BookForm ({ bookData, dropdownOptions, onChange, onAction }) {
 
     // Validates the input fields and sets the error's key/value pair if any field is invalid.
     const handleAction = (action) => {
-        const errorsObject = {};
-
-        switch (action) {
-            case "add":
-                if (!bookData.title) {
-                    errorsObject.title = "Título obrigatório.";
-                }
-                if (!bookData.ownership) {
-                    errorsObject.ownership = "Posse obrigatória.";
-                }
-                break;
-
-            case "update":
-                if (!bookData.title) {
-                    errorsObject.title = "Título obrigatório.";
-                }
-                if (!bookData.ownership) {
-                    errorsObject.ownership = "Posse obrigatória.";
-                }
-                if (!bookData.id) {
-                    errorsObject.id = "ID do livro obrigatório.";
-                }
-                break;
-
-            case "remove":
-                if (!bookData.id) {
-                    errorsObject.id = "ID do livro obrigatório.";
-                }
-                break;
-
-            case "searchByTitle":
-                if (!bookData.title) {
-                    errorsObject.title = "Título obrigatório para a busca.";
-                }
-                break;
-
-            case "searchByAuthor":
-                if (!bookData.author) {
-                    errorsObject.author = "Autor obrigatório para a busca.";
-                }
-                break;
-        }
-
-        const containsErrors = Object.keys(errorsObject).length > 0;
+        const errorsObject = validateBookData(bookData, action, bookIdsArray);
 
         setErrors({ ...errorsObject });
-        onAction(action, {err: containsErrors, ...errorsObject});
+        onAction(action, errorsObject);
     };
 
     const handleFieldChange = (name, value) => {
@@ -204,6 +170,7 @@ function BookForm ({ bookData, dropdownOptions, onChange, onAction }) {
             <Dropdown
                 optionsValues={dropdownOptions}
                 onSelect={(name, option) => handleFieldChange(name, option)}
+                errorMessage={errors.genre}
                 name="genre"
                 value={bookData.genre}
                 id="bookGenre"
@@ -211,6 +178,7 @@ function BookForm ({ bookData, dropdownOptions, onChange, onAction }) {
             <Input
                 type="text"
                 placeholder="Início da leitura"
+                errorMessage={errors.startDate}
                 onChange={(e) =>
                     handleFieldChange(e.target.name, e.target.value)
                 }
@@ -221,6 +189,7 @@ function BookForm ({ bookData, dropdownOptions, onChange, onAction }) {
             <Input
                 type="text"
                 placeholder="Fim da leitura"
+                errorMessage={errors.endDate}
                 onChange={(e) =>
                     handleFieldChange(e.target.name, e.target.value)
                 }
@@ -231,6 +200,7 @@ function BookForm ({ bookData, dropdownOptions, onChange, onAction }) {
             <Input
                 type="text"
                 placeholder="Nota"
+                errorMessage={errors.rating}
                 onChange={(e) =>
                     handleFieldChange(e.target.name, e.target.value)
                 }
@@ -255,6 +225,7 @@ function BookForm ({ bookData, dropdownOptions, onChange, onAction }) {
                     handleFieldChange(e.target.name, e.target.value)
                 }
                 name="description"
+                errorMessage={errors.description}
                 value={bookData.description}
                 id="bookDescription"
             />
@@ -293,6 +264,7 @@ BookForm.propTypes = {
     bookData: PropTypes.shape(bookShapeType).isRequired,
     dropdownOptions: PropTypes.oneOf([PropTypes.array, PropTypes.object])
         .isRequired,
+    bookIdsArray: PropTypes.arrayOf(PropTypes.string).isRequired,
     onChange: PropTypes.func.isRequired,
     onAction: PropTypes.func.isRequired,
 };

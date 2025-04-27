@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
 
-import { getWebsitePaths } from "../../utils/constants/paths";
 import useTheme from "../../utils/hooks/useTheme";
 
 import styles from "./Navbar.module.css";
 
 import { MdDarkMode, MdLightMode } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 /**
  * Renders a nav element.
@@ -21,13 +21,19 @@ import { MdDarkMode, MdLightMode } from "react-icons/md";
  */
 function Navbar({ hideLogo = false }) {
     const [theme, toggleTheme] = useTheme();
-    const websitePaths = getWebsitePaths();
+    const navigate = useNavigate();
+
+    const handleLogoClick = (e) => {
+        e.preventDefault();
+        navigate("/");
+    };
 
     return (
         <nav className={styles.navbar}>
             {!hideLogo && (
                 <a
-                    href={websitePaths.homepage}
+                    href="#"
+                    onClick={handleLogoClick}
                     aria-label="Ir para a página principal"
                 >
                     <img src="/litkeep.png" alt="LitKeep" />

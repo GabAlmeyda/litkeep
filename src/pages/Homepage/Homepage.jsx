@@ -37,7 +37,7 @@ const dropdownOptions = {
  * Renders a Homepage to display the best book's information, additional information
  * about the registered books and the list containing information about the registered
  * books.
- * 
+ *
  * ## Features
  * - A card to display the best book's information.
  * - Four cards displaying information about the registered books:
@@ -46,20 +46,20 @@ const dropdownOptions = {
  *   - Number of unread books.
  *   - Number of abandoned books.
  * - A expansive list containing information about all the registered books.
- * 
+ *
  * ## Actions
  * - A dropdown element to filter the displayed books.
  * - A button to add another book.
  * - A button to expande the list.
- * 
- * 
+ *
+ *
  * @returns {JSX.Element} A JSX element representing the website's homepage.
  */
 function Homepage() {
     const { books, fetchStatus, filterBooks } = useBookStore((state) => state);
 
     // bestBook === undefined: 'bestBook' wasn't selected (waiting for the fetch result);
-    // bestBook === null: 'bestBook' doesn't exist (books is empty);
+    // bestBook === null: 'bestBook' doesn't exist (books is empty or all books have no numeric rating);
     // bestBook === {...}: 'bestBook' was selected (books isn't empty).
     const [bestBook, setBestBook] = useState(undefined);
     const [additionalInfo, setAdditionalInfo] = useState(
@@ -82,12 +82,13 @@ function Homepage() {
                 return;
             }
 
-            const bestBookRating = books.reduce(
-                (best, book) =>
-                    !best || book.rating > best.rating ? book : best,
-                null
-            );
-            setBestBook(bestBookRating);
+            let bestBookByRating = books
+                .filter((book) => typeof book.rating === "number")
+                .reduce((best, current) => {
+                    if (!best || current.rating > best.rating) return current;
+                    return best;
+                }, null);
+            setBestBook(bestBookByRating);
             setAdditionalInfo([
                 { num: books.length, label: "Livros Registrados" },
                 {
@@ -184,14 +185,16 @@ function Homepage() {
                                 fetchStatus === "idle"
                             }
                         >
-                            <InfoCard alignment="center">
-                                <BestBookCard
-                                    bestBook={bestBook}
-                                    isFetchFinished={
-                                        fetchStatus === "success" && bestBook
-                                    }
-                                />
-                            </InfoCard>
+                            {fetchStatus === "success" && bestBook === null || (
+                                <InfoCard alignment="center">
+                                    <BestBookCard
+                                        bestBook={bestBook}
+                                        isFetchFinished={
+                                            fetchStatus === "success"
+                                        }
+                                    />
+                                </InfoCard>
+                            )}
 
                             <AdditionalInfoCards
                                 additionalInfo={additionalInfo}

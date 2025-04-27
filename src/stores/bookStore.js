@@ -192,7 +192,7 @@ const useBookStore = create((set, get) => ({
             }
 
             const queryResult = get().books.filter((book) =>
-                book[queryType].toLowerCase().includes(text.toLowerCase())
+                book[queryType].toLowerCase().startsWith(text.toLowerCase())
             );
 
             return queryResult;
@@ -211,15 +211,16 @@ const useBookStore = create((set, get) => ({
      * @param {Object} [filters] - An object containing filters criteria for the books.
      * @param {boolean} [filters.ownership] - The ownership status for the books. The values
      * are listed bellow:
-     * - **true**: The user own the book.
-     * - **false**: The user does not own the book.
+     * - **sim**: The user own the book.
+     * - **não**: The user does not own the book.
      * @param {string} [filters.status] - The status of the book. The values are listed bellow:
      * - **"read"**.
-     * - **"unread"**.
+     * - **"notRead"**.
      * - **"abandoned"**.
+     * - **"reading"**.
      *
      * @example
-     * const criterias = {status: "read", ownership: true};
+     * const criterias = {status: "read", ownership: "sim"};
      * const filteredBooks = filterBooks(criterias);
      * console.log(filteredBooks);
      *
@@ -242,14 +243,18 @@ const useBookStore = create((set, get) => ({
 
             let queryResult = get().books;
 
-            if (filters.ownership !== undefined) {
+            if (filters.ownership) {
                 queryResult = queryResult.filter(
-                    (book) => book.ownership === filters.ownership
+                    (book) =>
+                        book.ownership.trim().toLowerCase() ===
+                        filters.ownership.trim().toLowerCase()
                 );
             }
             if (filters.status) {
                 queryResult = queryResult.filter(
-                    (book) => book.status === filters.status
+                    (book) =>
+                        book.status.trim().toLowerCase() ===
+                        filters.status.trim().toLowerCase()
                 );
             }
 

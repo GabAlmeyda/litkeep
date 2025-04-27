@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+    BrowserRouter as Router,
+    Route,
+    Routes,
+    useLocation,
+} from "react-router-dom";
 
 import { getWebsitePaths } from "./utils/constants/paths.js";
 
@@ -11,6 +16,22 @@ import Homepage from "./pages/Homepage/Homepage.jsx";
 import DataBasePage from "./pages/Database/DataBasePage.jsx";
 import SelectedBookPage from "./pages/SelectedBookPage/SelectedBookPage.jsx";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage.jsx";
+import { useEffect } from "react";
+
+function RouterManager() {
+    const location = useLocation();
+
+    // Scroll to top when navigating to a new page
+    useEffect(() => {
+        const timeOutId = setTimeout(() => {
+            if (location.state?.scrollToTop) window.scrollTo(0, 0);
+        }, 100);
+
+        return () => clearTimeout(timeOutId);
+    }, [location]);
+
+    return null;
+}
 
 function App() {
     const websitePaths = getWebsitePaths();
@@ -18,6 +39,8 @@ function App() {
     return (
         <div className="app-wrapper">
             <Router>
+                <RouterManager />
+
                 <Routes>
                     <Route
                         path={websitePaths.homepage}

@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 
 import useBookStore, { useInitializeBooks } from "../../stores/bookStore";
 import { genreColorsMap } from "../../utils/constants/books";
@@ -13,6 +12,10 @@ import BookToast from "../../components/ui/BookToast";
 
 import BookForm from "./BookForm";
 import BookTable from "./BookTable";
+import {
+    handleBookAction,
+    normalizeBookData,
+} from "../../utils/services/bookFormHandler";
 
 const metaTags = [
     {
@@ -37,7 +40,7 @@ const genreOptions = Object.keys(genreColorsMap);
 const dropdownOptions = {
     registered: "Todos registrados",
     read: "Livros lidos",
-    unread: "Livros não lidos",
+    notRead: "Livros não lidos",
     abandoned: "Livros abandonados",
     ownership: "Livros em posse",
 };
@@ -52,17 +55,18 @@ const initialBookData = {
     ownership: "",
     startDate: "",
     endDate: "",
+    description: "",
 };
 
 function DataBasePage() {
     const {
         books,
         fetchStatus,
+        filterBooks,
         addBook,
         removeBook,
         updateBook,
         searchBooks,
-        filterBooks,
     } = useBookStore((state) => state);
     const [filteredBooks, setFilteredBooks] = useState(books);
     const [bookToastInfo, setBookToastInfo] = useState({
@@ -70,6 +74,22 @@ function DataBasePage() {
         status: undefined,
     });
     const [bookData, setBookData] = useState(initialBookData);
+
+    const bookIdsArray = books.map((book) => book.id);
+
+    useEffect(() => {
+        const func = (e) => {
+            if (e.ctrlKey && e.key === "d") {
+                e.preventDefault();
+                console.log(bookData);
+            }
+        };
+
+        document.documentElement.addEventListener("keydown", func);
+
+        return () =>
+            document.documentElement.removeEventListener("keydown", func);
+    }, [bookData]);
 
     useInitializeBooks();
 
@@ -107,89 +127,91 @@ function DataBasePage() {
 
     const handleInputChange = (name, value) => {
         setBookData((prevData) => ({ ...prevData, [name]: value }));
-    };
-
-    // Validates the book data and calls the appropriate action and shows the toast
-    // message based on the action performed
-    const handleBookFormAction = (action, errors) => {
         setBookToastInfo({
             action: undefined,
             status: undefined,
         });
+    };
 
-        console.log("BookForm action:", action);
+    // Calls the appropriate action and shows the toast message based on the action
+    // performed
+    const handleBookFormAction = (action, errors) => {
+        if (errors.err) {
+            if (errors.id) {
+                const statusError = ["update", "remove"].includes(action)
+                    ? "notFound"
+                    : "alreadyRegistered";
 
-        switch (action) {
-            case "add":
-                if (!errors.err) {
-                    addBook({ ...bookData, id: uuidv4() });
-                    setBookData(initialBookData);
-                }
-                break;
+                setBookToastInfo({
+                    action: action,
+                    status: statusError,
+                });
+            }
 
-            case "update":
-                if (errors.id) {
-                    setBookToastInfo({
-                        action: "update",
-                        status: "notFound",
-                    });
-                    return;
-                }
-                if (!errors) {
-                    updateBook(bookData);
-                    setBookData(initialBookData);
-                }
-                break;
-
-            case "remove":
-                if (errors.id) {
-                    setBookToastInfo({
-                        action: "remove",
-                        status: "notFound",
-                    });
-                    return;
-                }
-                removeBook(bookData.id);
-                setBookData(initialBookData);
-                break;
-
-            case "searchByTitle":
-                if (!errors.err) {
-                    setFilteredBooks(searchBooks("title", bookData.title));
-                }
-                break;
-
-            case "searchByAuthor":
-                if (!errors.err) {
-                    setFilteredBooks(searchBooks("author", bookData.author));
-                }
-                break;
-
-            case "clear":
-                setBookData(initialBookData);
-                break;
-
-            default:
-                console.error(
-                    `Invalid action '${action}' received from 'BookForm' component.`
-                );
+            return;
         }
 
-        if (["add", "update", "remove"].includes(action) && !errors.err) {
-            setBookToastInfo({
-                action: action,
-                status: fetchStatus,
-            });
+        const normalizedBook = !bookData.id
+            ? normalizeBookData(bookData)
+            : bookData;
+        setBookData(normalizedBook);
+
+        switch (action) {
+            case "searchByTitle":
+                setFilteredBooks(searchBooks("title", normalizedBook.title));
+
+                // early return
+                return;
+            case "searchByAuthor":
+                setFilteredBooks(searchBooks("author", normalizedBook.author));
+
+                // early return
+                return;
+        }
+
+        try {
+            const bookFunctions = {
+                addBook,
+                updateBook,
+                removeBook,
+                searchBooks,
+                clearBookData() {
+                    setBookData(initialBookData);
+                },
+            };
+
+            handleBookAction(action, normalizedBook, bookFunctions);
+
+            if (["add", "update", "remove"].includes(action)) {
+                setBookToastInfo({
+                    action: action,
+                    status: fetchStatus,
+                });
+            } else {
+                setBookToastInfo({
+                    action: undefined,
+                    status: undefined,
+                });
+            }
+        } catch (error) {
+            console.error(
+                `Error in 'DataBasePage' while handling action '${action}':`,
+                error
+            );
+            return;
         }
     };
 
     const handleFilterBooks = (_, filterOption) => {
         switch (filterOption) {
-            case "ownership":
-                setFilteredBooks(filterBooks({ ownership: true }));
+            case "ownership": {
+                const filter = filterBooks({ ownership: "sim" });
+                console.log(filter);
+                setFilteredBooks(filter);
                 break;
+            }
             case "read":
-            case "unread":
+            case "notRead":
             case "abandoned":
                 setFilteredBooks(filterBooks({ status: filterOption }));
                 break;
@@ -206,7 +228,12 @@ function DataBasePage() {
     // handles the double-click on a table row
     const handleTableDoubleClick = (book) => {
         window.scrollTo(0, 0);
+
         setBookData(book);
+        setBookToastInfo({
+            action: undefined,
+            status: undefined,
+        });
     };
 
     return (
@@ -224,6 +251,7 @@ function DataBasePage() {
                     <BookForm
                         bookData={bookData}
                         dropdownOptions={genreOptions}
+                        bookIdsArray={bookIdsArray}
                         onChange={handleInputChange}
                         onAction={handleBookFormAction}
                     />

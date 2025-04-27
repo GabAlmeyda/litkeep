@@ -36,6 +36,7 @@ function LinkButton({
     return (
         <Link
             to={to}
+            state={{ scrollToTop: true }}
             className={clsx(
                 styles.button,
                 styles[color],

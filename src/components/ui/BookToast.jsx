@@ -37,6 +37,7 @@ function BookToast({ action, status }) {
             loading: "Adicionando Livro...",
             success: "Livro Adicionado!",
             error: "Erro ao adicionar livro.",
+            alreadyRegistered: "Livro já registrado. Aperte 'Limpar tudo' para adicionar outro livro."
         },
         update: {
             loading: "Atualizando Livro...",
@@ -49,8 +50,7 @@ function BookToast({ action, status }) {
             loading: "Removendo Livro...",
             success: "Livro Removido!",
             error: "Erro ao remover livro.",
-            notFound:
-                "O livro não pode ser removido pois não foi encontrado.",
+            notFound: "O livro não pode ser removido pois não foi encontrado.",
         },
     };
 
@@ -64,11 +64,12 @@ function BookToast({ action, status }) {
             break;
         case "error":
         case "notFound":
+        case "alreadyRegistered":
             backgroundColor = "#c90202";
             break;
         default:
             console.error(
-                `Invalid status '${status}' received in 'BookToast' component. Expect one of "loading", "success", "error" or "notFound".`
+                `Invalid status '${status}' received in 'BookToast' component. Expect one of "loading", "success", "error", "notFound" or "alreadyRegistered.`
             );
             <ErrorFallback componentName="BookToast" />;
     }

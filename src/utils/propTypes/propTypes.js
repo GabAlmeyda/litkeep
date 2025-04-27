@@ -10,7 +10,7 @@ import { genreColorsMap } from "../constants/books";
  * 
  * Each book object should contain the following properties:
  * 
- * - **id** (`string`): A unique identifier for the book.
+ * - **id** (`string`): A unique identifier for the book from 'uuid'.
  * - **title** (`string`): The title of the book.
  * - **author** (`string`): The author of the book.
  * - **genre** (`string`): The literary genre of the book. Must be one of the keys 
@@ -24,8 +24,8 @@ import { genreColorsMap } from "../constants/books";
  *  - `"notRead"` if the book has not been started.
  *  - `"read"` if the book has been finished.
  *  - `"abandoned"` if the book was abandoned.
- * - **ownership** (`boolean`): Indicates if the user owns the book (`true` for owned, 
- * `false` otherwise).
+ * - **ownership** (`string`): Indicates if the user owns the book (`sim` for owned, 
+ * `não` otherwise).
  * - **startDate** (`string`): The date when reading started, in the format DD/MM/AAAA 
  * or a empty string if not started.
  * - **endDate** (`string`): The date when reading finished, in the format DD/MM/AAAA
@@ -39,7 +39,7 @@ export const bookShapeType = PropTypes.shape({
     genre: PropTypes.oneOf(Object.keys(genreColorsMap)).isRequired,
     rating: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     status: PropTypes.string.isRequired,
-    ownership: PropTypes.bool.isRequired,
+    ownership: PropTypes.string.isRequired,
     startDate: PropTypes.string.isRequired,
     endDate: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,

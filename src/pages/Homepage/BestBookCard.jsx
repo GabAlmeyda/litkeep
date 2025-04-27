@@ -11,7 +11,9 @@ import PropTypes from "prop-types";
 
 /**
  * Renders a card for the book with the best rating. If the fetch is in
- * proccess, this component renders a blank card as a feedback.
+ * proccess, this component renders a blank card as a feedback. If the `bestBook`
+ * is a falsy value and the `isFetchFinished` is `true`, it means that there are no books with a
+ * numeric rating and the card won't be displayed.
  *
  * @param {Object} props - The properties of the component.
  * @param {bookShapeType} props.bestBook - The book with the best rating.
@@ -23,7 +25,7 @@ import PropTypes from "prop-types";
 function BestBookCard({ bestBook, isFetchFinished }) {
     const websitePaths = getWebsitePaths();
 
-    return isFetchFinished ? (
+    return (isFetchFinished && bestBook) ? (
         <div className={styles.bestBook}>
             <h3 className={styles.bestBook__title}>{bestBook.title}</h3>
             <h4 className={styles.bestBook__author}>{bestBook.author}</h4>
@@ -50,7 +52,7 @@ function BestBookCard({ bestBook, isFetchFinished }) {
                 />
             </div>
         </div>
-    ) : (
+    ) : !isFetchFinished ? (
         <div
             className={styles.loadingContainer}
             aria-live="polite"
@@ -58,7 +60,7 @@ function BestBookCard({ bestBook, isFetchFinished }) {
         >
             Carregando...
         </div>
-    );
+    ) : null;
 }
 
 BestBookCard.propTypes = {
