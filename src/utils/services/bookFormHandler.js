@@ -148,7 +148,11 @@ export function validateBookData(bookData, action, bookIdsArray) {
                 "Data de início deve ser anterior à data de término.";
         }
     }
-    if (typeof Number(bookData) === "number" && !bookData.endDate) {
+    if (
+        bookData.rating !== "" &&
+        typeof Number(bookData.rating) === "number" &&
+        !bookData.endDate
+    ) {
         errors.endDate =
             "O livro não pode ter avaliação sem a data de término.";
     }

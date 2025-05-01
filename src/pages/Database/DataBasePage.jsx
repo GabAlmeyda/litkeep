@@ -144,23 +144,27 @@ function DataBasePage() {
         switch (action) {
             case "searchByTitle":
                 setFilteredBooks(searchBooks("title", normalizedBook.title));
-
-                // early return
-                return;
+                break;
+            
             case "searchByAuthor":
                 setFilteredBooks(searchBooks("author", normalizedBook.author));
-
-                // early return
-                return;
+                break;
+            
             case "clearId":
                 setBookData({
                     ...bookData,
                     id: "",
                 });
-
-                // early return
-                return;
+                break;
         }
+
+        setBookToastInfo({
+            action: undefined,
+            status: undefined,
+        });
+
+        // early return
+        if (["searchByAuthor", "searchByTitle", "clearId"].includes(action)) return;
 
         try {
             const bookFunctions = {
@@ -179,11 +183,6 @@ function DataBasePage() {
                 setBookToastInfo({
                     action: action,
                     status: fetchStatus,
-                });
-            } else {
-                setBookToastInfo({
-                    action: undefined,
-                    status: undefined,
                 });
             }
         } catch (error) {

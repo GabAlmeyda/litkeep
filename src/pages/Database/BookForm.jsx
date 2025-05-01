@@ -35,13 +35,14 @@ const moreOptionsMap = {
  * - User onwershipes of the book (`"sim"`, `"não"`).
  * - Book's description (The 'Textarea' component, returning a `<textarea>` element).
  *
- * ### Buttons:
- * - **Adicionar**: Adds a new book, triggering the `"add"` action.
- * - **Atualizar**: Updates a registered book, triggering the `"update"` action.
- * - **Remover livro**: Removes a registered book, trigering the `"remove"` action.
- * - **Pesquisar**: Searches a book, or by the 'book's title' input, triggering the `"searchByTitle"`
+ * ### Actions:
+ * - **Add**: Adds a new book, triggering the `"add"` action.
+ * - **Update**: Updates a registered book, triggering the `"update"` action.
+ * - **Remove**: Removes a registered book, trigering the `"remove"` action.
+ * - **Searc**: Searches a book, or by the 'book's title' input, triggering the `"searchByTitle"`
  * action, or by the 'book's author' input, triggering the `"searchByAuthor"` action.
- * - **Limpar tudo**: Clears all the input fields, triggering the `"clear"` action.
+ * - **Clear**: Clears all the input fields, triggering the `"clear"` action.
+ * - **Deselect**: Deselects the current book, allowing to add a new book, triggering the `"clearId"` action. 
  *
  * ### Validations:
  * - The book's title, author and ownership are required fields for the `"add"` and `"update"` actions.
@@ -50,7 +51,7 @@ const moreOptionsMap = {
  * - Other book cannot be added if a book is already selected in the form.
  * - Book's start date and end date should be in a valid format DD/MM/AAAA and the start date
  * should be before the end date.
- * - Book's end date cannot be added without a start date.
+ * - Book's end date cannot be provided without a start date.
  * - The keyword `abandonado` cannot be passed to the `rating` field if the end date is provided.
  *
  * If any of the required fields are not filled, an error message will be displayed, and the

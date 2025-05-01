@@ -37,7 +37,7 @@ function BookToast({ action, status }) {
             loading: "Adicionando Livro...",
             success: "Livro Adicionado!",
             error: "Erro ao adicionar livro.",
-            alreadyRegistered: "Livro já registrado. Aperte 'Limpar tudo' para adicionar outro livro."
+            alreadyRegistered: "Clique no botão para remover a seleção atual e cadastrar outro livro."
         },
         update: {
             loading: "Atualizando Livro...",

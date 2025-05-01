@@ -20,16 +20,16 @@ export function getWebsitePaths() {
 
 /**
  * Returns an objects containing all the server paths bellow:
- * - **basePath**: The root of the server;
+ * - **index**: The root of the server;
  * - **books**: The collection of the books.
  * 
  * @returns {Object} An object containg all the server paths.
  */
 export function getServerPaths() {
-	const index = "http://localhost:3001/";
+	const index = "https://litkeep-server.onrender.com/";
 	
 	return {
-		index: index,
+		index,
 		books: `${index}books`
 	}
 }

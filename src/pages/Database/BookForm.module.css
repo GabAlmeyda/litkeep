@@ -1,13 +1,19 @@
 .form {
+    position: relative;
+
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(6, auto);
     gap: .7rem;
 
     padding: .5rem;
+    margin-top: 2rem;
 }
 
 .form__selectionTag {
+    position: absolute;
+    top: -1.6rem;
+
     display: flex;
     align-items: center;
     justify-content: flex-start;
