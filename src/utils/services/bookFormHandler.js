@@ -18,8 +18,7 @@ import { v4 as uuidv4 } from "uuid";
  * @throws {Error} If the action type is invalid.
  */
 export function handleBookAction(action, bookData, functions) {
-    const { addBook, updateBook, removeBook, clearBookData } =
-        functions;
+    const { addBook, updateBook, removeBook, clearBookData } = functions;
 
     switch (action) {
         case "add":
@@ -84,7 +83,7 @@ export function validateBookData(bookData, action, bookIdsArray) {
                 errors.author = "Autor obrigatório";
             }
             if (new Set(bookIdsArray).has(bookData.id)) {
-                errors.id = "Livro já registrado.";
+                errors.id = "Livro selecionado.";
             }
             break;
 
@@ -149,11 +148,7 @@ export function validateBookData(bookData, action, bookIdsArray) {
                 "Data de início deve ser anterior à data de término.";
         }
     }
-    if (
-        bookData.rating &&
-        bookData.rating.trim().toLowerCase() !== "abandonado" &&
-        !bookData.endDate
-    ) {
+    if (typeof Number(bookData) === "number" && !bookData.endDate) {
         errors.endDate =
             "O livro não pode ter avaliação sem a data de término.";
     }
@@ -172,10 +167,11 @@ export function validateBookData(bookData, action, bookIdsArray) {
     if (
         bookData.startDate &&
         bookData.endDate &&
-        bookData.rating.trim().toLowerCase() === "abandonado"
+        typeof Number(bookData.rating) !== "number"
     ) {
-        errors.rating =
-            "Livros já lidos não podem ter avaliação como 'abandonado'";
+        if (bookData.rating.trim().toLowerCase() === "abandonado")
+            errors.rating =
+                "Livros já lidos não podem ter avaliação como 'abandonado'";
     }
 
     return { ...errors, err: Object.keys(errors).length > 0 };

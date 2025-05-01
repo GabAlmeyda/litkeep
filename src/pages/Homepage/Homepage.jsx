@@ -28,7 +28,7 @@ const metaTags = [
 const dropdownOptions = {
     registered: "Todos registrados",
     read: "Livros lidos",
-    unread: "Livros não lidos",
+    notRead: "Livros não lidos",
     abandoned: "Livros abandonados",
     ownership: "Livros em posse",
 };
@@ -92,16 +92,16 @@ function Homepage() {
             setAdditionalInfo([
                 { num: books.length, label: "Livros Registrados" },
                 {
-                    num: filterBooks({ ownership: true }).length,
+                    num: filterBooks({ ownership: "sim" }).length,
                     label: "Livros em sua posse",
                 },
                 {
-                    num: filterBooks({ status: "unread" }).length,
-                    label: "Livros não Lidos",
+                    num: filterBooks({ status: "notRead" }).length,
+                    label: "Livros não lidos",
                 },
                 {
-                    num: filterBooks({ status: "read" }).length,
-                    label: "Livros já Lidos",
+                    num: filterBooks({ status: "abandoned" }).length,
+                    label: "Livros abandonados",
                 },
             ]);
             setFilteredBooks(books);
@@ -139,10 +139,10 @@ function Homepage() {
     const handleFilterBooks = (_, filterOption) => {
         switch (filterOption) {
             case "ownership":
-                setFilteredBooks(filterBooks({ ownership: true }));
+                setFilteredBooks(filterBooks({ ownership: "sim" }));
                 break;
             case "read":
-            case "unread":
+            case "notRead":
             case "abandoned":
                 setFilteredBooks(filterBooks({ status: filterOption }));
                 break;
@@ -151,7 +151,7 @@ function Homepage() {
                 break;
             default:
                 console.error(
-                    `Invalid filter criteria '${filterOption}' received in 'HomePage'. Expect one of "read", "unread", "abandoned", "registered" or "ownership".`
+                    `Invalid filter criteria '${filterOption}' received in 'HomePage'. Expect one of "read", "notRead", "abandoned", "registered" or "ownership".`
                 );
         }
     };

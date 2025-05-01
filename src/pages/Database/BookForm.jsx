@@ -7,6 +7,8 @@ import { validateBookData } from "../../utils/services/bookFormHandler";
 import styles from "./BookForm.module.css";
 
 import { IoSearch } from "react-icons/io5";
+import { IoMdClose } from "react-icons/io";
+import { FaCircle } from "react-icons/fa";
 
 import Input from "../../components/form/Input";
 import TextArea from "../../components/form/TextArea";
@@ -42,9 +44,14 @@ const moreOptionsMap = {
  * - **Limpar tudo**: Clears all the input fields, triggering the `"clear"` action.
  *
  * ### Validations:
- * - The book's title and ownership are required fields for the `"add"` and `"update"` actions.
+ * - The book's title, author and ownership are required fields for the `"add"` and `"update"` actions.
  * - The book's title is a required field for the `"searchByTitle"` action.
  * - The book's author is a required field for the `"searchByAuthor"` action.
+ * - Other book cannot be added if a book is already selected in the form.
+ * - Book's start date and end date should be in a valid format DD/MM/AAAA and the start date
+ * should be before the end date.
+ * - Book's end date cannot be added without a start date.
+ * - The keyword `abandonado` cannot be passed to the `rating` field if the end date is provided.
  *
  * If any of the required fields are not filled, an error message will be displayed, and the
  * `onAction` function will be called with the errors as `true`. Otherwise, the `onAction` function
@@ -67,6 +74,7 @@ const moreOptionsMap = {
  * - `"searchByTitle"`.
  * - `"searchByAuthor"`.
  * - `"clear"`.
+ * - `"clearId"`.
  *
  * @returns {JSX.Element} A JSX element representing a form to fill the book data.
  */
@@ -123,6 +131,18 @@ function BookForm({
             onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
             onSubmit={(e) => e.preventDefault()}
         >
+            <div
+                className={styles.form__selectionTag}
+                style={{ display: bookData.id ? "flex" : "none" }}
+            >
+                <FaCircle className={styles.selectionTag__circle} />
+                <p>Livro selecionado</p>
+                <IoMdClose
+                    className={styles.selectionTag__close}
+                    onClick={() => handleAction("clearId")}
+                />
+            </div>
+
             <div className={styles.form__searchInput} ref={searchInputRef}>
                 <Input
                     type="text"

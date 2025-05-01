@@ -50,6 +50,10 @@ function Dropdown({ optionsValues, onSelect, errorMessage, name, value, id }) {
     const dropdownRef = useRef(null);
     const optionsRef = useRef(null);
 
+    useEffect(() => { 
+        setSelected(value);
+    }, [value]);
+
     // handles the click outside to close the dropdown
     useEffect(() => {
         const handleClickOutside = (e) => {

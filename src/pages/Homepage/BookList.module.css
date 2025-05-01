@@ -1,8 +1,18 @@
+.bookList__toTopBtn {
+	position: fixed;
+	top: 1rem;
+	right: 1rem;
+
+	z-index: 10000;
+}
+
 .bookList__items {
 	display: grid;
 	grid-template-columns: 1fr;
 	justify-items: center;
 	gap: 1rem;
+
+	scroll-margin-top: 150px;
 }
 
 .book__title,

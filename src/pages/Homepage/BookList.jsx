@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { bookShapeType } from "../../utils/propTypes/propTypes";
 import { getWebsitePaths } from "../../utils/constants/paths";
@@ -35,10 +35,30 @@ const moreOptionsMap = {
 function BookList({ visibleBooks, isFetchFinished, isMobile }) {
     const navigate = useNavigate();
     const [isBooksExpanded, setIsBooksExpanded] = useState(false);
+    const [canShowToTop, setCanShowToTop] = useState(false);
+    const bookListItemsRef = useRef(null);
 
     const WEBSITE_PATHS = getWebsitePaths();
     const INITIAL_BOOKS_VISIBLE = isMobile ? 3 : 6;
     const canShowMoreButton = visibleBooks.length > INITIAL_BOOKS_VISIBLE;
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (!bookListItemsRef.current) return;
+
+            const { top } = bookListItemsRef.current.getBoundingClientRect();
+
+            if (top < window.innerHeight - 700 && isBooksExpanded) {
+                setCanShowToTop(true);
+            } else {
+                setCanShowToTop(false);
+            }
+        }
+
+        window.addEventListener("scroll", handleScroll);
+
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [isBooksExpanded]);
 
     const handleMoreOptionSelect = (action, bookId) => {
         switch (action) {
@@ -54,126 +74,173 @@ function BookList({ visibleBooks, isFetchFinished, isMobile }) {
         }
     };
 
+    const handleToTopClick = () => {
+        if (!bookListItemsRef.current) return;
+
+        bookListItemsRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+
     return (
-        <div className={styles.bookList__items} id="bookList__items">
-            {isFetchFinished ? (
-                <>
-                    {visibleBooks
-                        .slice(0, isBooksExpanded ? -1 : INITIAL_BOOKS_VISIBLE)
-                        .map((book) => (
-                            <InfoCard
-                                alignment="left"
-                                customClasses={clsx(!isMobile && "bigger")}
-                                key={book.id}
-                            >
-                                <h3 className={styles.book__title}>
-                                    {book.title}
-                                </h3>
-                                <p className={styles.book__author}>
-                                    {book.author}
-                                </p>
+        <>
+            {canShowToTop && (
+                <div className={styles.bookList__toTopBtn}>
+                    <Button onClick={handleToTopClick}>
+                        Voltar para o topo
+                    </Button>
+                </div>
+            )}
 
-                                <div className={styles.book__btnIconContainer}>
-                                    <MoreOptions
-                                        options={moreOptionsMap}
-                                        onSelect={(action) =>
-                                            handleMoreOptionSelect(
-                                                action,
-                                                book.id
-                                            )
+            <div
+                className={styles.bookList__items}
+                ref={bookListItemsRef}
+                id="bookList__items"
+            >
+                {isFetchFinished ? (
+                    <>
+                        {visibleBooks
+                            .slice(
+                                0,
+                                isBooksExpanded ? -1 : INITIAL_BOOKS_VISIBLE
+                            )
+                            .map((book) => (
+                                <InfoCard
+                                    alignment="left"
+                                    customClasses={clsx(!isMobile && "bigger")}
+                                    key={book.id}
+                                >
+                                    <h3 className={styles.book__title}>
+                                        {book.title}
+                                    </h3>
+                                    <p className={styles.book__author}>
+                                        {book.author}
+                                    </p>
+
+                                    <div
+                                        className={
+                                            styles.book__btnIconContainer
                                         }
-                                    />
-                                </div>
+                                    >
+                                        <MoreOptions
+                                            options={moreOptionsMap}
+                                            onSelect={(action) =>
+                                                handleMoreOptionSelect(
+                                                    action,
+                                                    book.id
+                                                )
+                                            }
+                                        />
+                                    </div>
 
-                                <div>
-                                    <TagCard
-                                        key={`tagCard-${book.id}`}
-                                        genre={book.genre}
-                                    />
+                                    <div>
+                                        <TagCard
+                                            key={`tagCard-${book.id}`}
+                                            genre={book.genre}
+                                        />
 
-                                    <hr className={styles.book__line} />
-                                </div>
+                                        <hr className={styles.book__line} />
+                                    </div>
 
-                                <div className={styles.book__infoContainer}>
-                                    <p className={styles.bookInfo}>
-                                        <span
-                                            className={styles.bookInfo__label}
-                                        >
-                                            Começou em
-                                        </span>
-                                        <strong
-                                            className={styles.bookInfo__data}
-                                        >
-                                            {book.startDate}
-                                        </strong>
-                                    </p>
-                                    <p className={styles.bookInfo}>
-                                        <span
-                                            className={styles.bookInfo__label}
-                                        >
-                                            Terminou em
-                                        </span>
-                                        <strong
-                                            className={styles.bookInfo__data}
-                                        >
-                                            {book.endDate}
-                                        </strong>
-                                    </p>
-                                    <p className={styles.bookInfo}>
-                                        <span
-                                            className={styles.bookInfo__label}
-                                        >
-                                            Posse do livro
-                                        </span>
-                                        <strong
-                                            className={styles.bookInfo__data}
-                                        >
-                                            {book.ownership}
-                                        </strong>
-                                    </p>
-                                    <p className={styles.bookInfo}>
-                                        <span
-                                            className={styles.bookInfo__label}
-                                        >
-                                            Nota do livro
-                                        </span>
-                                        <strong
-                                            className={styles.bookInfo__data}
-                                        >
-                                            {book.rating}
-                                        </strong>
-                                    </p>
-                                </div>
-                            </InfoCard>
-                        ))}
+                                    <div className={styles.book__infoContainer}>
+                                        <p className={styles.bookInfo}>
+                                            <span
+                                                className={
+                                                    styles.bookInfo__label
+                                                }
+                                            >
+                                                Começou em
+                                            </span>
+                                            <strong
+                                                className={
+                                                    styles.bookInfo__data
+                                                }
+                                            >
+                                                {book.startDate}
+                                            </strong>
+                                        </p>
+                                        <p className={styles.bookInfo}>
+                                            <span
+                                                className={
+                                                    styles.bookInfo__label
+                                                }
+                                            >
+                                                Terminou em
+                                            </span>
+                                            <strong
+                                                className={
+                                                    styles.bookInfo__data
+                                                }
+                                            >
+                                                {book.endDate}
+                                            </strong>
+                                        </p>
+                                        <p className={styles.bookInfo}>
+                                            <span
+                                                className={
+                                                    styles.bookInfo__label
+                                                }
+                                            >
+                                                Posse do livro
+                                            </span>
+                                            <strong
+                                                className={
+                                                    styles.bookInfo__data
+                                                }
+                                            >
+                                                {book.ownership}
+                                            </strong>
+                                        </p>
+                                        <p className={styles.bookInfo}>
+                                            <span
+                                                className={
+                                                    styles.bookInfo__label
+                                                }
+                                            >
+                                                Nota do livro
+                                            </span>
+                                            <strong
+                                                className={
+                                                    styles.bookInfo__data
+                                                }
+                                            >
+                                                {book.rating}
+                                            </strong>
+                                        </p>
+                                    </div>
+                                </InfoCard>
+                            ))}
 
-                    {/* Only shows the button if the number of visible cards (visibleBooks.length) 
+                        {/* Only shows the button if the number of visible cards (visibleBooks.length) 
                     is greater than 'INITIAL_BOOKS_VISIBLE' */}
-                    {canShowMoreButton && (
-                        <div className={styles.bookList__showMoreBtnContainer}>
-                            <Button
-                                bgColor="#a202f0"
-                                aria-controls="bookList__items"
-                                aria-expanded={isBooksExpanded}
-                                onClick={() =>
-                                    setIsBooksExpanded(!isBooksExpanded)
+                        {canShowMoreButton && (
+                            <div
+                                className={
+                                    styles.bookList__showMoreBtnContainer
                                 }
                             >
-                                {isBooksExpanded ? "Ver menos" : "Ver mais"}
-                            </Button>
-                        </div>
-                    )}
-                </>
-            ) : (
-                Array.from({ length: INITIAL_BOOKS_VISIBLE }).map(
-                    (_, index) => (
-                        <InfoCard key={index}>
-                            <div className={styles.loadingContainer}></div>
-                        </InfoCard>
+                                <Button
+                                    bgColor="#a202f0"
+                                    aria-controls="bookList__items"
+                                    aria-expanded={isBooksExpanded}
+                                    onClick={() =>
+                                        setIsBooksExpanded(!isBooksExpanded)
+                                    }
+                                >
+                                    {isBooksExpanded ? "Ver menos" : "Ver mais"}
+                                </Button>
+                            </div>
+                        )}
+                    </>
+                ) : (
+                    Array.from({ length: INITIAL_BOOKS_VISIBLE }).map(
+                        (_, index) => (
+                            <InfoCard key={index}>
+                                <div className={styles.loadingContainer}></div>
+                            </InfoCard>
+                        )
                     )
-                )
-            )}
-        </div>
+                )}
+            </div>
+        </>
     );
 }
 

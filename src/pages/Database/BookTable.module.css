@@ -62,6 +62,15 @@
     border-bottom: none;
 }
 
+.table__data {
+    font-weight: 500;
+}
+
+.table__data.notProvided {
+    font-size: .9rem;
+    font-weight: normal;
+}
+
 .table__emptyRow {
     height: 100%;
 

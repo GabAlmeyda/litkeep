@@ -32,8 +32,7 @@ const headingsMap = {
     rating: "Pontuação",
     genre: "Gênero",
     ownership: "Posse do livro",
-    startDate: "Início da leitura",
-    endDate: "Fim da leitura",
+    status: "Status do livro",
 };
 const genreOptions = Object.keys(genreColorsMap);
 
@@ -76,20 +75,6 @@ function DataBasePage() {
     const [bookData, setBookData] = useState(initialBookData);
 
     const bookIdsArray = books.map((book) => book.id);
-
-    useEffect(() => {
-        const func = (e) => {
-            if (e.ctrlKey && e.key === "d") {
-                e.preventDefault();
-                console.log(bookData);
-            }
-        };
-
-        document.documentElement.addEventListener("keydown", func);
-
-        return () =>
-            document.documentElement.removeEventListener("keydown", func);
-    }, [bookData]);
 
     useInitializeBooks();
 
@@ -167,6 +152,14 @@ function DataBasePage() {
 
                 // early return
                 return;
+            case "clearId":
+                setBookData({
+                    ...bookData,
+                    id: "",
+                });
+
+                // early return
+                return;
         }
 
         try {
@@ -206,7 +199,6 @@ function DataBasePage() {
         switch (filterOption) {
             case "ownership": {
                 const filter = filterBooks({ ownership: "sim" });
-                console.log(filter);
                 setFilteredBooks(filter);
                 break;
             }
@@ -266,7 +258,7 @@ function DataBasePage() {
 
                     <BookTable
                         headings={headingsMap}
-                        bookArray={filteredBooks}
+                        booksArray={filteredBooks}
                         onDoubleClick={handleTableDoubleClick}
                     />
                 </section>
