@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import styles from "./BookToast.module.css";
 
 import { IoWarning } from "react-icons/io5";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ErrorFallback from "./ErrorFallback";
 
 /**
@@ -20,7 +20,7 @@ import ErrorFallback from "./ErrorFallback";
  */
 function BookToast({ action, status }) {
     const [showBookToast, setShowBookToast] = useState(true);
-
+    const errorRef = useRef(false);
     // Removes the toast after 3 seconds
     useEffect(() => {
         const closeToast = () => {
@@ -37,14 +37,14 @@ function BookToast({ action, status }) {
             loading: "Adicionando Livro...",
             success: "Livro Adicionado!",
             error: "Erro ao adicionar livro.",
-            alreadyRegistered: "remova a seleção atual para cadastrar outro livro."
+            alreadyRegistered:
+                "remova a seleção atual para cadastrar outro livro.",
         },
         update: {
             loading: "Atualizando Livro...",
             success: "Livro Atualizado!",
             error: "Erro ao atualizar livro.",
-            notFound:
-                "Selecione um livro para atualizar.",
+            notFound: "Selecione um livro para atualizar.",
         },
         remove: {
             loading: "Removendo Livro...",
@@ -52,7 +52,16 @@ function BookToast({ action, status }) {
             error: "Erro ao remover livro.",
             notFound: "Selecione um livro para remover.",
         },
+        viewBook: {
+            notFound: "Selecione um livro para visualizar.",
+        }
     };
+    if (!Object.keys(actionStatusMap).includes(action)) {
+        console.error(
+            `Invalid action '${action}' received in 'BookToast' component. Expect one of "add", "remove", "update" or "viewBook".`
+        );
+        errorRef.current = true;
+    }
 
     let backgroundColor = undefined;
     switch (status) {
@@ -69,10 +78,12 @@ function BookToast({ action, status }) {
             break;
         default:
             console.error(
-                `Invalid status '${status}' received in 'BookToast' component. Expect one of "loading", "success", "error", "notFound" or "alreadyRegistered.`
+                `Invalid status '${status}' received in 'BookToast' component. Expect one of "loading", "success", "error", "notFound" or "alreadyRegistered".`
             );
-            <ErrorFallback componentName="BookToast" />;
+            errorRef.current = true;
     }
+
+    if (errorRef.current) return <ErrorFallback componentName="BookToast" />
 
     const handleClick = (e) => {
         if (e.currentTarget.className === styles.toast) {

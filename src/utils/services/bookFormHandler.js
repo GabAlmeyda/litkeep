@@ -75,40 +75,55 @@ export function validateBookData(bookData, action, bookIdsArray) {
     // Verifies if the fields are correctly provided based on the action
     switch (action) {
         case "clear":
+            return { ...errors, err: false };
+
+        case "viewBook":
+            if (!bookData.id) {
+                errors.id = "Livro não selecionado.";
+            }
+
             return { ...errors, err: Object.keys(errors).length > 0 };
+
         case "add":
-            if (!bookData.title) {
-                errors.title = "Título obrigatório";
-            }
-            if (!bookData.author) {
-                errors.author = "Autor obrigatório";
-            }
             if (new Set(bookIdsArray).has(bookData.id)) {
                 errors.id = "Livro selecionado.";
+
+                // early return
+                return { ...errors, err: true };
+            }
+            if (!bookData.title) {
+                errors.title = "Título obrigatório.";
+            }
+            if (!bookData.author) {
+                errors.author = "Autor obrigatório.";
             }
             break;
 
         case "update":
             if (!bookData.id) {
-                errors.id = "ID obrigatório";
+                errors.id = "Livro não selecionado.";
+
+                // early return
+                return { ...errors, err: true };
             }
             if (!bookData.title) {
-                errors.title = "Título obrigatório";
+                errors.title = "Título obrigatório.";
             }
             if (!bookData.author) {
-                errors.author = "Autor obrigatório";
+                errors.author = "Autor obrigatório.";
             }
             break;
 
         case "remove":
             if (!bookData.id) {
-                errors.id = "ID obrigatório";
+                errors.id = "Livro não selecionado.";
             }
-            break;
+            
+            return { ...errors, err: Object.keys(errors).length > 0 };
 
         case "searchByTitle":
             if (!bookData.title) {
-                errors.title = "Título obrigatório";
+                errors.title = "Título obrigatório.";
             }
 
             // early return
@@ -116,7 +131,7 @@ export function validateBookData(bookData, action, bookIdsArray) {
 
         case "searchByAuthor":
             if (!bookData.author) {
-                errors.author = "Autor obrigatório";
+                errors.author = "Autor obrigatório.";
             }
 
             // early return
@@ -150,7 +165,7 @@ export function validateBookData(bookData, action, bookIdsArray) {
         }
     }
     if (
-        bookData.rating && 
+        bookData.rating &&
         bookData.rating.trim().toLowerCase() !== "abandonado" &&
         typeof Number(bookData.rating) === "number" &&
         !bookData.endDate

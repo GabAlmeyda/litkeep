@@ -40,7 +40,7 @@
     text-align: left;
     border-right: 1px solid var(--alt-background-color);
 
-    background-color: var(--contrast-color-hover);
+    background-color: var(--contrast-color-active);
 
     color: var(--background-color);
 }

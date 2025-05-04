@@ -257,7 +257,7 @@ function BookForm({
             <div className={styles.form__buttons}>
                 <span className={styles.buttons__left}>
                     <Button
-                        bgColor="#2bbad4"
+                        bgColor="var(--accent-color)"
                         fontColor="#fff"
                         onClick={() => handleAction("add")}
                     >
@@ -265,7 +265,7 @@ function BookForm({
                     </Button>
 
                     <Button
-                        bgColor="#350a7b"
+                        bgColor="var(--surface-color)"
                         fontColor="#fff"
                         onClick={() => handleAction("update")}
                     >

@@ -53,7 +53,7 @@ function BookTable({
                 Não informado
             </i>
         ),
-        status: statusMap[book.status]
+        status: statusMap[book.status],
     }));
 
     const headingTitles = Object.values(headings);

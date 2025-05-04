@@ -227,7 +227,7 @@ function BookList({ visibleBooks, isFetchFinished, isMobile }) {
                                 }
                             >
                                 <Button
-                                    bgColor="#a202f0"
+                                    bgColor="var(--surface-color)"
                                     aria-controls="bookList__items"
                                     aria-expanded={isBooksExpanded}
                                     onClick={() =>

@@ -137,7 +137,7 @@ function DataBasePage() {
     const handleBookFormAction = (action, errors) => {
         if (errors.err) {
             if (errors.id) {
-                const statusError = ["update", "remove"].includes(action)
+                const statusError = ["update", "remove", "viewBook"].includes(action)
                     ? "notFound"
                     : "alreadyRegistered";
 

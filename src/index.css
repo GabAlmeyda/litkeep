@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root {
-	--surface-color: #350a7b;
+	--surface-color: hsl(263, 85%, 26%);
 	--surface-color-hover: hsl(263, 85%, 23%);
 	--surface-color-active: hsl(263, 85%, 18%);
 
@@ -23,9 +23,9 @@
 }
 
 .dark {
-	--surface-color: hsl(289, 98%, 17%);
-	--surface-color-hover: hsl(289, 98%, 14%);
-	--surface-color-active: hsl(289, 98%, 11%);
+	--surface-color: hsl(263, 97%, 17%); 
+	--surface-color-hover: hsl(263, 97%, 12%); 
+	--surface-color-active: hsl(263, 97%, 9%); 
 
 	--accent-color: hsl(189, 66%, 50%);
 	--accent-color-hover: hsl(189, 66%, 45%);

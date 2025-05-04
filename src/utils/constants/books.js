@@ -4,7 +4,7 @@ export const genreColorsMap = {
     "Romance": "#FF5733",
     "Drama": "#FF5733",
     "Aventura": "#FF5733",
-    "Ficção científica": "#33FF57",
+    "Ficção Científica": "#33FF57",
     "Fantasia": "#33FF57",
     "Distopia": "#33FF57",
     "Terror": "#3357FF",
@@ -24,6 +24,6 @@ export const genreColorsMap = {
     "Policial": "#E74C3C",
     "Humor": "#3498DB",
     "Infantil": "#2ECC71",
-    "Jovem adulto": "#2ECC71",
+    "Jovem Adulto": "#2ECC71",
     "Poesia": "#9B59B6"
 };
