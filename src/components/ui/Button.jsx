@@ -11,24 +11,25 @@ import styles from "./Button.module.css";
  * property should be a valid Hexadecimal value in the format '#AABBCC' or '#ABC'.
  * Default to '#00f' (blue) if not provided or invalid.
  * @param {string} [props.fontColor="#fff"] - The font color of the button. This property
- * should be a valid Hexadecimal value in the format '#AABBCC' or '#ABC'. Default to
- * '#fff' (white) if not provided or invalid.
+ * should be a valid Hexadecimal value in the format '#AABBCC' or '#ABC' or a valid CSS variable
+ * Default to '#fff' (white) if not provided or invalid.
  * @param {func} props.onClick - The function to handle the button's click event.
  * @param {React.ReactNode} props.children - The content inside the button.
  *
  * @returns {JSX.Element} A JSX element representing the custom button.
  */
-function Button({ bgColor = "#00f", fontColor = "#fff", onClick, children }) {
+function Button ({ bgColor = "#00f", fontColor = "#fff", onClick, children }) {
     const regexHex = /^#([0-9A-Fa-f]{3}){1,2}$/;
-    if (!regexHex.test(bgColor)) {
+    const regexVar = /^var\(--[a-zA-Z0-9-_]+\)$/;
+    if (!regexHex.test(bgColor) && !regexVar.test(bgColor)) {
         console.warn(
-            `The passed background color '${bgColor}' isn't a valid Hexadecimal color for the 'Button' component. Defaulting to '#00f' (blue).`
+            `The passed background color '${bgColor}' isn't a valid Hexadecimal or CSS variable color for the 'Button' component. Defaulting to '#00f' (blue).`
         );
         bgColor = "#00f";
     }
-    if (!regexHex.test(fontColor)) {
+    if (!regexHex.test(fontColor) && !regexVar.test(fontColor)) {
         console.warn(
-            `The passed font color '${fontColor}' isn't a valid Hexadecimal color for the 'Button' component. Defaulting to '#fff' (white).`
+            `The passed font color '${fontColor}' isn't a valid Hexadecimal or CSS variable color for the 'Button' component. Defaulting to '#fff' (white).`
         );
         fontColor = "#fff";
     }
@@ -37,6 +38,7 @@ function Button({ bgColor = "#00f", fontColor = "#fff", onClick, children }) {
         <button
             className={styles.btn}
             onClick={onClick}
+            onKeyDown={(e) => e.key === "Enter" && onClick()}
             style={{ color: fontColor, backgroundColor: bgColor }}
         >
             {children}

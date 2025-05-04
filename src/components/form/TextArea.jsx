@@ -42,6 +42,7 @@ function TextArea({
         <label htmlFor={id} className={styles.label}>
             <textarea
                 placeholder={placeholder}
+                autoComplete="off"
                 onChange={onChange}
                 name={name}
                 value={value}

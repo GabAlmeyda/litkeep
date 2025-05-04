@@ -62,6 +62,7 @@ export function handleBookAction(action, bookData, functions) {
  */
 export function validateBookData(bookData, action, bookIdsArray) {
     const errors = {};
+
     const validOwnershipValues = ["sim", "não"];
     const validStringRatingValues = ["abandonado", ""];
     const [startDay, startMonth, startYear] = bookData.startDate
@@ -149,7 +150,8 @@ export function validateBookData(bookData, action, bookIdsArray) {
         }
     }
     if (
-        bookData.rating !== "" &&
+        bookData.rating && 
+        bookData.rating.trim().toLowerCase() !== "abandonado" &&
         typeof Number(bookData.rating) === "number" &&
         !bookData.endDate
     ) {

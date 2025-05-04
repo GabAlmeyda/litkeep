@@ -2,7 +2,7 @@
  * returns an object containing all the website paths bellow:
  * - **homepage**: the root of the website;
  * - **database**: the database page;
- * - **selectedBook**: the page for a selected book;
+ * - **book**: the page for a selected book;
  * - **landingPage**: the landing page.
  * 
  * @returns {Object} An object containing all the website paths.

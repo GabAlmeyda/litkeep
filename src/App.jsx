@@ -13,7 +13,7 @@ import Footer from "./components/layout/Footer";
 
 import LandingPage from "./pages/LandingPage/LandingPage.jsx";
 import Homepage from "./pages/Homepage/Homepage.jsx";
-import DataBasePage from "./pages/Database/DataBasePage.jsx";
+import DataBasePage from "./pages/DatabasePage/DataBasePage.jsx";
 import SelectedBookPage from "./pages/SelectedBookPage/SelectedBookPage.jsx";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage.jsx";
 import { useEffect } from "react";
@@ -51,7 +51,7 @@ function App() {
                         element={<DataBasePage />}
                     />
                     <Route
-                        path={websitePaths.selectedBook}
+                        path={`${websitePaths.book}/:bookId`}
                         element={<SelectedBookPage />}
                     />
                     <Route

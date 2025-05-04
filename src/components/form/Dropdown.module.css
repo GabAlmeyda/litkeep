@@ -16,7 +16,7 @@
 
 	padding: .2rem .4rem;
 
-	background-color: var(--contrast-color);
+	background-color: var(--contrast-color-hover);
 }
 
 .dropdown * {
@@ -46,7 +46,7 @@
 	border: none;
 	padding: 0 .2rem;
 
-	background-color: var(--contrast-color);
+	background-color: var(--contrast-color-hover);
 
 	overflow: hidden;
 	white-space: nowrap;
@@ -86,7 +86,7 @@
 	box-shadow: 3px 4px 6px rgba(0, 0, 0, 0.4);
 	border-radius: 0 0 5px 5px;
 	
-    background-color: var(--contrast-color);
+    background-color: var(--contrast-color-hover);
 
 	text-align: left;
 }
@@ -96,7 +96,7 @@
 
 	cursor: pointer;
 
-	border-bottom: 1px solid white;
+	border-bottom: 1px solid var(--text-color);
 	padding: .2rem;
 }
 .dropdown__option:hover {

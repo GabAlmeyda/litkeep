@@ -18,6 +18,7 @@ import MoreOptions from "../../components/ui/MoreOptions";
 
 const moreOptionsMap = {
     clear: "Limpar tudo",
+    viewBook: "Ver o livro",
     remove: "Remover livro",
 };
 
@@ -38,11 +39,12 @@ const moreOptionsMap = {
  * ### Actions:
  * - **Add**: Adds a new book, triggering the `"add"` action.
  * - **Update**: Updates a registered book, triggering the `"update"` action.
- * - **Remove**: Removes a registered book, trigering the `"remove"` action.
- * - **Searc**: Searches a book, or by the 'book's title' input, triggering the `"searchByTitle"`
+ * - **Deselect**: Deselects the current book, allowing to add a new book, triggering the `"clearId"` action.
+ * - **Search**: Searches a book, or by the 'book's title' input, triggering the `"searchByTitle"`
  * action, or by the 'book's author' input, triggering the `"searchByAuthor"` action.
  * - **Clear**: Clears all the input fields, triggering the `"clear"` action.
- * - **Deselect**: Deselects the current book, allowing to add a new book, triggering the `"clearId"` action. 
+ * - **Remove**: Removes a registered book, triggering the `"remove"` action.
+ * - **Visualize**: Goes to the book's specific page, triggering the `"viewBook"` action.
  *
  * ### Validations:
  * - The book's title, author and ownership are required fields for the `"add"` and `"update"` actions.
@@ -76,6 +78,7 @@ const moreOptionsMap = {
  * - `"searchByAuthor"`.
  * - `"clear"`.
  * - `"clearId"`.
+ * - `"viewBook"`.
  *
  * @returns {JSX.Element} A JSX element representing a form to fill the book data.
  */

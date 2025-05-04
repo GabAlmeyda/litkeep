@@ -16,6 +16,8 @@ import {
     handleBookAction,
     normalizeBookData,
 } from "../../utils/services/bookFormHandler";
+import { useLocation, useNavigate } from "react-router-dom";
+import { getWebsitePaths } from "../../utils/constants/paths";
 
 const metaTags = [
     {
@@ -66,6 +68,7 @@ function DataBasePage() {
         removeBook,
         updateBook,
         searchBooks,
+        getBookById,
     } = useBookStore((state) => state);
     const [filteredBooks, setFilteredBooks] = useState(books);
     const [bookToastInfo, setBookToastInfo] = useState({
@@ -73,10 +76,21 @@ function DataBasePage() {
         status: undefined,
     });
     const [bookData, setBookData] = useState(initialBookData);
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const bookIdsArray = books.map((book) => book.id);
+    const WEBSITE_PATHS = getWebsitePaths();
 
     useInitializeBooks();
+
+    // If a 'bookId' is provided, set the 'bookData' to the book that matches the 
+    // ID in the server.
+    useEffect(() => {
+        if (location.state.bookId) {
+            setBookData(getBookById(location.state.bookId))
+        }
+    }, [getBookById, location]);
 
     useEffect(() => {
         setFilteredBooks(books);
@@ -145,17 +159,22 @@ function DataBasePage() {
             case "searchByTitle":
                 setFilteredBooks(searchBooks("title", normalizedBook.title));
                 break;
-            
+
             case "searchByAuthor":
                 setFilteredBooks(searchBooks("author", normalizedBook.author));
                 break;
-            
+
             case "clearId":
                 setBookData({
                     ...bookData,
                     id: "",
                 });
                 break;
+
+            case "viewBook":
+                navigate(`${WEBSITE_PATHS.book}/${bookData.id}`, {
+                    state: { scrollToTop: true },
+                });
         }
 
         setBookToastInfo({
@@ -164,7 +183,12 @@ function DataBasePage() {
         });
 
         // early return
-        if (["searchByAuthor", "searchByTitle", "clearId"].includes(action)) return;
+        if (
+            ["searchByAuthor", "searchByTitle", "clearId", "viewBook"].includes(
+                action
+            )
+        )
+            return;
 
         try {
             const bookFunctions = {

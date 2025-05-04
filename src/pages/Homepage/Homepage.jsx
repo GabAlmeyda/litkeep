@@ -83,7 +83,11 @@ function Homepage() {
             }
 
             let bestBookByRating = books
-                .filter((book) => typeof book.rating === "number")
+                .filter(
+                    (book) =>
+                        typeof Number(book.rating) === "number" &&
+                        !isNaN(Number(book.rating))
+                )
                 .reduce((best, current) => {
                     if (!best || current.rating > best.rating) return current;
                     return best;
@@ -185,7 +189,8 @@ function Homepage() {
                                 fetchStatus === "idle"
                             }
                         >
-                            {fetchStatus === "success" && bestBook === null || (
+                            {(fetchStatus === "success" &&
+                                bestBook === null) || (
                                 <InfoCard alignment="center">
                                     <BestBookCard
                                         bestBook={bestBook}

@@ -12,6 +12,7 @@
 
 	--text-color: hsl(0, 0%, 7%);
 	--alt-text-color: hsl(0, 0%, 33%);
+	--contrast-text-color: hsl(0, 0%, 93%);
 
 	--background-color: hsl(272, 65%, 90%);
 	--alt-background-color: hsl(271, 23%, 70%);
@@ -32,9 +33,10 @@
 
 	--text-color: hsl(0, 0%, 93%);
 	--alt-text-color: hsl(0, 0%, 73%);
+	--contrast-text-color: hsl(0, 0%, 7%);
 
-	--background-color: hsl(0, 0%, 15%);
-	--alt-background-color: hsl(0, 0%, 24%);
+	--background-color: hsl(0, 0%, 9%);
+	--alt-background-color: hsl(0, 0%, 15%);
 
 	--contrast-color: hsl(0, 0%, 53%);
 	--contrast-color-hover: hsl(0, 0%, 43%);

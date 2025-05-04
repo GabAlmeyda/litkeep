@@ -14,7 +14,7 @@ import MoreOptions from "../../components/ui/MoreOptions";
 import Button from "../../components/ui/Button";
 
 const moreOptionsMap = {
-    view: "Ver o livro",
+    viewBook: "Ver o livro",
     update: "Editar o livro",
     remove: "Remover o livro",
 };
@@ -53,7 +53,7 @@ function BookList({ visibleBooks, isFetchFinished, isMobile }) {
             } else {
                 setCanShowToTop(false);
             }
-        }
+        };
 
         window.addEventListener("scroll", handleScroll);
 
@@ -62,10 +62,16 @@ function BookList({ visibleBooks, isFetchFinished, isMobile }) {
 
     const handleMoreOptionSelect = (action, bookId) => {
         switch (action) {
-            case "view":
             case "update":
             case "remove":
-                navigate(WEBSITE_PATHS.database, { state: { bookId: bookId } });
+                navigate(WEBSITE_PATHS.database, {
+                    state: { bookId: bookId, scrollToTop: true },
+                });
+                break;
+            case "viewBook":
+                navigate(`${WEBSITE_PATHS.book}/${bookId}`, {
+                    state: { scrollToTop: true },
+                });
                 break;
             default:
                 console.error(
@@ -77,7 +83,10 @@ function BookList({ visibleBooks, isFetchFinished, isMobile }) {
     const handleToTopClick = () => {
         if (!bookListItemsRef.current) return;
 
-        bookListItemsRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+        bookListItemsRef.current.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+        });
     };
 
     return (

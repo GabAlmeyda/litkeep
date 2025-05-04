@@ -37,20 +37,20 @@ function BookToast({ action, status }) {
             loading: "Adicionando Livro...",
             success: "Livro Adicionado!",
             error: "Erro ao adicionar livro.",
-            alreadyRegistered: "Clique no botão para remover a seleção atual e cadastrar outro livro."
+            alreadyRegistered: "remova a seleção atual para cadastrar outro livro."
         },
         update: {
             loading: "Atualizando Livro...",
             success: "Livro Atualizado!",
             error: "Erro ao atualizar livro.",
             notFound:
-                "O livro não pode ser atualizado pois não foi encontrado.",
+                "Selecione um livro para atualizar.",
         },
         remove: {
             loading: "Removendo Livro...",
             success: "Livro Removido!",
             error: "Erro ao remover livro.",
-            notFound: "O livro não pode ser removido pois não foi encontrado.",
+            notFound: "Selecione um livro para remover.",
         },
     };
 
