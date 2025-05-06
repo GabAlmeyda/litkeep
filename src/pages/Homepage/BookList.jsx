@@ -1,10 +1,8 @@
 import PropTypes from "prop-types";
 import clsx from "clsx";
-import { useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 
 import { bookShapeType } from "../../utils/propTypes/propTypes";
-import { getWebsitePaths } from "../../utils/constants/paths";
 
 import styles from "./BookList.module.css";
 
@@ -26,19 +24,22 @@ const moreOptionsMap = {
  * @param {Object} props - The properties of the component.
  * @param {Array<bookShapeType>} props.visibleBooks - An array containing the books to
  * be displayed inside the component.
+ * @param {boolean} props.isFetchFinished - The success fetch status of the request.
  * @param {boolean} props.isMobile - A boolean value representing if the layout of the book list
  * should be addapted to mobile screens or desktop screens.
- * @param {boolean} props.isFetchFinished - The success fetch status of the request.
+ * @param {Function} props.onMoreOptionsClick - Handles the click on the more options. To this 
+ * function, is passed two arguments: the `action` and the `bookId`.
+ * - **`action`**: the action of the clicked button. Possible values are `"update"`, `"remove"` or
+ * `"viewBook"`.
+ * - **`bookId`**: the ID of the book where the more options was clicked.
  *
  * @returns {JSX.Element} A JSX element representing the book list component.
  */
-function BookList({ visibleBooks, isFetchFinished, isMobile }) {
-    const navigate = useNavigate();
+function BookList({ visibleBooks, isFetchFinished, isMobile, onMoreOptionsClick }) {
     const [isBooksExpanded, setIsBooksExpanded] = useState(false);
     const [canShowToTop, setCanShowToTop] = useState(false);
     const bookListItemsRef = useRef(null);
 
-    const WEBSITE_PATHS = getWebsitePaths();
     const INITIAL_BOOKS_VISIBLE = isMobile ? 3 : 6;
     const canShowMoreButton = visibleBooks.length > INITIAL_BOOKS_VISIBLE;
 
@@ -59,26 +60,6 @@ function BookList({ visibleBooks, isFetchFinished, isMobile }) {
 
         return () => window.removeEventListener("scroll", handleScroll);
     }, [isBooksExpanded]);
-
-    const handleMoreOptionSelect = (action, bookId) => {
-        switch (action) {
-            case "update":
-            case "remove":
-                navigate(WEBSITE_PATHS.database, {
-                    state: { bookId: bookId, scrollToTop: true },
-                });
-                break;
-            case "viewBook":
-                navigate(`${WEBSITE_PATHS.book}/${bookId}`, {
-                    state: { scrollToTop: true },
-                });
-                break;
-            default:
-                console.error(
-                    `Invalid action '${action}' received in 'BookList'. Expected one of "view", "update" or "remove".`
-                );
-        }
-    };
 
     const handleToTopClick = () => {
         if (!bookListItemsRef.current) return;
@@ -132,7 +113,7 @@ function BookList({ visibleBooks, isFetchFinished, isMobile }) {
                                         <MoreOptions
                                             options={moreOptionsMap}
                                             onSelect={(action) =>
-                                                handleMoreOptionSelect(
+                                                onMoreOptionsClick(
                                                     action,
                                                     book.id
                                                 )
@@ -257,6 +238,7 @@ BookList.propTypes = {
     visibleBooks: PropTypes.arrayOf(PropTypes.shape(bookShapeType)).isRequired,
     isFetchFinished: PropTypes.bool.isRequired,
     isMobile: PropTypes.bool.isRequired,
+    onMoreOptionsClick: PropTypes.func.isRequired,
 };
 
 export default BookList;

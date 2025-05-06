@@ -11,10 +11,12 @@ import InfoCard from "../../components/ui/InfoCard";
 import Header from "../../components/layout/Header";
 import ServerErrorScreen from "../../components/layout/ServerErrorScreen";
 import Dropdown from "../../components/form/Dropdown";
+import BookToast from '../../components//ui/BookToast';
 
 import BestBookCard from "./BestBookCard";
 import AdditionalInfoCards from "./AdditionalInfoCards";
 import BookList from "./BookList";
+import { useNavigate } from "react-router-dom";
 
 const metaTags = [
     {
@@ -56,12 +58,16 @@ const dropdownOptions = {
  * @returns {JSX.Element} A JSX element representing the website's homepage.
  */
 function Homepage() {
-    const { books, fetchStatus, filterBooks } = useBookStore((state) => state);
+    const navigate = useNavigate();
+    const { books, fetchStatus, removeBook, filterBooks } = useBookStore(
+        (state) => state
+    );
 
     // bestBook === undefined: 'bestBook' wasn't selected (waiting for the fetch result);
     // bestBook === null: 'bestBook' doesn't exist (books is empty or all books have no numeric rating);
     // bestBook === {...}: 'bestBook' was selected (books isn't empty).
     const [bestBook, setBestBook] = useState(undefined);
+    const [isRemovingBook, setIsRemovingBook] = useState(false);
     const [additionalInfo, setAdditionalInfo] = useState(
         Array.from({ length: 4 }, () => null)
     );
@@ -69,7 +75,6 @@ function Homepage() {
     const windowSize = useWindowSize();
 
     const WEBSITE_PATHS = getWebsitePaths();
-
     const isMobile = windowSize.width < 700;
 
     useInitializeBooks();
@@ -111,6 +116,12 @@ function Homepage() {
             setFilteredBooks(books);
         }
     }, [books, fetchStatus, filterBooks]);
+
+    useEffect(() => { 
+        const timeOutID = setTimeout(() => setIsRemovingBook(false), 3000);
+
+        return () => clearTimeout(timeOutID);
+    }, [isRemovingBook]);
 
     // Updates the <meta> tags
     useEffect(() => {
@@ -156,6 +167,29 @@ function Homepage() {
             default:
                 console.error(
                     `Invalid filter criteria '${filterOption}' received in 'HomePage'. Expect one of "read", "notRead", "abandoned", "registered" or "ownership".`
+                );
+        }
+    };
+
+    const handleMoreOptionsClick = (action, bookId) => {
+        switch (action) {
+            case "update":
+                navigate(WEBSITE_PATHS.database, {
+                    state: { scrollToTop: true, bookId: bookId },
+                });
+                break;
+            case "remove":
+                setIsRemovingBook(true);
+                removeBook(bookId);
+                break;
+            case "viewBook":
+                navigate(`${WEBSITE_PATHS.book}/${bookId}`, {
+                    state: { scrollToTop: true },
+                });
+                break;
+            default:
+                console.error(
+                    `Invalid action '${action} received in 'Homepage' componente. Expect one of "update", "remove" or "viewBook".`
                 );
         }
     };
@@ -210,6 +244,10 @@ function Homepage() {
                 </section>
 
                 <section className={styles.bookList}>
+
+                    {(isRemovingBook && fetchStatus === "success") && (
+                        <BookToast action="remove" status="success" />
+                    )}
                     <h2>Livros Registrados</h2>
 
                     <div className={styles.bookList__btns}>
@@ -229,6 +267,7 @@ function Homepage() {
                         visibleBooks={filteredBooks}
                         isMobile={isMobile}
                         isFetchFinished={fetchStatus === "success"}
+                        onMoreOptionsClick={handleMoreOptionsClick}
                     />
                 </section>
             </main>

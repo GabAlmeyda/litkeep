@@ -166,7 +166,7 @@ export function validateBookData(bookData, action, bookIdsArray) {
     }
     if (
         bookData.rating &&
-        bookData.rating.trim().toLowerCase() !== "abandonado" &&
+        String(bookData.rating).trim().toLowerCase() !== "abandonado" &&
         typeof Number(bookData.rating) === "number" &&
         !bookData.endDate
     ) {

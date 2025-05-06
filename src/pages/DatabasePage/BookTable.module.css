@@ -4,13 +4,16 @@
 
     width: calc(100% + .5rem);
     height: 20rem;
-
 }
 
 .table {
+    clip-path: inset(0px round 10px);
+
     position: relative;
     overflow: hidden;
     table-layout: fixed;
+
+    height: 20rem;
 
     border-collapse: collapse;
     border-radius: 10px;
