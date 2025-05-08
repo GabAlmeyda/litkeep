@@ -2,12 +2,13 @@ import PropTypes from "prop-types";
 import styles from "./Header.module.css";
 
 import Navbar from "./Navbar";
+import clsx from "clsx";
 
 /**
  * Renders a customizable header element.
  *
  * @param {Object} props - The properties to be passed to the component.
- * @param {boolean} [props.navWithoutLogo] - If present, the 'Navbar' component will not
+ * @param {boolean} [props.hideLogo] - If present, the 'Navbar' component will not
  * display the site's logo;
  * @param {string} [props.customClass] - Optional custom class for styling.
  * @param {React.ReactNode} [props.children] - Optional content to be rendered inside the header.
@@ -15,10 +16,10 @@ import Navbar from "./Navbar";
  *
  * @returns {JSX.Element} A JSX element representing the header component.
  */
-function Header({ navWithoutLogo, customClass, children }) {
+function Header({ hideLogo, customClass, children }) {
     return (
-        <header className={`${styles.header} ${customClass}`}>
-            <Navbar withoutLogo={navWithoutLogo} />
+        <header className={clsx(styles.header, customClass)}>
+            <Navbar hideLogo={hideLogo} />
 
             {children}
         </header>
@@ -26,7 +27,7 @@ function Header({ navWithoutLogo, customClass, children }) {
 }
 
 Header.propTypes = {
-    navWithoutLogo: PropTypes.bool,
+    hideLogo: PropTypes.bool,
     customClass: PropTypes.oneOf([PropTypes.object, PropTypes.string]),
     children: PropTypes.node,
 };

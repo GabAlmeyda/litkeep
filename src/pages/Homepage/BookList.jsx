@@ -204,7 +204,7 @@ function BookList({ visibleBooks, isFetchFinished, isMobile, onMoreOptionsClick 
                         {canShowMoreButton && (
                             <div
                                 className={
-                                    styles.bookList__showMoreBtnContainer
+                                    styles.bookList__moreBooksBtnWrapper
                                 }
                             >
                                 <Button

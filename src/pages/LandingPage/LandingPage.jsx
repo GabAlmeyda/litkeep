@@ -55,14 +55,14 @@ const additionalCardsInfo = [
         class: "abandonedBooks",
     },
     {
-        text: "Livros Lidos:",
-        number: 42,
-        class: "readBooks",
-    },
-    {
         text: "Livros Não Lidos:",
         number: 5,
         class: "unreadBooks",
+    },
+    {
+        text: "Livros Lidos:",
+        number: 42,
+        class: "readBooks",
     },
 ];
 
@@ -113,7 +113,7 @@ function LandingPage() {
 
     return (
         <>
-            <Header navWithoutLogo customClass={styles.header}>
+            <Header hideLogo customClass={styles.header}>
                 <div className={styles.imageContainer}>
                     <img
                         src="/images/hero-image.png"
@@ -147,25 +147,30 @@ function LandingPage() {
 
                     {featureCardsInfo.map((cardInfo, index) => (
                         <div
-                            className={`${styles.feature} ${
-                                styles[cardInfo.class]
-                            }`}
-                            key={index}
+                            className={styles.featureWrapper}
+                            key={`featureWrapper-${index}`}
                         >
-                            <h3 className={styles.feature__desc}>
-                                {cardInfo.desc}
-                            </h3>
+                            <div
+                                className={`${styles.feature} ${
+                                    styles[cardInfo.class]
+                                }`}
+                                key={`feature-${index}`}
+                            >
+                                <h3 className={styles.feature__desc}>
+                                    {cardInfo.desc}
+                                </h3>
 
-                            <hr className={styles.feature__line} />
+                                <hr className={styles.feature__line} />
 
-                            <div className={styles.card} aria-hidden="true">
-                                <div className={styles.card__icon}>
-                                    {cardInfo.icon}
+                                <div className={styles.card} aria-hidden="true">
+                                    <div className={styles.card__icon}>
+                                        {cardInfo.icon}
+                                    </div>
+
+                                    <p className={styles.card__text}>
+                                        {cardInfo.text}
+                                    </p>
                                 </div>
-
-                                <p className={styles.card__text}>
-                                    {cardInfo.text}
-                                </p>
                             </div>
                         </div>
                     ))}
@@ -184,27 +189,25 @@ function LandingPage() {
                         className={styles.searchCardsWrapper}
                         aria-hidden="true"
                     >
-                        <div className={styles.cardsContainer}>
+                        <div className={styles.cardsWrapper}>
                             {searchCardsInfo.map((cardInfo, index) => (
                                 <div
                                     className={`${styles.card} ${
                                         styles[cardInfo.class]
                                     }`}
-                                    key={index}
+                                    key={`search-card-${index}`}
                                 >
                                     <p className={styles.card__text}>
                                         {cardInfo.text}
                                     </p>
-                                    <div
-                                        className={styles.card__linesContainer}
-                                    >
+                                    <div className={styles.card__linesWrapper}>
                                         {Array.from({ length: 5 }).map(
                                             (_, index) => (
                                                 <div
                                                     className={
-                                                        styles.linesContainer__line
+                                                        styles.linesWrapper__line
                                                     }
-                                                    key={index}
+                                                    key={`line-${index}`}
                                                 ></div>
                                             )
                                         )}
@@ -214,25 +217,25 @@ function LandingPage() {
                         </div>
 
                         {/* The container with the shapes as the background */}
-                        <div className={styles.shapesContainer}>
+                        <div className={styles.shapesWrapper}>
                             {Array.from({ length: 6 }).map((_, index) => (
                                 <div
                                     className={`${styles.shape} ${styles.square}`}
-                                    key={index}
+                                    key={`square-${index}`}
                                 ></div>
                             ))}
 
                             {Array.from({ length: 6 }).map((_, index) => (
                                 <div
                                     className={`${styles.shape} ${styles.circle}`}
-                                    key={index}
+                                    key={`circle-${index}`}
                                 ></div>
                             ))}
 
                             {Array.from({ length: 6 }).map((_, index) => (
                                 <div
                                     className={`${styles.shape} ${styles.triangle}`}
-                                    key={index}
+                                    key={`triangle-${index}`}
                                 ></div>
                             ))}
                         </div>
@@ -248,22 +251,24 @@ function LandingPage() {
                         possível
                     </p>
 
-                    <div className={styles.cardsContainer} aria-hidden="true">
-                        {additionalCardsInfo.map((cardInfo, index) => (
-                            <div
-                                className={`${styles.card} ${
-                                    styles[cardInfo.class]
-                                }`}
-                                key={index}
-                            >
-                                <p className={styles.card__text}>
-                                    {cardInfo.text}
-                                </p>
-                                <p className={styles.card__number}>
-                                    {cardInfo.number}
-                                </p>
-                            </div>
-                        ))}
+                    <div className={styles.infoCardsWrapper} aria-hidden="true">
+                        <div className={styles.cardsWrapper}>
+                            {additionalCardsInfo.map((cardInfo, index) => (
+                                <div
+                                    className={`${styles.card} ${
+                                        styles[cardInfo.class]
+                                    }`}
+                                    key={`info-card-${index}`}
+                                >
+                                    <p className={styles.card__text}>
+                                        {cardInfo.text}
+                                    </p>
+                                    <p className={styles.card__number}>
+                                        {cardInfo.number}
+                                    </p>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </section>
 

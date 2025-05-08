@@ -2,6 +2,9 @@
     min-height: 82vh;
     max-height: 82vh;
 
+    max-width: 500px;
+    margin-inline: auto;
+
     text-align: center;
 }
 

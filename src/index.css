@@ -90,8 +90,6 @@ h3 {
 }
 
 section {
-	min-height: 100vh;
-
 	padding-inline: .5rem;
 	padding-top: 2rem;
 	padding-bottom: 3rem;
