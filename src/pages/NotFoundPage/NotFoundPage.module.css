@@ -1,4 +1,4 @@
-.error {
+.errorSection {
     min-height: 82vh;
     max-height: 82vh;
 
@@ -8,23 +8,23 @@
     text-align: center;
 }
 
-.error__icon * {
+.errorSection__icon * {
     font-size: 5rem;
 }
 
-.error h1 {
+.errorSection h1 {
     font-size: 2.1rem;
 }
 
-.error h2 {
+.errorSection h2 {
     margin-top: 0;
     margin-bottom: 2rem;
 }
 
-.error__goBack {
+.errorSection__goBack {
     margin-top: 2rem;
 }
 
-.error__goBack p {
+.errorSection__goBack p {
     margin-bottom: 1rem;
 }

@@ -1,5 +1,5 @@
 /* Shared styles */
-:where(.feature, .search, .information, .cta)>h2 {
+:where(.featuresSection, .searchSection, .informationSection, .ctaSection)>h2 {
 	max-width: 600px;
 
 	margin-bottom: .8rem;
@@ -8,7 +8,7 @@
 	font-weight: 500;
 }
 
-:where(.feature, .search, .information, .cta)>p {
+:where(.featuresSection, .searchSection, .informationSection, .ctaSection)>p {
 	max-width: 600px;
 
 	color: var(--alt-text-color);
@@ -67,11 +67,7 @@
 
 /* Header */
 .header {
-	min-height: 92vh;
-
-	padding-inline: 1rem;
-	padding-top: 8vh;
-	padding-bottom: 10vh;
+	padding: 5rem 1rem;
 
 	background-color: var(--surface-color);
 }
@@ -115,14 +111,15 @@
 
 
 /* Features section */
-.features {
+.featuresSection {
 	background-color: hsl(258, 100%, 63%);
 
 	text-align: center;
 }
 
-.features>h2 {
+.featuresSection>h2 {
 	margin-bottom: 5rem;
+	margin-inline: auto;
 
 	color: white;
 }
@@ -205,6 +202,10 @@
 
 
 /* Search section */
+.searchSection > :where(h2, p) {
+	margin-left: 3rem
+}
+
 .searchCardsWrapper {
 	position: relative;
 
@@ -393,9 +394,10 @@
 
 
 /* Information section */
-.information > :where(h2, p) {
+.informationSection > :where(h2, p) {
 	margin-left: auto;
 	text-align: right;
+	margin-right: 3rem;
 }
 
 .infoCardsWrapper {
@@ -427,7 +429,7 @@
 	background-color: hsl(258, 100%, 43%);
 }
 
-.information .card__number {
+.card__number {
 	font-size: 3rem;
 	color: white;
 	font-weight: bold;
@@ -435,25 +437,45 @@
 
 
 /* CTA section */
-.cta {
-	padding-bottom: 17rem;
+.ctaSection {
+	padding-bottom: 10rem;
 
 	background-color: var(--surface-color);
 
 	text-align: center;
 }
 
-.cta>* {
+.ctaSection>* {
 	margin-inline: auto;
 }
 
-.cta h2 {
+.ctaSection h2 {
 
 	font-size: clamp(2.4rem, min(10vw, 10vh), 3rem);
 	font-weight: bold;
 	color: white;
 }
 
-.cta p {
+.ctaSection p {
 	color: lightgray;
+}
+
+
+
+/* Media Queries */
+@media screen and (min-width: 1000px) {
+	.header .imageContainer{
+		width: 400px;
+		float: right;
+	}
+
+	.header :where(h1, h2, .linkButtonContainer) {
+		max-width: 500px;
+	}
+
+	.featuresSection, .searchSection, .informationSection, .ctaSection {
+		width: 100dvw;
+
+		margin-left: calc((100dvw - 1000px) / -2);
+	}
 }

@@ -71,6 +71,12 @@ body,
 	-moz-osx-font-smoothing: grayscale;
 }
 
+main {
+	width: 100%;
+	max-width: 1000px;
+	margin-inline: auto;
+}
+
 h1, h2, h3 {
 	font-family: "Montserrat", sans-serif;
 	line-height: 120%;

@@ -9,7 +9,7 @@
 .bookList__items {
 	display: grid;
 	grid-template-columns: 1fr;
-	justify-items: center;
+	justify-content: center;
 	gap: 1rem;
 
 	scroll-margin-top: 150px;
@@ -93,7 +93,6 @@
 /* Media Queries */
 @media screen and (min-width: 700px) {
 	.bookList__items {
-		justify-content: center;
-		grid-template-columns: repeat(2, minmax(300px, 500px));
+		grid-template-columns: repeat(2, minmax(300px, 450px));
 	}
 }

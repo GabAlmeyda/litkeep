@@ -142,7 +142,7 @@ function LandingPage() {
 
             <main>
                 {/* Features Section */}
-                <section className={styles.features}>
+                <section className={styles.featuresSection}>
                     <h2>Tenha total controle sobre os livros que armazena</h2>
 
                     {featureCardsInfo.map((cardInfo, index) => (
@@ -177,7 +177,7 @@ function LandingPage() {
                 </section>
 
                 {/* Search Section */}
-                <section className={styles.search}>
+                <section className={styles.searchSection}>
                     <h2>Seus livros organizados como nunca viu</h2>
                     <p>
                         Com o LitKeep é possível ordenar por ordem alfabética,
@@ -243,7 +243,7 @@ function LandingPage() {
                 </section>
 
                 {/* Additional Information Section  */}
-                <section className={styles.information}>
+                <section className={styles.informationSection}>
                     <h2>Tenha as informações que precisa sobre seus livros</h2>
                     <p>
                         Saiba quantos já leu, quantos foram abandonados ou
@@ -273,7 +273,7 @@ function LandingPage() {
                 </section>
 
                 {/* CTA Section */}
-                <section className={styles.cta}>
+                <section className={styles.ctaSection}>
                     <h2>Comece agora o seu registro</h2>
                     <p>
                         Estamos esperando sua presença para tornar o site ainda

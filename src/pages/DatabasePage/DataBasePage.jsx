@@ -87,7 +87,7 @@ function DataBasePage() {
     // If a 'bookId' is provided, set the 'bookData' to the book that matches the 
     // ID in the server.
     useEffect(() => {
-        if (location.state.bookId) {
+        if (location.state?.bookId) {
             setBookData(getBookById(location.state.bookId))
         }
     }, [getBookById, location]);
@@ -256,12 +256,10 @@ function DataBasePage() {
             <Header />
 
             <main>
-                <section className={styles.form}>
+                <section className={styles.formSection}>
                     {bookToastInfo.action && (
                         <BookToast {...bookToastInfo} key={Date.now()} />
                     )}
-
-                    <hr />
 
                     <BookForm
                         bookData={bookData}
@@ -270,8 +268,11 @@ function DataBasePage() {
                         onChange={handleInputChange}
                         onAction={handleBookFormAction}
                     />
+                </section>
 
-                    <hr />
+                <hr className={styles.line} />
+
+                <section className={styles.tableSection}>
 
                     <Dropdown
                         optionsValues={dropdownOptions}

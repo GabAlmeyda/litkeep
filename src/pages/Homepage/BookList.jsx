@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 
 import { bookShapeType } from "../../utils/propTypes/propTypes";
@@ -95,7 +94,6 @@ function BookList({ visibleBooks, isFetchFinished, isMobile, onMoreOptionsClick 
                             .map((book) => (
                                 <InfoCard
                                     alignment="left"
-                                    customClasses={clsx(!isMobile && "bigger")}
                                     key={book.id}
                                 >
                                     <h3 className={styles.book__title}>

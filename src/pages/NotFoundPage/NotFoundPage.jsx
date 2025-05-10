@@ -43,8 +43,8 @@ function NotFoundPage() {
 			<Header />
 			
             <main>
-                <section className={styles.error}>
-                    <div className={styles.error__icon}>
+                <section className={styles.errorSection}>
+                    <div className={styles.errorSection__icon}>
                         <MdError aria-hidden="true" />
                     </div>
     
@@ -55,7 +55,7 @@ function NotFoundPage() {
                         Oh, não! Essa página parece não existir na nossa biblioteca.
                     </p>
     
-                    <div className={styles.error__goBack}>
+                    <div className={styles.errorSection__goBack}>
                         <p>
                             Mas não se preocupe, a página inicial está dentro do nosso catálogo. Que tal voltar?
                         </p>
