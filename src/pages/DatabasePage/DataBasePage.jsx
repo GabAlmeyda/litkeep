@@ -59,6 +59,28 @@ const initialBookData = {
     description: "",
 };
 
+/**
+ * Renders a page that displays a form and table section.
+ * The form section is responsible for adding, updating, removing and searching
+ * books. The table section is responsible for manage all the registered books info, 
+ * with actions like select a book from the table.
+ *
+ * ## Features:
+ * - Allows users to add, update, remove, search, and view registered books.
+ * - Displays a form for editing or registering book data.
+ * - Shows a table with all books, supporting filtering by status, ownership, and other criteria.
+ * - Displays toast notifications (BookToast) for user feedback on actions.
+ * - Synchronizes the form state with the selected book from the table.
+ * - Dynamically updates the page meta tags.
+ *
+ * ## Supported actions:
+ * - Add, update, and remove books.
+ * - Search books by title or author.
+ * - View book details.
+ * - Filter books by status (read, not read, abandoned, ownership, etc).
+ *
+ * @returns {JSX.Element} A JSX element The book database management page.
+ */
 function DataBasePage() {
     const {
         books,

@@ -18,6 +18,14 @@ const metaTags = [
     { name: "robots", content: "noindex, nofollow" },
 ];
 
+/**
+ * Renders a not found page when the URL is incorrect.
+ * 
+ * This component shows a message informing the user of the problem and
+ * a button to return to the Homepage.   
+ * 
+ * @returns {JSX.element} A JSX element representing the not found page.
+ */
 function NotFoundPage() {
     const WEBSITE_PATHS = getWebsitePaths();
 

@@ -25,6 +25,22 @@ const metaTags = [
     { name: "robots", content: "noindex, nofollow" },
 ];
 
+/**
+ * Renders a page containing all the information about a specific book.
+ * The book's id is provided by the 'location.state.bookId', and, if the 'bookId'
+ * exists, the books is fetched from the server.
+ * 
+ * ## Displayed info:
+ * - Book's title.
+ * - Book's author.
+ * - Book's genre.
+ * - Book's start reading date.
+ * - Book's end reading date.
+ * - Ownership of the book.
+ * - Book's rating. 
+ * 
+ * @returns {JSX.element} A JSX element representing a page for a specific book.
+ */
 function SelectedBookPage() {
     const { bookId } = useParams();
     const getBookById = useBookStore((state) => state.getBookById);
